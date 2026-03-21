@@ -1203,7 +1203,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY>50);
 });
 
-// ═══ STATUS BADGE ═══
+// === STATUS BADGE ===
 (function(){
   const PASS = 'marco2026';
   const KEY  = 'mm_status';
@@ -1275,7 +1275,7 @@ document.querySelectorAll('.min-btn').forEach(btn=>{
   btn.addEventListener('click',function(){
     document.querySelectorAll('.min-btn').forEach(b=>b.classList.remove('active'));
     this.classList.add('active');
-    document.getElementById('phone-total').textContent='Total : CHF '+this.dataset.price+'.–';
+    document.getElementById('phone-total').textContent='Total : CHF '+this.dataset.price+'.-';
   });
 });
 
@@ -1290,7 +1290,6 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 });
 
 // Forms
-// ═══ FORMULAIRES — envoi EmailJS ═══
 function sendForm(formId, successMsg){
   const f=document.getElementById(formId);
   if(!f) return;
@@ -1299,37 +1298,30 @@ function sendForm(formId, successMsg){
     const btn=f.querySelector('[type=submit]');
     const success=f.querySelector('.form-success');
     const orig=btn.textContent;
-    btn.textContent='✦ Envoi...'; btn.disabled=true;
-
-    // Collecter tous les champs nommés
+    btn.textContent='Envoi...'; btn.disabled=true;
     const data={};
-    f.querySelectorAll('[name]').forEach(el=>{data[el.name]=el.value||'—';});
-    data.recu_le=new Date().toLocaleString('fr-CH');
-
-    // Ajouter date et name automatiquement
-    data.date = new Date().toLocaleString('fr-CH');
-    if(!data.name) data.name = data.prenom || 'Client';
-    if(!data.type_consultation) data.type_consultation = data.type || '—';
-    emailjs.send('service_8pt08ad','template_qe0x9k7', data)
-      .then(()=>{
+    f.querySelectorAll('[name]').forEach(function(el){data[el.name]=el.value||'--';});
+    data.date=new Date().toLocaleString('fr-CH');
+    data.recu_le=data.date;
+    if(!data.name) data.name=data.prenom||'Client';
+    if(!data.type_consultation) data.type_consultation=data.type||'--';
+    emailjs.send('service_8pt08ad','template_qe0x9k7',data)
+      .then(function(){
         btn.style.display='none';
         if(success) success.style.display='block';
-        setTimeout(()=>{btn.style.display='';btn.textContent=orig;btn.disabled=false;if(success)success.style.display='none';f.reset();},6000);
+        setTimeout(function(){btn.style.display='';btn.textContent=orig;btn.disabled=false;if(success)success.style.display='none';f.reset();},6000);
       })
-      .catch(err=>{
-        console.error('EmailJS error:',err);
+      .catch(function(err){
+        console.error('EmailJS:',err);
         btn.textContent=orig; btn.disabled=false;
-        // Fallback mailto
-        const body=Object.entries(data).map(([k,v])=>k+': '+v).join('
-');
-        window.location.href='mailto:info@marcomedium.com?subject='+encodeURIComponent(successMsg)+'&body='+encodeURIComponent(body);
+        alert('Envoi impossible. Appelez le +41 21 862 33 26');
       });
   });
 }
 sendForm('form-rdv','Demande de rendez-vous');
 sendForm('form-email','Question consultation email');
 
-// Scroll to top — apparaît en bas de page
+// Scroll to top - apparaît en bas de page
 window.addEventListener('scroll',()=>{
   const scrolled = window.scrollY + window.innerHeight;
   const total = document.documentElement.scrollHeight;
