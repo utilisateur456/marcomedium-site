@@ -27,6 +27,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
+      overflow-x: hidden;
       background: var(--bg);
       color: var(--text);
       font-family: 'Lora', Georgia, serif;
@@ -535,7 +536,13 @@
     #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
     @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
   
-    /* ═══ RESPONSIVE MOBILE — iOS & Android ═══ */
+    /* Bouton responsive */
+    .btn-text-mobile { display: none; }
+    @media(max-width: 600px) {
+      .btn-text-full { display: none; }
+      .btn-text-mobile { display: inline; }
+      .btn-full { font-size: 0.95rem !important; }
+    }
     @media(max-width:480px){
       /* Touch targets minimum 44px */
       .btn, .tab-btn, .nav-cta { min-height:44px; }
@@ -777,7 +784,10 @@
         </a>
       </div>
       <div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border);">
-        <a href="tel:+41218623326" class="btn btn-gold btn-full" style="font-size:1rem;padding:18px;">📞 +41 21 862 33 26 — Appeler après le paiement</a>
+        <a href="tel:+41218623326" class="btn btn-gold btn-full" style="font-size:1rem;padding:18px;">
+          <span class="btn-text-full">📞 +41 21 862 33 26 — Appeler après le paiement</span>
+          <span class="btn-text-mobile">📞 Appeler Marco</span>
+        </a>
         <p style="text-align:center;margin-top:12px;font-family:'Inter',sans-serif;font-size:0.72rem;color:var(--text3);letter-spacing:0.05em;">⚠️ Paiement requis avant l'appel · Sous réserve de disponibilité</p>
       </div>
     </div>
