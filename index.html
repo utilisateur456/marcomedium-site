@@ -609,6 +609,25 @@
       .about-img { max-width:300px; margin:0 auto; display:block; }
       input, select, textarea { font-size:16px !important; }
     }
+  
+    /* ═══ PERFORMANCE & FLUIDITÉ ═══ */
+    #stars-canvas { will-change: transform; }
+    nav { will-change: transform; }
+    .reveal { will-change: opacity, transform; }
+    .hero-portrait img, .marco-intro img { will-change: transform; }
+    
+    /* Scroll fluide natif */
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    
+    /* GPU sur les éléments animés */
+    .service-card, .tab-btn, .btn, .sign-chip, .tarot-card {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    
+    /* Réduire les repaints sur le canvas */
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   </style>
   <!-- Google Tags: Analytics · Ads · Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
@@ -1069,7 +1088,7 @@
   function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
 
   function createStars(){
-    stars = Array.from({length:280},()=>({
+    stars = Array.from({length:150},()=>({
       x:Math.random()*W, y:Math.random()*H,
       r:Math.random()*1.6+0.2,
       alpha:Math.random()*0.8+0.15,
@@ -1119,14 +1138,7 @@
       ctx.fillStyle=g; ctx.fill();
     });
 
-    // Halo souris
-    if(mouse.x>0){
-      const mg=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,120);
-      mg.addColorStop(0,'rgba(139,92,246,0.06)');
-      mg.addColorStop(1,'transparent');
-      ctx.fillStyle=mg;
-      ctx.fillRect(0,0,W,H);
-    }
+    // halo souris désactivé pour fluidité
 
     // Étoiles scintillantes
     stars.forEach(s=>{
@@ -1147,19 +1159,14 @@
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
       ctx.fillStyle=`rgba(${s.color},${a})`; ctx.fill();
 
-      // Rayons pour les grandes étoiles
-      if(s.r>1.1 && a>0.55){
-        const glow=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*5);
-        glow.addColorStop(0,`rgba(${s.color},${a*.25})`);
-        glow.addColorStop(1,'transparent');
-        ctx.fillStyle=glow;
-        ctx.fillRect(s.x-s.r*5,s.y-s.r*5,s.r*10,s.r*10);
+      // Petit halo simple pour les grandes étoiles
+      if(s.r>1.2 && a>0.6){
         ctx.save();
-        ctx.strokeStyle=`rgba(${s.color},${a*.2})`;
-        ctx.lineWidth=0.4;
+        ctx.strokeStyle=`rgba(${s.color},${a*.15})`;
+        ctx.lineWidth=0.3;
         ctx.beginPath();
-        ctx.moveTo(s.x-s.r*4,s.y); ctx.lineTo(s.x+s.r*4,s.y);
-        ctx.moveTo(s.x,s.y-s.r*4); ctx.lineTo(s.x,s.y+s.r*4);
+        ctx.moveTo(s.x-s.r*3,s.y); ctx.lineTo(s.x+s.r*3,s.y);
+        ctx.moveTo(s.x,s.y-s.r*3); ctx.lineTo(s.x,s.y+s.r*3);
         ctx.stroke();
         ctx.restore();
       }

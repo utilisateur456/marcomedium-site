@@ -275,6 +275,25 @@
       .about-img { max-width:300px; margin:0 auto; display:block; }
       input, select, textarea { font-size:16px !important; }
     }
+  
+    /* ═══ PERFORMANCE & FLUIDITÉ ═══ */
+    #stars-canvas { will-change: transform; }
+    nav { will-change: transform; }
+    .reveal { will-change: opacity, transform; }
+    .hero-portrait img, .marco-intro img { will-change: transform; }
+    
+    /* Scroll fluide natif */
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    
+    /* GPU sur les éléments animés */
+    .service-card, .tab-btn, .btn, .sign-chip, .tarot-card {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    
+    /* Réduire les repaints sur le canvas */
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   </style>
   <!-- Google Tags: Analytics · Ads · Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
@@ -464,7 +483,7 @@ const canvas = document.getElementById('stars-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [], W, H;
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-function initStars(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.015+.005,t:Math.random()*Math.PI*2});}}
+function initStars(){stars=[];for(let i=0;i<120;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.015+.005,t:Math.random()*Math.PI*2});}}
 let pts=[], lastMouse=0;
 window.addEventListener('mousemove',e=>{
   const now=Date.now();
