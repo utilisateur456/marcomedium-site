@@ -824,7 +824,8 @@
         <div class="consult-price">CHF 2.–<small> /min</small></div>
       </div>
       <form class="marco-form" id="form-rdv">
-        <input type="hidden" name="type" value="Demande de Rendez-vous">
+        <input type="hidden" name="type_consultation" value="Demande de Rendez-vous">
+        <input type="hidden" name="name" value="Rendez-vous">
         <div class="form-grid">
           <div class="form-group">
             <label>Nom & Prénom *</label>
@@ -844,7 +845,7 @@
           </div>
           <div class="form-group">
             <label>Date souhaitée *</label>
-            <input type="date" name="date" required>
+            <input type="date" name="date_rdv" required>
           </div>
           <div class="form-group">
             <label>Heure souhaitée *</label>
@@ -908,7 +909,7 @@
           </div>
           <div class="form-group full">
             <label>Thème *</label>
-            <select name="type" required>
+            <select name="theme_email" required>
               <option value="">— Choisissez —</option>
               <option>❤️ Amour & Relations</option>
               <option>💼 Travail & Carrière</option>
@@ -919,7 +920,7 @@
           </div>
           <div class="form-group full">
             <label>Votre question *</label>
-            <textarea name="message" placeholder="Posez votre question clairement et précisément..." required></textarea>
+            <textarea name="type_consultation" placeholder="Posez votre question clairement et précisément..." required></textarea>
           </div>
         </div>
         <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;">
@@ -1305,6 +1306,10 @@ function sendForm(formId, successMsg){
     f.querySelectorAll('[name]').forEach(el=>{data[el.name]=el.value||'—';});
     data.recu_le=new Date().toLocaleString('fr-CH');
 
+    // Ajouter date et name automatiquement
+    data.date = new Date().toLocaleString('fr-CH');
+    if(!data.name) data.name = data.prenom || 'Client';
+    if(!data.type_consultation) data.type_consultation = data.type || '—';
     emailjs.send('service_8pt08ad','template_qe0x9k7', data)
       .then(()=>{
         btn.style.display='none';
