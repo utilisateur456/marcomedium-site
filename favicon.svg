@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#080612"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c8a84b"/>
+      <stop offset="40%" stop-color="#9b6fd4"/>
+      <stop offset="100%" stop-color="#5a1fa0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c8a84b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#9b6fd4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur-glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="31" fill="url(#bg)"/>
+
+  <!-- Outer glow halo -->
+  <ellipse cx="32" cy="32" rx="22" ry="11" fill="url(#glow)" opacity="0.5"/>
+
+  <!-- Eye white / almond shape -->
+  <path d="M10 32 Q32 14 54 32 Q32 50 10 32 Z" fill="#f0e8ff" opacity="0.95"/>
+
+  <!-- Iris -->
+  <circle cx="32" cy="32" r="10" fill="url(#iris)"/>
+
+  <!-- Pupil -->
+  <circle cx="32" cy="32" r="5" fill="#0d0520"/>
+
+  <!-- Inner pupil shine -->
+  <circle cx="29" cy="29" r="2" fill="white" opacity="0.6"/>
+  <circle cx="35" cy="34" r="1" fill="white" opacity="0.3"/>
+
+  <!-- Gold iris ring -->
+  <circle cx="32" cy="32" r="10" fill="none" stroke="#c8a84b" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Eyelashes top -->
+  <path d="M10 32 Q32 14 54 32" fill="none" stroke="#2a0e4a" stroke-width="2.5"/>
+  <!-- Eyelashes bottom -->
+  <path d="M10 32 Q32 50 54 32" fill="none" stroke="#2a0e4a" stroke-width="1.5"/>
+
+  <!-- 3 small stars around the eye -->
+  <polygon points="32,6 33,9 36,9 33.5,11 34.5,14 32,12 29.5,14 30.5,11 28,9 31,9" fill="#c8a84b" opacity="0.8" transform="scale(0.6) translate(21,-2)"/>
+
+  <!-- Tiny sparkle left -->
+  <line x1="14" y1="26" x2="14" y2="22" stroke="#c8a84b" stroke-width="0.8" opacity="0.7"/>
+  <line x1="12" y1="24" x2="16" y2="24" stroke="#c8a84b" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Tiny sparkle right -->
+  <line x1="50" y1="26" x2="50" y2="22" stroke="#c8a84b" stroke-width="0.8" opacity="0.7"/>
+  <line x1="48" y1="24" x2="52" y2="24" stroke="#c8a84b" stroke-width="0.8" opacity="0.7"/>
+</svg>
