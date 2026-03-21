@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init('liRFAyxBo1908cbzF');</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
   <script>
     window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());
@@ -457,9 +459,27 @@ function showList(){
 
 function subscribeNewsletter(){
   const email=document.getElementById('nlEmail').value.trim();
-  if(!email||!email.includes('@')) return;
-  document.getElementById('nlEmail').value='';
-  document.querySelector('.newsletter p').textContent='✦ Merci ! Vous recevrez bientôt les prochains articles de Marco.';
+  if(!email||!email.includes('@')){
+    document.getElementById('nlEmail').style.borderColor='rgba(239,68,68,.5)';
+    setTimeout(()=>document.getElementById('nlEmail').style.borderColor='',2000);
+    return;
+  }
+  const btn=document.querySelector('.newsletter-form button');
+  btn.textContent='Envoi...';
+  btn.disabled=true;
+
+  emailjs.send('service_8pt08ad','template_7qvb6yz',{
+    to_email:'marcomedium.com@gmail.com',
+    subject:'Nouvelle inscription newsletter — marcomedium.com',
+    message:'Nouvelle inscription à la newsletter :\n\nEmail : '+email+'\nDate : '+new Date().toLocaleString('fr-CH')
+  }).then(()=>{
+    document.getElementById('nlEmail').value='';
+    document.querySelector('.newsletter p').textContent='✦ Merci ! Vous recevrez bientôt les prochains articles de Marco.';
+    btn.style.display='none';
+  }).catch(()=>{
+    // Fallback : ouvrir le client mail
+    window.location.href='mailto:info@marcomedium.com?subject=Inscription newsletter&body=Bonjour Marco, je souhaite recevoir vos articles. Mon email : '+email;
+  });
 }
 
 renderGrid();
