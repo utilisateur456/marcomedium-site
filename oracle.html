@@ -596,29 +596,206 @@ if(document.readyState === 'loading'){
   buildDeck();
 }
 
-function generateDynamicReading(cards,spread,intention,seed){
-  var n=parseInt(String(seed||Date.now()).replace(/[^0-9]/g,"").slice(-6))||1;
-  function cn(c){return (c&&c.cardData&&c.cardData.name)||"cette carte";}
-  function cm(c){return (c&&c.cardData&&c.cardData.meaning)||"guidance";}
-  function cl(c,i){return (c&&c.label)||("Carte "+(i+1));}
-  var oo=["Ce tirage ne s est pas fait par hasard.","Les cartes choisies portent un message precis.","Ce que ces cartes revelent merite votre attention.","L energie de ce tirage est saisissante.","Ces cartes parlent avec une clarte inhabituelle."];
-  var cc=["Ne cherchez pas a forcer. Laissez venir ce qui doit venir.","Agissez maintenant. L energie est favorable a ceux qui osent.","Observez les signes autour de vous dans les prochains jours.","Un pas suffit. Vous n avez pas besoin de voir tout le chemin.","Faites confiance a ce que vous ressentez."];
-  var txt=oo[n%oo.length];
-  if(intention) txt+=" Votre question sur "+intention+" est au coeur de ce qui suit.";
-  txt+="\n\n";
-  if(cards.length===1){
-    txt+=cn(cards[0])+" - "+cm(cards[0])+". Cette carte est votre miroir du moment. Elle reflète avec precision l energie qui vous habite actuellement.\n\n";
-  } else if(cards.length===3){
-    txt+=cl(cards[0],0)+" : "+cn(cards[0])+" ("+cm(cards[0])+"). Ce que vous avez vecu a forge en vous quelque chose de solide.\n\n";
-    txt+=cl(cards[1],1)+" : "+cn(cards[1])+" ("+cm(cards[1])+"). Une transformation est en cours. Vous la sentez probablement deja.\n\n";
-    txt+=cl(cards[2],2)+" : "+cn(cards[2])+" ("+cm(cards[2])+"). Voila ou tout cela vous mene. A vous de saisir cette direction.\n\n";
-  } else {
-    var roles=["Coeur de votre situation.","Ce qui freine ou propulse.","Votre fondation profonde.","Le conseil direct.","L issue probable."];
-    cards.forEach(function(c,i){txt+=cl(c,i)+" : "+cn(c)+" - "+cm(c)+". "+(roles[i]||"")+"\n\n";});
+// Lectures detaillees par carte
+var CARD_READINGS = {
+  "Le Soleil": {
+    essence: "Le Soleil est la carte de la vitalite et de la reussite. Elle annonce une periode de clarte, de joie profonde et de succes merite.",
+    amour: "En amour, le Soleil rayonne une energie de bonheur et de partage authentique. Les relations s epanouissent dans la lumiere de la verite.",
+    travail: "Professionnellement, vos efforts sont sur le point d etre recompenses. La reconnaissance arrive, les projets aboutissent.",
+    conseil: "Avancez avec confiance. L energie solaire vous soutient — osez vous montrer tel que vous etes vraiment."
+  },
+  "La Lune": {
+    essence: "La Lune parle des profondeurs de l inconscient, des illusions et des cycles invisibles qui gouvernent vos emotions.",
+    amour: "Des zones d ombre meritent d etre eclairees dans vos relations. Ce que vous ressentez n est pas toujours ce qui est. Cherchez la verite.",
+    travail: "La situation professionnelle n est pas encore claire. Des informations cachees pourraient changer la donne. Attendez avant de decider.",
+    conseil: "Faites confiance a votre intuition plutot qu a ce que vous voyez. La realite se devoilera progressivement."
+  },
+  "L'Etoile": {
+    essence: "L Etoile est la carte de l espoir renouvele, de la guidance divine et de la confiance retrouvee apres une periode difficile.",
+    amour: "Une connexion authentique et profonde est possible. Ouvrez votre coeur — l amour qui vient merite d etre accueilli sans peur.",
+    travail: "Une opportunite inspirante se profile. Votre talent est reconnu par ceux qui comptent. Suivez votre vocation.",
+    conseil: "Regardez vers l avant. Les etoiles vous guident — ne regardez plus en arriere, votre chemin s illumine devant vous."
+  },
+  "La Tour": {
+    essence: "La Tour annonce une transformation radicale, parfois soudaine. Ce qui doit s effondrer pour laisser place au nouveau s effondrera.",
+    amour: "Une situation amoureuse pourrait connaitre un bouleversement. Ce n est pas une fin — c est une purification necessaire.",
+    travail: "Des changements importants sont en cours dans votre environnement professionnel. Soyez pret a vous adapter rapidement.",
+    conseil: "Ne resistez pas aux transformations. Ce qui se brise etait deja fragilise. La reconstruction sera plus solide."
+  },
+  "La Justice": {
+    essence: "La Justice rappelle que chaque action a une consequence. Elle parle d equilibre, de verite et de decisions prises avec integrite.",
+    amour: "Un equilibre doit etre retabli dans vos relations. La sincerite et le respect mutuel sont les fondements d un lien durable.",
+    travail: "Une decision importante vous attend. Pesez chaque element avec soin — le resultat sera a la mesure de votre integrite.",
+    conseil: "Agissez avec droiture. La justice finit toujours par s exercer, dans les deux sens. Soyez en accord avec vos valeurs."
+  },
+  "La Pretresse": {
+    essence: "La Pretresse est la gardienne du savoir cache. Elle invite a l introspection profonde et a faire confiance a la sagesse interieure.",
+    amour: "Ce que vous sentez est juste, meme si vous ne pouvez pas encore l expliquer. Vos perceptions sur l autre sont fiables.",
+    travail: "Ne montrez pas toutes vos cartes. Observez, analysez en silence. Votre discernement est votre meilleur atout en ce moment.",
+    conseil: "La reponse est deja en vous. Faites silence, ecoutez. La Pretresse ne parle qu a ceux qui savent se taire."
+  },
+  "Le Monde": {
+    essence: "Le Monde est la carte de l accomplissement total, de la maturite d un cycle et de la pleinitude. Vous touchez au but.",
+    amour: "Une relation atteint un niveau de maturite et de completude rare. Celebrez ce que vous avez construit ensemble.",
+    travail: "Un cycle se termine avec succes. Ce que vous avez construit est solide et durable. Une nouvelle phase s ouvre.",
+    conseil: "Reconnaissez ce que vous avez accompli. Vous avez le droit d etre fier. L etape suivante sera encore plus grande."
+  },
+  "La Fortune": {
+    essence: "La Fortune symbolise les cycles du destin, les opportunites qui se presentent et la chance qui sourit aux audacieux.",
+    amour: "Le hasard n existe pas dans les rencontres importantes. Ce qui arrive maintenant dans votre vie sentimentale est significatif.",
+    travail: "Une fenetre d opportunite s ouvre. Agissez vite — la Fortune tourne et favorise ceux qui saisissent l instant.",
+    conseil: "Ne laissez pas passer cette chance par peur ou hesitation. Les cycles favorables ne durent pas indefiniment."
+  },
+  "La Metamorphose": {
+    essence: "Carte de la transformation profonde, elle annonce un changement d identite ou de direction qui etait devenu inevitable.",
+    amour: "Une relation se transforme en profondeur. Ce qu elle etait ne sera plus — ce qu elle devient peut etre bien plus beau.",
+    travail: "Un renouveau professionnel s impose. Ce qui finit ouvre la voie a quelque chose de plus aligne avec qui vous etes vraiment.",
+    conseil: "Acceptez cette transformation sans la craindre. Vous n etes pas en train de perdre — vous etes en train de muer."
+  },
+  "L'Eau vive": {
+    essence: "L Eau vive represente le flot des emotions, la purification interieure et la capacite a laisser couler ce qui doit s en aller.",
+    amour: "Vos emotions sont intenses en ce moment. Exprimez ce que vous ressentez avec douceur plutot que de tout retenir.",
+    travail: "La creativite et l intuition sont vos meilleurs outils. Faites confiance a votre ressenti dans les decisions importantes.",
+    conseil: "Ne luttez pas contre le courant. Laissez aller ce qui ne vous appartient plus et avancez avec la legerete de l eau."
+  },
+  "Le Feu sacre": {
+    essence: "Le Feu sacre est l energie creatrice a son paroxysme — passion, inspiration, courage d agir et de creer.",
+    amour: "Une passion intense marque cette periode. Ne la laissez pas se consumer sans en profiter pleinement.",
+    travail: "C est le moment d oser, de lancer ce projet qui vous tient a coeur. L energie et la motivation sont au rendez-vous.",
+    conseil: "Canalisez cette energie plutot que de la disperser. Le feu qui brule dans toutes les directions ne chauffe rien."
+  },
+  "La Nature": {
+    essence: "La Nature parle de croissance organique, de patience et de confiance dans les cycles naturels de la vie.",
+    amour: "Une relation a besoin de temps et de soin pour s epanouir. Ne brusquez pas les choses — laissez l amour grandir a son rythme.",
+    travail: "Vos efforts portent leurs fruits progressivement. Ce que vous semez aujourd hui germe en silence. Soyez patient.",
+    conseil: "Faites confiance au processus. Tout ce qui est vivant et vrai pousse a son propre rythme, pas au votre."
+  },
+  "La Conscience": {
+    essence: "Cette carte invite a un eveil, a voir clairement ce qui etait cache et a prendre conscience des verites fondamentales.",
+    amour: "Une prise de conscience importante vous attend dans vos relations. Ce que vous voyez maintenant changera votre perspective.",
+    travail: "Regardez votre situation professionnelle avec un oeil neuf et sans complaisance. La clarte vous permettra d agir justement.",
+    conseil: "Ouvrez les yeux sur ce que vous refusiez peut-etre de voir. La conscience est le premier pas vers la liberation."
+  },
+  "La Cle": {
+    essence: "La Cle revele l acces a une solution jusqu ici cachee. Une porte s ouvre — la question est : osez-vous entrer ?",
+    amour: "La cle de votre vie amoureuse est dans vos mains. La solution existe — vous la connaissez peut-etre deja.",
+    travail: "Un element manquant dans votre reflexion professionnelle va se reveler. Cherchez la cle plutot que de forcer la porte.",
+    conseil: "La solution n est pas loin. Cherchez avec calme et methodologie. Ce que vous cherchez vous cherche aussi."
+  },
+  "La Paix": {
+    essence: "La Paix annonce une reconciliation, une harmonie retrouvee et la fin d une periode de tension ou de conflit.",
+    amour: "La paix est possible dans vos relations. Une reconciliation sincere peut ouvrir une nouvelle page belle et durable.",
+    travail: "Les tensions professionnelles se resorberont si vous adoptez une posture d ouverture et de dialogue.",
+    conseil: "Choisissez la paix interieure d abord. Tout le reste s alignera naturellement autour de cette quietude profonde."
+  },
+  "La Fleur": {
+    essence: "La Fleur symbolise l epanouissement, la beaute qui eclot et l amour sous toutes ses formes.",
+    amour: "L amour est au coeur de ce tirage. Qu il s agisse d un amour naissant ou etabli, il fleurit et demande a etre cheri.",
+    travail: "Votre environnement professionnel peut s epanouir si vous y apportez de la beaute, de la creativite et de la bienveillance.",
+    conseil: "Cultivez ce qui est beau dans votre vie. La beaute n est pas un luxe — elle est une necessite de l ame."
+  },
+  "L'Ancre": {
+    essence: "L Ancre represente la stabilite profonde, les fondations solides et la securite interieure qui ne depend pas des circonstances.",
+    amour: "Vous avez besoin de stabilite et de securite dans vos relations. Cherchez ou construisez des fondations solides.",
+    travail: "Ancrez-vous dans vos competences et valeurs fondamentales. C est de la que vient votre vraie force professionnelle.",
+    conseil: "Avant d aller plus loin, verifiez que vos fondations sont solides. On ne peut s elever que si les bases sont stables."
+  },
+  "L'Aigle": {
+    essence: "L Aigle incarne la vision haute, la clarte de perception et la capacite a voir la situation dans sa globalite.",
+    amour: "Prenez de la hauteur dans vos relations. Ce que vous voyez de trop pres vous echappe — reculez pour comprendre.",
+    travail: "Votre vision strategique est votre atout majeur. Pensez a long terme et ne vous perdez pas dans les details.",
+    conseil: "Elevez votre regard. La solution que vous cherchez est invisible depuis votre position actuelle — montez plus haut."
+  },
+  "L'Arc-en-ciel": {
+    essence: "L Arc-en-ciel est la promesse apres la tempete — un signe que les epreuves touchent a leur fin et que la lumiere revient.",
+    amour: "Apres une periode difficile, la joie et l harmonie reviennent dans vos relations. Accueillez ce renouveau avec gratitude.",
+    travail: "Les difficultes professionnelles recentes cedent la place a une periode plus favorable. Le pire est derriere vous.",
+    conseil: "Gardez espoir. Chaque tempete se termine et laisse un ciel plus pur. Votre arc-en-ciel est proche."
+  },
+  "Le Diamant": {
+    essence: "Le Diamant symbolise la valeur rare, la clarte absolue et la force qui nait sous la pression.",
+    amour: "Votre relation a une valeur rare et precieuse. Traitez-la comme telle — le diamant se forme sous la pression mais brille eternellement.",
+    travail: "Votre valeur professionnelle est plus elevee que vous ne le pensez. N acceptez pas moins que ce que vous meritez.",
+    conseil: "Reconnaissez votre propre valeur. Vous avez ete forge par vos epreuves — vous en etes ressorti plus solide et plus precieux."
+  },
+  "Le Croissant": {
+    essence: "Le Croissant parle des cycles, du renouveau permanent et de la puissance de l intuition feminine.",
+    amour: "Vos cycles emotionnels influencent profondement vos relations. Apprenez a honorer vos rythmes interieurs.",
+    travail: "Vous etes dans une phase de transition. Ce qui se prepare en coulisse est plus important que ce qui est visible.",
+    conseil: "Respectez vos cycles naturels. Tout a un tempo propre — votre intuition sait quand agir et quand se reposer."
+  },
+  "La Montagne": {
+    essence: "La Montagne represente les grands defis qui forgent le caractere et les accomplissements qui marquent une vie.",
+    amour: "La relation que vous vivez demande des efforts constants mais les sommets atteints ensemble sont d une beaute rare.",
+    travail: "Un defi professionnel important se dresse devant vous. Il est a la hauteur de vos capacites — ne reculez pas.",
+    conseil: "Ne regardez pas le sommet, regardez le prochain pas. Chaque montagne se gravit un pas a la fois, avec perseverance."
   }
-  txt+=cc[(n+3)%cc.length];
+};
+
+function getCardReading(cardData) {
+  if (!cardData) return null;
+  return CARD_READINGS[cardData.name] || null;
+}
+
+function generateDynamicReading(cards, spread, intention, seed) {
+  var n = parseInt(String(seed||Date.now()).replace(/[^0-9]/g,"").slice(-6)) || 1;
+
+  function cn(c) { return (c && c.cardData && c.cardData.name) || "cette carte"; }
+  function cl(c, i) { return (c && c.label) || ("Carte " + (i+1)); }
+  function cr(c) { return getCardReading(c && c.cardData); }
+
+  var introductions = [
+    "Les cartes que vous avez tirees ne sont pas le fruit du hasard.",
+    "Ce tirage arrive au bon moment. Ecoutez-le avec attention.",
+    "Ce que les cartes revelent aujourd hui merite toute votre consideration.",
+    "L energie de ce tirage est particulierement puissante et precise."
+  ];
+
+  var txt = introductions[n % introductions.length];
+  if (intention) {
+    txt += ' Votre question sur ' + intention + ' trouve une reponse directe dans ce qui suit.';
+  }
+  txt += "\n\n";
+
+  if (cards.length === 1) {
+    var c = cards[0];
+    var r = cr(c);
+    txt += cn(c) + "\n\n";
+    if (r) {
+      txt += r.essence + "\n\n";
+      txt += r.conseil;
+    } else {
+      txt += "Cette carte porte un message important pour vous en ce moment. Sa presence n est pas anodine — elle reflete avec precision l energie dominante de votre vie actuelle.\n\nFaites confiance a ce que vous ressentez en la regardant. C est votre reponse.";
+    }
+  } else if (cards.length === 3) {
+    for (var i = 0; i < 3; i++) {
+      var c = cards[i];
+      var r = cr(c);
+      txt += cl(c, i) + " — " + cn(c) + "\n";
+      if (r) {
+        if (i === 0) txt += r.essence + " Ce passe vous a constitue tel que vous etes aujourd hui.";
+        if (i === 1) txt += r.essence + " C est l energie dominante de votre moment present.";
+        if (i === 2) txt += r.essence + " C est vers quoi vous vous dirigez si vous suivez cette energie.";
+      }
+      txt += "\n\n";
+    }
+    txt += "Ces trois cartes forment un message coherent. Votre passe eclaire votre present, qui dessine votre futur. La direction est claire.";
+  } else {
+    var positions = ["La situation", "Les obstacles", "La fondation", "Le conseil", "L issue"];
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var r = cr(c);
+      txt += (positions[i] || cl(c,i)) + " — " + cn(c) + "\n";
+      if (r) txt += r.essence;
+      txt += "\n\n";
+    }
+    txt += "Ce tirage complet dessine une carte precise de votre situation. Chaque carte apporte un eclairage complementaire. Lisez-les ensemble — elles racontent une histoire coherente sur votre chemin.";
+  }
+
   return txt;
 }
+
+
 document.getElementById('btn-draw').addEventListener('click',function(){
   var intention=document.getElementById('intention').value.trim();
   var spread=SPREADS[currentSpread];
