@@ -469,13 +469,14 @@ function subscribeNewsletter(){
   btn.disabled=true;
 
   emailjs.send('service_8pt08ad','template_qe0x9k7',{
-    prenom:'Inscription Newsletter',
+    prenom:'Newsletter — nouvel abonné',
     email:email,
     telephone:'—',
     date:new Date().toLocaleDateString('fr-CH'),
     heure:new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}),
-    type:'Newsletter marcomedium.com',
-    reply_to:email
+    type:'Inscription newsletter marcomedium.com',
+    message:'Email abonné : '+email,
+    recu_le:new Date().toLocaleString('fr-CH')
   }).then(()=>{
     document.getElementById('nlEmail').value='';
     document.querySelector('.newsletter p').textContent='✦ Merci ! Vous recevrez bientôt les prochains articles de Marco.';

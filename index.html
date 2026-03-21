@@ -630,6 +630,8 @@
     body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   </style>
   <!-- Google Tags: Analytics · Ads · Tag Manager -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init("liRFAyxBo1908cbzF");</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -825,31 +827,31 @@
         <div class="form-grid">
           <div class="form-group">
             <label>Nom & Prénom *</label>
-            <input type="text" placeholder="Jean Dupont" required>
+            <input type="text" name="prenom" placeholder="Jean Dupont" required>
           </div>
           <div class="form-group">
             <label>Date de naissance *</label>
-            <input type="date" required>
+            <input type="date" name="naissance" required>
           </div>
           <div class="form-group">
             <label>Téléphone *</label>
-            <input type="tel" placeholder="+41 XX XXX XX XX" required>
+            <input type="tel" name="telephone" placeholder="+41 XX XXX XX XX" required>
           </div>
           <div class="form-group">
             <label>E-mail *</label>
-            <input type="email" placeholder="vous@exemple.com" required>
+            <input type="email" name="email" placeholder="vous@exemple.com" required>
           </div>
           <div class="form-group">
             <label>Date souhaitée *</label>
-            <input type="date" required>
+            <input type="date" name="date_rdv" required>
           </div>
           <div class="form-group">
             <label>Heure souhaitée *</label>
-            <input type="time" required>
+            <input type="time" name="heure_rdv" required>
           </div>
           <div class="form-group full">
             <label>Message (optionnel)</label>
-            <textarea placeholder="Précisez votre question ou contexte..."></textarea>
+            <textarea name="message" placeholder="Précisez votre question ou contexte..."></textarea>
           </div>
         </div>
         <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;">
@@ -897,15 +899,15 @@
         <div class="form-grid">
           <div class="form-group">
             <label>Nom & Prénom *</label>
-            <input type="text" placeholder="Jean Dupont" required>
+            <input type="text" name="prenom" placeholder="Jean Dupont" required>
           </div>
           <div class="form-group">
             <label>E-mail *</label>
-            <input type="email" placeholder="vous@exemple.com" required>
+            <input type="email" name="email" placeholder="vous@exemple.com" required>
           </div>
           <div class="form-group full">
             <label>Thème *</label>
-            <select required>
+            <select name="type" required>
               <option value="">— Choisissez —</option>
               <option>❤️ Amour & Relations</option>
               <option>💼 Travail & Carrière</option>
@@ -916,7 +918,7 @@
           </div>
           <div class="form-group full">
             <label>Votre question *</label>
-            <textarea placeholder="Posez votre question clairement et précisément..." required></textarea>
+            <textarea name="message" placeholder="Posez votre question clairement et précisément..." required></textarea>
           </div>
         </div>
         <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;">
@@ -1286,18 +1288,64 @@ document.querySelectorAll('.faq-question').forEach(q=>{
 });
 
 // Forms
-document.querySelectorAll('.marco-form').forEach(form=>{
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    const btn=this.querySelector('[type=submit]');
-    const success=this.querySelector('.form-success');
-    const orig=btn.textContent;
-    btn.textContent='✦ Envoi en cours...'; btn.disabled=true;
-    await new Promise(r=>setTimeout(r,1500));
-    btn.style.display='none';
-    if(success) success.style.display='block';
-    setTimeout(()=>{ btn.style.display=''; btn.textContent=orig; btn.disabled=false; if(success)success.style.display='none'; form.reset(); },5000);
-  });
+document.getElementById('form-rdv').addEventListener('submit',function(e){
+  e.preventDefault();
+  const f=this;
+  const btn=f.querySelector('[type=submit]');
+  const success=f.querySelector('.form-success');
+  const orig=btn.textContent;
+  btn.textContent='✦ Envoi en cours...'; btn.disabled=true;
+
+  const data={
+    prenom: f.querySelector('[name=prenom]').value,
+    email:  f.querySelector('[name=email]').value,
+    telephone: f.querySelector('[name=telephone]').value,
+    date:   f.querySelector('[name=date_rdv]').value,
+    heure:  f.querySelector('[name=heure_rdv]').value,
+    type:   'Rendez-vous consultation',
+    message: (f.querySelector('[name=message]')||{value:''}).value || '—',
+    recu_le: new Date().toLocaleString('fr-CH')
+  };
+
+  emailjs.send('service_8pt08ad','template_qe0x9k7', data)
+    .then(()=>{
+      btn.style.display='none';
+      success.style.display='block';
+      setTimeout(()=>{ btn.style.display=''; btn.textContent=orig; btn.disabled=false; success.style.display='none'; f.reset(); },6000);
+    }).catch(()=>{
+      btn.textContent=orig; btn.disabled=false;
+      alert('Erreur envoi. Contactez directement : +41 21 862 33 26');
+    });
+});
+
+document.getElementById('form-email').addEventListener('submit',function(e){
+  e.preventDefault();
+  const f=this;
+  const btn=f.querySelector('[type=submit]');
+  const success=f.querySelector('.form-success');
+  const orig=btn.textContent;
+  btn.textContent='✦ Envoi en cours...'; btn.disabled=true;
+
+  const data={
+    prenom: f.querySelector('[name=prenom]').value,
+    email:  f.querySelector('[name=email]').value,
+    telephone: '—',
+    date:   new Date().toLocaleDateString('fr-CH'),
+    heure:  new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}),
+    type:   'Question email · ' + f.querySelector('[name=type]').value,
+    message: f.querySelector('[name=message]').value,
+    recu_le: new Date().toLocaleString('fr-CH')
+  };
+
+  emailjs.send('service_8pt08ad','template_qe0x9k7', data)
+    .then(()=>{
+      btn.style.display='none';
+      success.style.display='block';
+      setTimeout(()=>{ btn.style.display=''; btn.textContent=orig; btn.disabled=false; success.style.display='none'; f.reset(); },6000);
+    }).catch(()=>{
+      btn.textContent=orig; btn.disabled=false;
+      alert('Erreur envoi. Contactez directement : info@marcomedium.com');
+    });
 });
 
 // Scroll to top — apparaît en bas de page
