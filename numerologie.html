@@ -446,5 +446,14 @@ window.addEventListener('scroll',()=>{
   <span class="arrow-head"></span>
   <span class="arrow-shaft"></span>
 </button>
+<script>
+  // Sync status dot avec index.html
+  (function(){
+    const dot = document.querySelector('.live-dot');
+    if(!dot) return;
+    if(localStorage.getItem('mm_status') === 'busy'){
+      dot.classList.add('busy');
+    }
+  })();</script>
 </body>
 </html>
