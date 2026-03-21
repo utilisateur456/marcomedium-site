@@ -506,6 +506,7 @@ var shuffledDeck=[];
 
 function buildDeck(){
   var deck=document.getElementById('card-deck');
+  if(!deck){ console.error('card-deck not found'); return; }
   deck.innerHTML='';
   selectedCards=[];
   updateDrawBtn();
@@ -513,32 +514,55 @@ function buildDeck(){
   var needed=spread.count;
   shuffledDeck=CARDS.slice().sort(function(){return Math.random()-.5;});
   var total=Math.min(needed+3,8);
+
   for(var i=0;i<total;i++){
     (function(idx){
       var wrap=document.createElement('div');
-      wrap.className='tarot-card-wrap';
+      wrap.style.cssText='display:inline-flex;flex-direction:column;align-items:center;margin:0 8px;';
+
       var posLabel=document.createElement('div');
-      posLabel.className='card-pos-label';
+      posLabel.style.cssText='font-family:Inter,sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#7A6D9B;text-align:center;margin-top:8px;height:16px;';
       posLabel.textContent=idx<needed?(spread.labels[idx]||'Carte '+(idx+1)):'';
+
       var card=document.createElement('div');
-      card.className='tarot-card';
-      card.innerHTML='<div class="card-back"></div><div class="card-front"></div>';
+      card.style.cssText='width:110px;height:180px;cursor:pointer;border-radius:12px;position:relative;'
+        +'background:linear-gradient(135deg,#1A1035,#0D0820);border:1px solid rgba(180,120,255,0.28);'
+        +'display:flex;align-items:center;justify-content:center;flex-direction:column;'
+        +'transition:transform .7s;transform-style:preserve-3d;flex-shrink:0;';
+
+      var back=document.createElement('div');
+      back.style.cssText='position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;'
+        +'backface-visibility:hidden;-webkit-backface-visibility:hidden;'
+        +'background:linear-gradient(135deg,#1A1035,#0D0820);border:1px solid rgba(180,120,255,0.28);';
+      back.innerHTML='<span style="font-size:1.5rem;color:rgba(201,168,76,.3)">&#10022;</span>';
+
+      var front=document.createElement('div');
+      front.style.cssText='position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:10px;'
+        +'backface-visibility:hidden;-webkit-backface-visibility:hidden;'
+        +'transform:rotateY(180deg);-webkit-transform:rotateY(180deg);'
+        +'background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(201,168,76,.1));border:1px solid #C9A84C;';
+
+      card.appendChild(back);
+      card.appendChild(front);
+
       card.addEventListener('click',function(){
-        if(this.classList.contains('flipped')) return;
+        if(this.dataset.flipped) return;
         if(selectedCards.length>=needed) return;
+        this.dataset.flipped='1';
+        this.style.transform='rotateY(180deg)';
         var cardData=shuffledDeck[idx];
         selectedCards.push({slot:idx,cardData:cardData,label:spread.labels[idx]||'Carte '+(idx+1)});
-        this.classList.add('flipped');
-        var front=this.querySelector('.card-front');
-        var self=this;
+        var f=this.querySelector('[data-front]');
         setTimeout(function(){
-          front.innerHTML='<span style="font-size:.9rem;font-family:Cinzel,serif;color:#E2C97E">'+cardData.sym+'</span>'
-            +'<span style="font-size:.6rem;font-family:Cinzel,serif;color:#EDE9F8;margin-top:4px;display:block">'+cardData.name+'</span>';
+          f.innerHTML='<span style="font-size:.85rem;font-family:Cinzel,serif;color:#E2C97E;text-align:center;padding:0 4px">'+cardData.sym+'</span>'
+            +'<span style="font-size:.55rem;font-family:Cinzel,serif;color:#EDE9F8;text-align:center;margin-top:4px;padding:0 4px">'+cardData.name+'</span>';
         },350);
         updateDrawBtn();
       });
-      wrap.appendChild(posLabel);
+      front.setAttribute('data-front','1');
+
       wrap.appendChild(card);
+      wrap.appendChild(posLabel);
       deck.appendChild(wrap);
     })(i);
   }
