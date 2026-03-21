@@ -567,7 +567,12 @@ document.querySelectorAll('.spread-type-btn').forEach(function(btn){
   });
 });
 
-buildDeck();
+// Init deck when DOM ready
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', buildDeck);
+} else {
+  buildDeck();
+}
 
 function generateDynamicReading(cards,spread,intention,seed){
   var n=parseInt(String(seed||Date.now()).replace(/[^0-9]/g,'').slice(-6))||1;
