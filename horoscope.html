@@ -177,6 +177,81 @@
     #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
     #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
     @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
+  
+    /* ═══ RESPONSIVE MOBILE — iOS & Android ═══ */
+    @media(max-width:480px){
+      .signs-grid { grid-template-columns: repeat(3,1fr) !important; gap:8px; }
+      .sign-card { padding:16px 8px; }
+      .sign-symbol { font-size:1.8rem; }
+      .sign-name { font-size:.65rem; }
+      .result-wrap { padding:24px 16px; }
+      .domains-row { grid-template-columns:1fr !important; }
+      @media(max-width:480px){
+      /* Touch targets minimum 44px */
+      .btn, .tab-btn, .nav-cta { min-height:44px; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+
+      /* Nav */
+      nav { padding:14px 16px; }
+      .nav-logo-img { height:42px !important; }
+
+      /* Hero */
+      .hero { padding:100px 20px 60px; min-height:auto; }
+      .hero h1 { font-size:clamp(2.8rem,12vw,4rem); }
+      .hero-tagline { font-size:.95rem; }
+      .hero-actions { flex-direction:column; gap:12px; width:100%; }
+      .hero-actions .btn { width:100%; justify-content:center; padding:16px; }
+      .hero-portrait { width:170px !important; }
+
+      /* Sections */
+      .section { padding:50px 16px; }
+      .section-title { font-size:clamp(1.6rem,7vw,2.5rem); }
+
+      /* Services */
+      .services-grid { grid-template-columns:1fr !important; gap:1px; }
+
+      /* Consultation tabs — empilés sur mobile */
+      .consult-tabs { flex-direction:column; border-radius:var(--radius); }
+      .tab-btn { border-right:none !important; border-bottom:1px solid var(--border); flex-direction:row; gap:10px; justify-content:flex-start; padding:14px 20px; }
+      .tab-btn:last-child { border-bottom:none; }
+
+      /* Payment methods */
+      .pay-methods { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
+      .pay-method { padding:12px 8px; font-size:.65rem; }
+
+      /* Min buttons */
+      .min-options { flex-wrap:wrap; gap:8px; }
+      .min-btn { flex:1; min-width:calc(50% - 4px); font-size:.72rem; padding:10px 8px; }
+
+      /* About */
+      .about-grid { grid-template-columns:1fr !important; }
+      .about-img { max-width:260px; margin:0 auto; }
+
+      /* Forms */
+      .form-grid { grid-template-columns:1fr !important; }
+      input, select, textarea { font-size:16px !important; } /* prevent iOS zoom */
+
+      /* Testimonials */
+      .testi-grid { grid-template-columns:1fr !important; }
+
+      /* FAQ */
+      .faq-question { font-size:.82rem; padding:18px 16px; }
+
+      /* Footer */
+      .footer-top { grid-template-columns:1fr !important; gap:24px; }
+      .footer-links { flex-direction:column; gap:12px; }
+
+      /* Scroll top arrow */
+      #scrollTop { right:16px; bottom:16px; }
+    }
+
+    @media(max-width:768px){
+      /* Tablet / large phone */
+      .hero { padding:110px 24px 60px; }
+      .section { padding:60px 24px; }
+      .about-img { max-width:300px; margin:0 auto; display:block; }
+      input, select, textarea { font-size:16px !important; }
+    }
   </style>
   <!-- Google Tags: Analytics · Ads · Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
