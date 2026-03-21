@@ -443,24 +443,119 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
   "conseil": "Message direct de Marco à ${prenom}. Commence par '${prenom}, '. Conseil concret, mémorable, tourné vers l'action. 2 phrases maximum. Parle en 'vous'."
 }`;
 
+  // Seed unique pour éviter le cache
+  const seed=Date.now()+Math.random().toString(36).slice(2);
+  const promptWithSeed=prompt+'\n\n[Ref:'+seed+']';
+
   let data=null;
   try{
-    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt}),signal:AbortSignal.timeout(16000)});
-    if(!r.ok) throw new Error();
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),18000);
+    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},
+      body:JSON.stringify({promptCustom:promptWithSeed}),
+      signal:ctrl.signal
+    });
+    clearTimeout(timer);
+    if(!r.ok) throw new Error('http_'+r.status);
     const raw=await r.json();
-    const txt=raw.data||raw.message||'';
-    const clean=txt.replace(/```json|```/g,'').trim();
-    data=JSON.parse(clean);
-    if(!data.texte_principal||data.texte_principal.length<30) throw new Error('too short');
+    const txt=raw.data||raw.message||raw.reply||'';
+    if(!txt||txt.length<50) throw new Error('empty');
+    const clean=txt.replace(/```json[\s\S]*?```/g,m=>m.slice(7,-3)).replace(/```/g,'').trim();
+    // Extraire le JSON même s'il y a du texte avant/après
+    const jsonMatch=clean.match(/\{[\s\S]*\}/);
+    if(!jsonMatch) throw new Error('no_json');
+    data=JSON.parse(jsonMatch[0]);
+    if(!data.texte_principal||data.texte_principal.length<30) throw new Error('bad_json');
   }catch(e){
-    data=buildFallback(prenom,s,isJour,dateStr);
+    console.warn('Worker error:',e.message);
+    data=buildFallback(prenom,s,isJour,dateStr,seed);
   }
 
   clearInterval(iv);
   displayResult(data,prenom,s,isJour,isJour?dateStr:weekStr);
 }
 
-function buildFallback(prenom,s,isJour,dateStr){
+function buildFallback(prenom,s,isJour,dateStr,seed){
+  // Seed pour variations réelles
+  const n=parseInt((seed||Date.now().toString()).replace(/\D/g,'').slice(-6));
+  const rnd=(arr)=>arr[n%arr.length];
+  const rnd2=(arr,offset)=>arr[(n+offset)%arr.length];
+
+  const ouvertures=[
+    `${prenom}, les astres de ce ${isJour?"jour":"début de semaine"} dessinent pour votre signe ${s.name} une configuration particulièrement révélatrice.`,
+    `${prenom}, l'énergie de ${s.planet} agit en profondeur sur votre quotidien de ${s.name} en ce moment.`,
+    `${prenom}, quelque chose se prépare dans votre ciel astral — ${s.planet} l'annonce clairement pour votre signe ${s.name}.`,
+    `${prenom}, en tant que ${s.name}, vous traversez ${isJour?"aujourd'hui":"cette semaine"} une période de transitions importantes sous l'influence directe de ${s.planet}.`,
+    `${prenom}, les influences planétaires de ${s.planet} sur votre signe ${s.name} créent ${isJour?"aujourd'hui":"cette semaine"} un terrain fertile pour les décisions importantes.`,
+  ];
+
+  const developpements=[
+    `Ne laissez pas les doutes extérieurs freiner votre élan intérieur. Votre instinct de ${s.name} vous guide mieux que vous ne le pensez en ce moment.`,
+    `Une situation qui stagnait pourrait se débloquer si vous acceptez d'aborder les choses différemment. L'élément ${s.element} qui gouverne votre signe vous donne aujourd'hui la force de trancher.`,
+    `Ce n'est pas un moment pour la passivité. ${s.planet} vous pousse à prendre position et à avancer, même si tout n'est pas encore clair.`,
+    `Votre lucidité est votre meilleur atout en ce moment. Faites confiance aux analyses que vous avez menées ces derniers jours — elles étaient justes.`,
+    `Une rencontre, un message ou une information inattendue pourrait changer la perspective sur une situation que vous pensiez figée.`,
+  ];
+
+  const conclusions=[
+    `Ce ${isJour?"jour":"cycle"} vous appartient, ${prenom} — saisissez-le avec la détermination qui caractérise votre signe.`,
+    `${prenom}, agissez maintenant : les étoiles ne vous offriront pas deux fois cette fenêtre d'opportunité.`,
+    `La confiance en vous est la clé de ce ${isJour?"jour":"moment"}, ${prenom}. Avancez.`,
+    `Les ressources dont vous avez besoin sont déjà en vous, ${prenom}. Il est temps de les mobiliser.`,
+  ];
+
+  const amour=[
+    `Vos relations sont teintées d'une sincérité rafraîchissante ${isJour?"aujourd'hui":"cette semaine"}. Une conversation honnête pourrait transformer une tension en véritable rapprochement.`,
+    `${isJour?"Aujourd'hui":"Cette semaine"}, une personne de votre entourage cherche à se rapprocher de vous. Soyez attentif aux signaux subtils — ils sont là.`,
+    `L'énergie de ${s.planet} favorise les connexions authentiques. Si vous êtes en couple, c'est le moment d'aborder un sujet en suspens. Si vous êtes célibataire, restez ouvert.`,
+    `Vos proches ont besoin de vous ${isJour?"aujourd'hui":"cette semaine"} — même de façon discrète. Une présence bienveillante peut faire toute la différence.`,
+  ];
+
+  const travail=[
+    `Un dossier ou un projet qui stagnait pourrait connaître une avancée décisive. Faites confiance à votre analyse — elle est plus juste que vous ne le pensez.`,
+    `Sur le plan financier, ${isJour?"aujourd'hui":"cette semaine"} est favorable à l'examen rigoureux de vos engagements. Évitez les dépenses impulsives et privilégiez la consolidation.`,
+    `Une opportunité professionnelle mérite votre attention — examinez-la avec discernement avant de vous décider. ${s.planet} favorise les bons choix pour les ${s.name}.`,
+    `La clarté s'impose ${isJour?"aujourd'hui":"cette semaine"} dans vos projets. Terminez ce qui est commencé avant d'entreprendre de nouvelles initiatives.`,
+  ];
+
+  const sante=[
+    `Votre énergie de type ${s.element} a besoin d'être rechargée — accordez-vous des moments de silence et de ressourcement aujourd'hui.`,
+    `Votre vitalité est bonne, mais attention à ne pas la gaspiller en efforts dispersés. Concentrez votre énergie sur ce qui compte vraiment.`,
+    `Le corps parle ${isJour?"aujourd'hui":"cette semaine"} — écoutez-le. Un besoin de repos ou de mouvement est peut-être à honorer sans attendre.`,
+    `L'équilibre entre action et repos est la clé pour les ${s.name} en ce moment. Votre résistance est plus solide que vous ne le croyez.`,
+  ];
+
+  const conseils=[
+    `${prenom}, faites confiance aux signaux que la vie vous envoie — ils ne sont jamais anodins pour un ${s.name}.`,
+    `${prenom}, avancez avec la certitude tranquille que votre chemin est juste, même si vous ne voyez pas encore où il mène.`,
+    `${prenom}, une seule décision prise avec courage vaut mieux que dix hésitations. C'est le moment d'agir.`,
+    `${prenom}, les planètes s'alignent en votre faveur — mais c'est à vous de faire le premier pas.`,
+    `${prenom}, n'attendez pas les conditions parfaites. La force du ${s.name} est justement de s'adapter et d'avancer malgré l'incertitude.`,
+  ];
+
+  const couleurs={Bélier:'rouge cardinal',Taureau:'vert émeraude',Gémeaux:'jaune topaze',Cancer:'blanc nacré',Lion:'or solaire',Vierge:'vert sauge',Balance:'rose quartz',Scorpion:'bordeaux',Sagittaire:'indigo',Capricorne:'gris ardoise',Verseau:'bleu électrique',Poissons:'turquoise'};
+  const mots={Bélier:'Initiative',Taureau:'Ancrage',Gémeaux:'Communication',Cancer:'Intuition',Lion:'Rayonnement',Vierge:'Discernement',Balance:'Harmonie',Scorpion:'Transformation',Sagittaire:'Vision',Capricorne:'Rigueur',Verseau:'Innovation',Poissons:'Profondeur'};
+  const chiffres={Bélier:9,Taureau:6,Gémeaux:5,Cancer:2,Lion:1,Vierge:5,Balance:6,Scorpion:8,Sagittaire:3,Capricorne:8,Verseau:4,Poissons:7};
+
+  return{
+    titre:`${prenom}, les astres du ${s.name} vous parlent`,
+    subtitle:`Sous l'influence de ${s.planet} · ${isJour?'Message du jour':'Semaine à venir'}`,
+    chiffres:{
+      chance:String(((chiffres[s.name]||7)+n)%9+1),
+      couleur:couleurs[s.name]||'or doré',
+      mot:mots[s.name]||'Confiance'
+    },
+    texte_principal:`${rnd(ouvertures)} ${rnd2(developpements,1)} ${rnd2(conclusions,2)}`,
+    domaines:[
+      {icone:'💕',titre:'Amour & Relations',texte:rnd2(amour,0)},
+      {icone:'💼',titre:'Travail & Finances',texte:rnd2(travail,1)},
+      {icone:'🌿',titre:'Santé & Énergie',texte:rnd2(sante,2)}
+    ],
+    conseil:rnd2(conseils,3)
+  };
+}
   const energies={Feu:['ardente et créatrice','l\'audace et l\'initiative'],Terre:['stable et pragmatique','la patience et la persévérance'],Air:['intellectuelle et communicative','la flexibilité et l\'adaptabilité'],Eau:['intuitive et sensible','l\'empathie et la profondeur']};
   const e=energies[s.element]||['puissante','la détermination'];
   const couleurs={Bélier:'rouge cardinal',Taureau:'vert émeraude',Gémeaux:'jaune topaze',Cancer:'blanc nacré',Lion:'or solaire',Vierge:'vert sauge',Balance:'rose quartz',Scorpion:'bordeaux intense',Sagittaire:'indigo',Capricorne:'gris ardoise',Verseau:'bleu électrique',Poissons:'turquoise'};
