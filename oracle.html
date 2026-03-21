@@ -547,6 +547,61 @@ document.querySelectorAll('.spread-type-btn').forEach(btn=>{
 
 buildDeck();
 
+
+// Lecture dynamique — jamais le même texte
+function generateDynamicReading(cards, spread, intention, seed){
+  const n=parseInt((seed||Date.now().toString()).replace(/[^0-9]/g,'').slice(-8))||1;
+  const pick=(arr,offset)=>arr[((n>>>(offset||0))&0xFF)%arr.length];
+
+  const ouvertures=[
+    'Ce tirage ne s'est pas fait par hasard.',
+    'Les cartes que vous avez choisies portent un message précis.',
+    'Ce que ces cartes révèlent mérite toute votre attention.',
+    'L'énergie de ce tirage est saisissante — regardez-la en face.',
+    'Votre intuition vous a guidé vers exactement ce dont vous aviez besoin.',
+    'Ces cartes parlent avec une clarté inhabituelle.',
+  ];
+
+  const transitions=[
+    'Regardez de plus près :',
+    'Le message est limpide :',
+    'Ce n'est pas anodin —',
+    'L'énergie parle d'elle-même :',
+    'Voici ce que je lis dans ce tirage :',
+  ];
+
+  const conseils=[
+    'Ne cherchez pas à forcer. Ce qui doit venir viendra, à condition que vous restiez ouvert.',
+    'Agissez maintenant — l'énergie est favorable à ceux qui osent faire le premier pas.',
+    'Observez les coïncidences autour de vous dans les prochains jours. Elles ne sont pas anodines.',
+    'Un pas suffit. Vous n'avez pas besoin de voir tout le chemin pour commencer à avancer.',
+    'Faites confiance à ce que vous ressentez, pas seulement à ce que vous voyez.',
+    'Quelque chose en vous sait déjà la réponse. Arrêtez de chercher à l'extérieur.',
+  ];
+
+  let txt = pick(ouvertures,0);
+  if(intention) txt += ' Votre question sur "'+intention+'" est au cœur de ce qui suit.';
+  txt += '\n\n';
+
+  if(cards.length===1){
+    const c=cards[0];
+    txt += pick(transitions,1)+' '+c.name+' — '+c.meaning+'. Cette carte est votre miroir du moment. Elle reflète avec une précision troublante l'énergie qui vous habite et la direction que prend votre vie en ce moment précis. Ce n'est pas une coïncidence — c'est exactement ce dont vous aviez besoin d'entendre.\n\n';
+  } else if(cards.length===3){
+    txt += cards[0].label+' — '+cards[0].name+' ('+cards[0].meaning+'). Ce que vous avez traversé a forgé en vous quelque chose de solide et de précieux. Ne le reniez pas.\n\n';
+    txt += cards[1].label+' — '+cards[1].name+' ('+cards[1].meaning+'). C'est là où vous en êtes maintenant. '+pick(transitions,2)+' une transformation est en cours — vous la sentez probablement déjà sans savoir l'nommer.\n\n';
+    txt += cards[2].label+' — '+cards[2].name+' ('+cards[2].meaning+'). Voilà où tout cela vous mène. Ce n'est pas une promesse — c'est une direction. À vous de la saisir ou de la laisser passer.\n\n';
+  } else {
+    const roles=['C'est le cœur de votre situation actuelle.','Cela représente ce qui freine — ou ce qui propulse. À vous de discerner lequel.','C'est votre fondation, ce sur quoi vous pouvez vraiment compter.','Voici le conseil que les cartes vous adressent directement.','Et voici l'issue probable si vous suivez cette énergie.'];
+    cards.forEach((c,i)=>{
+      txt += c.label+' — '+c.name+' : '+c.meaning+'. '+(roles[i]||'')+' ';
+    });
+    txt += '\n\n';
+  }
+
+  txt += pick(conseils,3);
+  return txt;
+}
+
 // Draw — utilise les cartes sélectionnées par l'utilisateur
 document.getElementById('btn-draw').addEventListener('click',async function(){
   const intention=document.getElementById('intention').value.trim();
@@ -574,20 +629,28 @@ Termine par un message d'action concret.
 Style: Marco Médium — direct, bienveillant, sans complaisance, authentique.
 Réponds uniquement en texte, pas de JSON ni de formatage markdown.`;
 
+  // Anti-cache unique
+  const seed=Date.now()+Math.random().toString(36).slice(2);
+  const promptFinal=prompt+'\n[ref:'+seed+']';
+
   let message='';
   try{
-    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt})});
-    if(!r.ok) throw new Error();
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),15000);
+    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},
+      body:JSON.stringify({promptCustom:promptFinal}),
+      signal:ctrl.signal
+    });
+    clearTimeout(timer);
+    if(!r.ok) throw new Error('http');
     const data=await r.json();
-    message=data.data||data.message||'';
+    const txt=data.data||data.message||data.reply||'';
+    if(txt.length<40) throw new Error('empty');
+    message=txt;
   }catch(e){
-    message=`Ce tirage révèle une énergie remarquable. Les cartes parlent d'un moment charnière, d'un croisement entre ce qui était et ce qui veut se manifester. Quelque chose en vous est prêt — plus prêt que vous ne le pensez.
-
-La ${drawnCards[0].name} ouvre ce tirage avec toute sa force. Son message : ${drawnCards[0].meaning}. C'est votre énergie dominante du moment, celle qui colore tout ce que vous traversez actuellement.
-
-${drawnCards.length>1?'La dynamique entre ces cartes indique un mouvement, un déplacement intérieur en cours. Ne cherchez pas à forcer les choses — laissez les énergies s\'aligner naturellement.':''}
-
-Mon conseil : restez attentif aux synchronicités des prochains jours. Un message important cherche à vous atteindre. Faites confiance à votre première intuition, elle est juste.`;
+    message=generateDynamicReading(drawnCards,spread,intention,seed);
   }
 
   document.getElementById('oracle-loading').style.display='none';
