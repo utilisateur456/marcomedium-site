@@ -462,11 +462,11 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
     const raw=await r.json();
     const txt=raw.data||raw.message||raw.reply||'';
     if(!txt||txt.length<50) throw new Error('empty');
-    const clean=txt.replace(/```json[\s\S]*?```/g,m=>m.slice(7,-3)).replace(/```/g,'').trim();
-    // Extraire le JSON même s'il y a du texte avant/après
-    const jsonMatch=clean.match(/\{[\s\S]*\}/);
-    if(!jsonMatch) throw new Error('no_json');
-    data=JSON.parse(jsonMatch[0]);
+    const clean=txt.replace(/```json/g,'').replace(/```/g,'').trim();
+    const start=clean.indexOf('{');
+    const end=clean.lastIndexOf('}');
+    if(start===-1||end===-1) throw new Error('no_json');
+    data=JSON.parse(clean.slice(start,end+1));
     if(!data.texte_principal||data.texte_principal.length<30) throw new Error('bad_json');
   }catch(e){
     console.warn('Worker error:',e.message);
@@ -479,7 +479,7 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
 
 function buildFallback(prenom,s,isJour,dateStr,seed){
   // Seed pour variations réelles
-  const n=parseInt((seed||Date.now().toString()).replace(/\D/g,'').slice(-6));
+  const n=parseInt((seed||Date.now().toString()).replace(/[^0-9]/g,'').slice(-6))||1;
   const rnd=(arr)=>arr[n%arr.length];
   const rnd2=(arr,offset)=>arr[(n+offset)%arr.length];
 
@@ -554,23 +554,6 @@ function buildFallback(prenom,s,isJour,dateStr,seed){
       {icone:'🌿',titre:'Santé & Énergie',texte:rnd2(sante,2)}
     ],
     conseil:rnd2(conseils,3)
-  };
-}
-  const energies={Feu:['ardente et créatrice','l\'audace et l\'initiative'],Terre:['stable et pragmatique','la patience et la persévérance'],Air:['intellectuelle et communicative','la flexibilité et l\'adaptabilité'],Eau:['intuitive et sensible','l\'empathie et la profondeur']};
-  const e=energies[s.element]||['puissante','la détermination'];
-  const couleurs={Bélier:'rouge cardinal',Taureau:'vert émeraude',Gémeaux:'jaune topaze',Cancer:'blanc nacré',Lion:'or solaire',Vierge:'vert sauge',Balance:'rose quartz',Scorpion:'bordeaux intense',Sagittaire:'indigo',Capricorne:'gris ardoise',Verseau:'bleu électrique',Poissons:'turquoise'};
-  const mots={Bélier:'Initiative',Taureau:'Stabilité',Gémeaux:'Communication',Cancer:'Intuition',Lion:'Confiance',Vierge:'Précision',Balance:'Équilibre',Scorpion:'Transformation',Sagittaire:'Expansion',Capricorne:'Ambition',Verseau:'Innovation',Poissons:'Intuition'};
-  return{
-    titre:`${prenom}, les astres du ${s.name} vous guident`,
-    subtitle:`Sous l'influence de ${s.planet} · ${isJour?'Message du jour':'Semaine à venir'}`,
-    chiffres:{chance:String(Math.floor(Math.random()*9)+1),couleur:couleurs[s.name]||'or doré',mot:mots[s.name]||'Confiance'},
-    texte_principal:`${prenom}, l'énergie ${e[0]} de votre signe ${s.name} est au premier plan ${isJour?"aujourd'hui":"cette semaine"}. ${s.planet}, votre astre gouverneur, crée des conditions propices pour avancer sur les dossiers importants de votre vie. Vous avez en vous des ressources que vous sous-estimez — c'est le moment de les mobiliser pleinement. Une situation qui semblait bloquée pourrait trouver son dénouement si vous faites confiance à ${e[1]}. Ne laissez pas les doutes extérieurs freiner votre élan intérieur, ${prenom}. Ce ${isJour?"jour":"moment"} vous appartient.`,
-    domaines:[
-      {icone:'💕',titre:'Amour & Relations',texte:`${isJour?"Aujourd'hui":"Cette semaine"}, vos relations bénéficient d'une sincérité bienvenue. Une conversation honnête pourrait transformer une tension en rapprochement. Osez exprimer ce que vous ressentez vraiment.`},
-      {icone:'💼',titre:'Travail & Finances',texte:`L'influence de ${s.planet} favorise la clarté dans vos décisions professionnelles. Un projet ou une proposition mérite votre attention — examinez-le avec votre intuition de ${s.name}, pas seulement votre raison.`},
-      {icone:'🌿',titre:'Santé & Énergie',texte:`Votre énergie de type ${s.element} a besoin d'être rechargée. Accordez-vous des moments de calme et évitez la dispersion. Votre vitalité retrouvée sera votre meilleur atout.`}
-    ],
-    conseil:`${prenom}, faites confiance aux signaux que la vie vous envoie — ils ne sont jamais anodins. Avancez avec la certitude tranquille que votre chemin de ${s.name} est juste.`
   };
 }
 
