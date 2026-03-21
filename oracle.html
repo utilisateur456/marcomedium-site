@@ -387,33 +387,75 @@ const SPREADS={
 };
 
 let currentSpread=1;
-let drawnCards=[];
+let selectedCards=[]; // cartes cliquées par l'utilisateur
+let shuffledDeck=[]; // deck mélangé aléatoirement au chargement
 
 function buildDeck(){
   const deck=document.getElementById('card-deck');
   deck.innerHTML='';
-  const n=Math.min(SPREADS[currentSpread].count+4,8);
-  for(let i=0;i<n;i++){
+  selectedCards=[];
+  updateDrawBtn();
+  const spread=SPREADS[currentSpread];
+  const needed=spread.count;
+
+  // Mélanger le deck
+  shuffledDeck=[...CARDS].sort(()=>Math.random()-.5);
+
+  // Afficher exactement needed+3 cartes (toutes face cachée, à dos visible)
+  const total=Math.min(needed+3, 8);
+  for(let i=0;i<total;i++){
     const wrap=document.createElement('div');
     wrap.className='tarot-card-wrap';
+
+    const posLabel=document.createElement('div');
+    posLabel.className='card-pos-label';
+    posLabel.textContent=i<needed?(spread.labels[i]||'Carte '+(i+1)):'';
+
     const card=document.createElement('div');
     card.className='tarot-card';
-    card.dataset.cardIdx=i;
+    card.dataset.slotIdx=i;
     card.innerHTML='<div class="card-back"></div><div class="card-front"></div>';
-    card.style.animationDelay=(i*.08)+'s';
-    // Click = flip
+
     card.addEventListener('click',function(){
-      if(this.classList.contains('drawn')) return;
-      this.classList.add('flipped','drawn');
-      const idx=parseInt(this.dataset.cardIdx);
-      const c=CARDS[idx%CARDS.length];
+      if(this.classList.contains('flipped')) return;
+      const slot=parseInt(this.dataset.slotIdx);
+      // Vérifier qu'on n'a pas déjà sélectionné toutes les cartes nécessaires
+      if(selectedCards.length>=needed) return;
+
+      // Assigner une carte du deck mélangé à ce slot
+      const cardData=shuffledDeck[slot];
+      this.dataset.assignedCard=JSON.stringify(cardData);
+      selectedCards.push({slot, cardData, label: spread.labels[slot]||'Carte '+(slot+1)});
+
+      // Flip
+      this.classList.add('flipped');
       const front=this.querySelector('.card-front');
       setTimeout(()=>{
-        front.innerHTML='<span style="font-size:2rem">'+c.sym+'</span><span style="font-family:\'Cinzel\',serif;font-size:.65rem;letter-spacing:.08em;color:var(--text);margin-top:4px">'+c.name+'</span>';
+        front.innerHTML='<span style="font-size:2rem">'+cardData.sym+'</span>'
+          +'<span style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.08em;color:var(--text);margin-top:4px">'+cardData.name+'</span>';
       },350);
+
+      updateDrawBtn();
     });
+
+    wrap.appendChild(posLabel);
     wrap.appendChild(card);
     deck.appendChild(wrap);
+  }
+}
+
+function updateDrawBtn(){
+  const needed=SPREADS[currentSpread].count;
+  const btn=document.getElementById('btn-draw');
+  const remaining=needed-selectedCards.length;
+  if(remaining>0){
+    btn.disabled=true;
+    btn.textContent=remaining===needed
+      ? '🃏 Choisissez '+needed+' carte'+(needed>1?'s':'')
+      : '🃏 Encore '+remaining+' carte'+(remaining>1?'s à choisir':'à choisir');
+  } else {
+    btn.disabled=false;
+    btn.textContent='✨ Révéler le message de Marco';
   }
 }
 
@@ -430,27 +472,20 @@ document.querySelectorAll('.spread-type-btn').forEach(btn=>{
 
 buildDeck();
 
-// Draw
+// Draw — utilise les cartes sélectionnées par l'utilisateur
 document.getElementById('btn-draw').addEventListener('click',async function(){
   const intention=document.getElementById('intention').value.trim();
   const spread=SPREADS[currentSpread];
   
-  // Pick random cards
-  const shuffled=[...CARDS].sort(()=>Math.random()-.5);
-  drawnCards=shuffled.slice(0,spread.count);
-
-  // Animate deck cards
-  document.querySelectorAll('.tarot-card').forEach((c,i)=>{
-    c.classList.add('flipping');
-    setTimeout(()=>c.classList.remove('flipping'),600);
-  });
+  // Utiliser exactement les cartes cliquées par l'utilisateur
+  const drawnCards=selectedCards.map(s=>({...s.cardData, label:s.label}));
 
   this.disabled=true;
   document.getElementById('oracle-loading').style.display='block';
   document.getElementById('oracle-result').style.display='none';
 
   const today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-  const cardsDesc=drawnCards.map((c,i)=>`${spread.labels[i]||'Carte '+(i+1)}: ${c.name} (${c.meaning})`).join('\n');
+  const cardsDesc=drawnCards.map((c,i)=>`${c.label||spread.labels[i]||'Carte '+(i+1)}: ${c.name} (${c.meaning})`).join('\n');
   
   const prompt=`Tu es Marco Médium, voyant suisse. Voici un tirage de ${spread.count} carte(s) oracle pour aujourd'hui ${today}.
 
@@ -491,9 +526,11 @@ Mon conseil : restez attentif aux synchronicités des prochains jours. Un messag
         <span class="dsym">${c.sym}</span>
         <span class="dname">${c.name}</span>
       </div>
-      <div class="drawn-card-pos">${spread.labels[i]||'Carte '+(i+1)}</div>
+      <div class="drawn-card-pos">${c.label||spread.labels[i]||'Carte '+(i+1)}</div>
     </div>
   `).join('');
+  // Reset pour nouveau tirage possible
+  setTimeout(()=>buildDeck(), 100);
 
   document.getElementById('oracle-text').textContent=message;
   const result=document.getElementById('oracle-result');
