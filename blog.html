@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Voyance & Spiritualité — Marco Médium Vaud Suisse</title>
+  <meta name="description" content="Articles sur la voyance, l'astrologie, la numérologie et la spiritualité par Marco Médium. Guidance et conseils pour votre chemin de vie en Suisse romande.">
+  <meta name="keywords" content="voyance suisse, médium vaud, horoscope personnalisé, numérologie, interprétation rêves, spiritualité suisse romande, consultation médium">
+  <meta name="theme-color" content="#080612">
+  <link rel="canonical" href="https://www.marcomedium.com/blog.html">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());
+    gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");
+  </script>
+  <style>
+    :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--gold-dim:rgba(201,168,76,0.12);--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
+    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
+    #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;will-change:transform;}
+    .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);}
+    .glow-1{width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,0.08),transparent 70%);top:-200px;right:-150px;}
+    .glow-2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%);bottom:10%;left:-100px;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.92) 0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
+    nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
+    .nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
+    .nav-logo-img{height:90px;width:auto;max-width:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(201,168,76,0.45));transition:filter .3s;}
+    .nav-logo:hover .nav-logo-img{filter:drop-shadow(0 0 20px rgba(201,168,76,0.7));}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
+    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
+    .nav-links a:hover{color:var(--gold-light);}
+    .nav-links a.active{color:var(--gold);}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+    .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,4,15,.98);flex-direction:column;padding:16px 0;border-bottom:1px solid var(--border);}.nav-links.open{display:flex;}.nav-links li{width:100%;}.nav-links a{display:block;padding:14px 24px;}.nav-burger{display:flex;}.nav-logo-img{height:64px;max-width:180px;}}
+
+    .page-hero{position:relative;z-index:2;padding:140px 48px 48px;text-align:center;max-width:700px;margin:0 auto;}
+    .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
+    .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,.3);}
+    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:700;letter-spacing:.05em;line-height:1.15;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
+    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1rem;color:var(--text2);margin-top:16px;opacity:0;animation:fadeUp .9s .7s forwards;}
+
+    .content{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 48px 100px;}
+    @media(max-width:768px){.content{padding:0 20px 80px;}.page-hero{padding:120px 20px 40px;}}
+
+    /* ARTICLES GRID */
+    .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:60px;}
+    @media(max-width:900px){.articles-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:560px){.articles-grid{grid-template-columns:1fr;}}
+
+    .article-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .3s;cursor:pointer;display:block;text-decoration:none;color:var(--text);}
+    .article-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(139,92,246,0.15);}
+    .article-thumb{height:160px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(201,168,76,0.06));position:relative;overflow:hidden;}
+    .article-thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top,rgba(6,4,15,0.8),transparent);}
+    .article-body{padding:20px;}
+    .article-cat{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block;}
+    .article-title{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;letter-spacing:.03em;line-height:1.4;margin-bottom:10px;color:var(--text);}
+    .article-excerpt{font-size:.82rem;color:var(--text3);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+    .article-meta{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+    .article-date{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--text3);}
+    .article-read{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--purple-light);letter-spacing:.08em;}
+
+    /* ARTICLE MODAL / FULL */
+    .article-full{display:none;position:relative;z-index:2;}
+    .article-full.show{display:block;animation:fadeUp .6s forwards;}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);cursor:pointer;margin-bottom:36px;transition:color .3s;background:none;border:none;padding:0;}
+    .back-btn:hover{color:var(--gold);}
+    .article-header{margin-bottom:40px;}
+    .article-header .cat{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;}
+    .article-header h2{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;line-height:1.2;background:linear-gradient(135deg,#fff,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;}
+    .article-header .meta{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--text3);}
+    .article-content{max-width:720px;}
+    .article-content p{color:var(--text2);font-size:.97rem;line-height:1.95;margin-bottom:20px;}
+    .article-content p:first-of-type::first-letter{font-family:'Cinzel',serif;font-size:3rem;font-weight:700;float:left;line-height:.85;margin-right:8px;margin-top:6px;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .article-content h3{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;letter-spacing:.05em;color:var(--gold-light);margin:32px 0 14px;}
+    .article-content ul{margin:0 0 20px 20px;}
+    .article-content ul li{color:var(--text2);font-size:.95rem;line-height:1.8;margin-bottom:8px;}
+    .article-content ul li::marker{color:var(--gold);}
+    .article-cta{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.2);border-radius:var(--radius);padding:32px;text-align:center;margin-top:40px;}
+    .article-cta p{font-family:'Lora',serif;font-style:italic;color:var(--text2);margin-bottom:20px;}
+    .btn-cta{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;font-family:'Cinzel',serif;font-size:.85rem;font-weight:600;letter-spacing:.12em;border-radius:50px;text-decoration:none;transition:all .3s;}
+    .btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.4);}
+
+    /* NEWSLETTER */
+    .newsletter{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;text-align:center;margin-top:48px;position:relative;overflow:hidden;}
+    .newsletter::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+    .newsletter h3{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;letter-spacing:.06em;margin-bottom:8px;}
+    .newsletter p{color:var(--text3);font-size:.88rem;margin-bottom:24px;}
+    .newsletter-form{display:flex;gap:12px;max-width:440px;margin:0 auto;}
+    .newsletter-form input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:50px;padding:13px 20px;color:var(--text);font-family:'Lora',serif;font-size:16px;outline:none;transition:border-color .3s;}
+    .newsletter-form input:focus{border-color:var(--gold);}
+    .newsletter-form button{padding:13px 24px;background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;border:none;border-radius:50px;cursor:pointer;white-space:nowrap;transition:all .3s;}
+    .newsletter-form button:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.35);}
+    @media(max-width:500px){.newsletter-form{flex-direction:column;}.newsletter-form input,.newsletter-form button{width:100%;}}
+
+    #scrollTop{position:fixed;bottom:36px;right:40px;z-index:200;background:none;border:none;padding:8px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s,transform .4s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+    #scrollTop .arrow-shaft{width:1px;height:28px;background:linear-gradient(to top,transparent,rgba(201,168,76,0.6));}
+    #scrollTop .arrow-head{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid rgba(201,168,76,0.7);filter:drop-shadow(0 0 4px rgba(201,168,76,0.5));order:-1;}
+    #scrollTop.show{opacity:1;pointer-events:all;}
+    #scrollTop:hover{transform:translateY(-5px);}
+
+    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;text-align:center;}
+    .footer-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);margin-bottom:16px;}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 28px;margin-bottom:20px;list-style:none;}
+    .footer-links a{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-copy{font-size:.75rem;color:var(--text3);}
+    @media(max-width:768px){footer{padding:32px 20px;}}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s;}
+    .reveal.visible{opacity:1;transform:none;}
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
+    <span class="live-dot" id="liveDot"></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="horoscope.html">Horoscope</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="oracle.html">Oracle</a></li>
+    <li><a href="reves.html">Rêves</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
+  </ul>
+  <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- LISTE DES ARTICLES -->
+<div id="blogList">
+  <section class="page-hero">
+    <div class="label">✦ Voyance · Spiritualité · Guidance</div>
+    <h1>Lumières sur votre Chemin</h1>
+    <p>Articles, conseils et éclairages spirituels par Marco Médium — pour mieux comprendre les forces invisibles qui guident votre vie.</p>
+  </section>
+
+  <div class="content">
+    <div class="articles-grid reveal" id="articlesGrid"></div>
+
+    <div class="newsletter reveal">
+      <h3>✦ Restez connecté à vos astres</h3>
+      <p>Recevez les conseils de Marco directement dans votre boîte mail — horoscopes, guidance et articles exclusifs.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Votre adresse e-mail" id="nlEmail">
+        <button onclick="subscribeNewsletter()">S'inscrire</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE COMPLET -->
+<div id="articleView" class="article-full">
+  <div class="content" style="padding-top:120px;">
+    <button class="back-btn" onclick="showList()">← Retour au blog</button>
+    <div class="article-header">
+      <span class="cat" id="viewCat"></span>
+      <h2 id="viewTitle"></h2>
+      <div class="meta" id="viewMeta"></div>
+    </div>
+    <div class="article-content" id="viewContent"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Marco Médium</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="horoscope.html">Horoscope</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="oracle.html">Oracle</a></li>
+    <li><a href="reves.html">Rêves</a></li>
+    <li><a href="index.html#consultation">Consultation</a></li>
+    <li><a href="tel:+41218623326">+41 21 862 33 26</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Marco Médium — Vaud, Suisse · Voyance &amp; Guidance Spirituelle</p>
+</footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter">
+  <span class="arrow-head"></span><span class="arrow-shaft"></span>
+</button>
+
+<script>
+// STARS
+const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');
+let stars=[],W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(let i=0;i<120;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.012+.004,t:Math.random()*Math.PI*2});}
+function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(220,210,255,${s.o})`;ctx.fill();});requestAnimationFrame(drawStars);}
+resize();initStars();drawStars();
+window.addEventListener('resize',()=>{resize();initStars();});
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+document.getElementById('navBurger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+window.addEventListener('scroll',()=>{const s=window.scrollY+window.innerHeight,t=document.documentElement.scrollHeight;document.getElementById('scrollTop').classList.toggle('show',s>=t-200);});
+
+// STATUS
+(function(){const dot=document.getElementById('liveDot');if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');})();
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ARTICLES DATA
+const ARTICLES = [
+  {
+    id:1,
+    icon:'🔮',
+    cat:'Voyance',
+    title:'Comment se préparer à une consultation de voyance ?',
+    excerpt:'Une consultation de voyance n\'est pas une simple conversation — c\'est un espace sacré où les énergies se rencontrent. Voici comment vous y préparer pour en tirer le maximum.',
+    date:'Mars 2026',
+    read:'5 min',
+    content:`
+<p>Une consultation de voyance est un moment particulier, chargé d'énergie et d'intention. Beaucoup de personnes arrivent en séance sans vraiment s'y être préparées, et passent à côté de l'essentiel. Voici comment aborder cette expérience avec la bonne disposition d'esprit.</p>
+
+<h3>1. Clarifiez vos questions à l'avance</h3>
+<p>Avant la consultation, prenez le temps de noter les questions qui vous tiennent vraiment à cœur. Évitez les questions trop vagues comme "que va-t-il se passer dans ma vie ?" — préférez des formulations précises : "Comment évolue ma situation professionnelle dans les 6 prochains mois ?" ou "Quelle énergie entoure ma relation amoureuse actuellement ?"</p>
+<p>Des questions précises permettent au médium de canaliser une énergie ciblée et de vous offrir des réponses concrètes et actionnables.</p>
+
+<h3>2. Venez dans un état de calme</h3>
+<p>Évitez de consulter dans un moment de crise émotionnelle intense — non pas parce que c'est impossible, mais parce que votre propre énergie perturbée peut brouiller la lecture. Si vous traversez une période difficile, prenez quelques minutes avant la consultation pour respirer profondément et ancrer votre énergie.</p>
+
+<h3>3. Gardez l'esprit ouvert</h3>
+<p>Les messages qui arrivent lors d'une séance ne prennent pas toujours la forme qu'on attend. Parfois, ce que vous entendez peut vous surprendre ou même vous déranger dans un premier temps. Permettez-vous de recevoir l'information sans la filtrer immédiatement — sa signification devient souvent plus claire avec le temps.</p>
+
+<h3>4. Ne testez pas le voyant</h3>
+<p>Venir en consultation avec l'intention de "tester" le médium bloque l'énergie de la séance. Une attitude de résistance ou de scepticisme extrême crée une barrière invisible qui nuit à la qualité de la lecture. Cela ne veut pas dire qu'il faut tout accepter aveuglément — mais laissez la porte ouverte.</p>
+
+<h3>5. Après la consultation</h3>
+<p>Notez les informations reçues et laissez-leur du temps pour résonner. Certains messages ne trouvent leur sens que des jours, des semaines ou même des mois plus tard. Une consultation de voyance est une graine — vous êtes celui ou celle qui la fait germer.</p>
+    `
+  },
+  {
+    id:2,
+    icon:'⭐',
+    cat:'Astrologie',
+    title:'Les 4 éléments astrologiques : feu, terre, air, eau',
+    excerpt:'Chaque signe du zodiaque appartient à un élément. Comprendre votre élément, c\'est comprendre la nature profonde de votre énergie et de vos réactions face à la vie.',
+    date:'Mars 2026',
+    read:'6 min',
+    content:`
+<p>L'astrologie occidentale repose sur quatre éléments fondamentaux : le Feu, la Terre, l'Air et l'Eau. Chacun gouverne trois signes du zodiaque et détermine une façon d'être au monde, de ressentir les émotions et de réagir aux événements de la vie.</p>
+
+<h3>Le Feu — Bélier, Lion, Sagittaire</h3>
+<p>Les signes de Feu sont animés par une énergie ardente et créatrice. Ils agissent avant de réfléchir, s'embrasent rapidement d'enthousiasme et ont un besoin instinctif de liberté et de mouvement. Leur plus grande force est leur capacité à inspirer les autres — mais leur talon d'Achille reste l'impatience et la tendance à l'emportement.</p>
+<p>En amour, les natifs du Feu sont passionnés et généreux, mais ont besoin d'espace pour ne pas étouffer. En carrière, ils excellent dans les rôles de leadership où leur vision et leur audace font la différence.</p>
+
+<h3>La Terre — Taureau, Vierge, Capricorne</h3>
+<p>Les signes de Terre incarnent la stabilité, le pragmatisme et le sens des réalités. Ils construisent avec patience, avancent pas à pas et ne lâchent rien une fois qu'ils ont fixé un objectif. Leurs décisions sont mûrement réfléchies — parfois trop, au point de rater des opportunités par excès de prudence.</p>
+<p>En amour, ils sont loyaux et fiables, mais peuvent manquer de spontanéité. Ils ont besoin de sécurité matérielle et émotionnelle pour s'épanouir pleinement.</p>
+
+<h3>L'Air — Gémeaux, Balance, Verseau</h3>
+<p>Les signes d'Air vivent dans le monde des idées, de la communication et des échanges intellectuels. Curieux et adaptables, ils s'ennuient vite de la routine et ont besoin de stimulation mentale constante. Leur plus grand don est leur capacité à voir les choses sous plusieurs angles — mais cela peut aussi les rendre indécis.</p>
+<p>En amour, ils cherchent un partenaire complice intellectuel. La complicité mentale prime sur la passion physique.</p>
+
+<h3>L'Eau — Cancer, Scorpion, Poissons</h3>
+<p>Les signes d'Eau sont les plus intuitifs du zodiaque. Profondément empathiques, ils ressentent les émotions des autres comme si c'étaient les leurs. Leur monde intérieur est d'une richesse extraordinaire — mais cette sensibilité extrême peut les rendre vulnérables aux influences extérieures.</p>
+<p>En amour, ils donnent tout, jusqu'à se perdre. Leur plus grand défi est d'apprendre à établir des limites saines sans fermer leur cœur.</p>
+    `
+  },
+  {
+    id:3,
+    icon:'🔢',
+    cat:'Numérologie',
+    title:'Calculer son chemin de vie : ce que votre chiffre révèle',
+    excerpt:'Le chiffre de vie est l\'une des données les plus révélatrices de la numérologie. Calculé à partir de votre date de naissance, il trace les grandes lignes de votre mission incarnée.',
+    date:'Février 2026',
+    read:'7 min',
+    content:`
+<p>La numérologie est l'étude des vibrations numériques qui influencent notre existence. Parmi tous les chiffres numériques, le chemin de vie est le plus fondamental — il représente la trame de fond de votre existence, les leçons à apprendre et les dons que vous êtes venu exprimer.</p>
+
+<h3>Comment le calculer ?</h3>
+<p>Additionnez tous les chiffres de votre date de naissance jusqu'à obtenir un chiffre entre 1 et 9 (ou 11, 22, 33 — les nombres maîtres). Par exemple, pour le 14 mars 1985 : 1+4+0+3+1+9+8+5 = 31 → 3+1 = 4. Le chemin de vie est 4.</p>
+
+<h3>Les 9 chemins de vie</h3>
+<ul>
+  <li><strong>1 — Le Pionnier :</strong> Leadership, indépendance, force de caractère. Vous êtes venu ouvrir des portes.</li>
+  <li><strong>2 — Le Médiateur :</strong> Diplomatie, intuition, sens du partenariat. Vous excellez dans les coulisses.</li>
+  <li><strong>3 — Le Créateur :</strong> Expression, joie, communication. Votre mission est d'inspirer et de rayonner.</li>
+  <li><strong>4 — Le Bâtisseur :</strong> Rigueur, persévérance, sens du concret. Vous construisez pour durer.</li>
+  <li><strong>5 — L'Aventurier :</strong> Liberté, changement, polyvalence. Votre vie sera faite de transformations.</li>
+  <li><strong>6 — Le Nourricier :</strong> Amour, responsabilité, harmonie familiale. Vous êtes là pour prendre soin.</li>
+  <li><strong>7 — Le Chercheur :</strong> Analyse, spiritualité, intériorité. Votre chemin passe par la connaissance profonde.</li>
+  <li><strong>8 — Le Maître du Monde :</strong> Ambition, pouvoir, réussite matérielle. Vous êtes venu maîtriser le monde concret.</li>
+  <li><strong>9 — Le Sage :</strong> Humanisme, sagesse, achèvement. Votre mission est universelle.</li>
+</ul>
+
+<h3>Les nombres maîtres</h3>
+<p>Les chemins de vie 11, 22 et 33 ne se réduisent pas — ce sont des vibrations d'une intensité supérieure. Le 11 est le chemin de l'Illuminé, le 22 celui du Grand Bâtisseur, et le 33 celui du Grand Maître. Ces chemins exigent beaucoup mais offrent un potentiel exceptionnel.</p>
+
+<h3>Et après ?</h3>
+<p>Le chemin de vie n'est qu'un premier aperçu. La numérologie complète intègre également le nombre d'expression (nom complet), le nombre intime (voyelles) et le nombre de réalisation (consonnes) pour dresser un portrait vibratoire complet de votre âme.</p>
+    `
+  },
+  {
+    id:4,
+    icon:'🌙',
+    cat:'Rêves',
+    title:'Les 10 rêves les plus courants et leur signification',
+    excerpt:'Tomber dans le vide, être poursuivi, voler… Ces rêves récurrents ne sont pas anodins. Découvrez ce que votre inconscient cherche à vous dire à travers ces symboles universels.',
+    date:'Février 2026',
+    read:'6 min',
+    content:`
+<p>Les rêves sont le langage de l'inconscient — une façon pour votre psyché de traiter les émotions refoulées, les peurs non résolues et les désirs inexprimés. Certains thèmes oniriques sont universels, partagés par des millions de personnes à travers les cultures et les époques.</p>
+
+<h3>1. Tomber dans le vide</h3>
+<p>L'un des rêves les plus fréquents. Il symbolise généralement une perte de contrôle dans un domaine de votre vie, une insécurité profonde ou la peur de l'échec. Si vous faites ce rêve régulièrement, demandez-vous dans quel aspect de votre vie vous vous sentez instable.</p>
+
+<h3>2. Être poursuivi</h3>
+<p>Vous fuyez quelque chose ou quelqu'un sans jamais pouvoir lui échapper. Ce rêve traduit une fuite devant un problème, une émotion ou une situation que vous n'arrivez pas à affronter dans votre vie éveillée. Ce qui vous poursuit est souvent une partie de vous-même.</p>
+
+<h3>3. Voler librement</h3>
+<p>Rêver qu'on vole est généralement un signe positif — il symbolise la liberté, la légèreté et le désir de s'élever au-dessus des contraintes du quotidien. C'est souvent le signe que vous traversez une période de confiance et d'expansion.</p>
+
+<h3>4. Perdre ses dents</h3>
+<p>Ce rêve angoissant est associé aux questions d'image de soi, de communication et de peur du jugement des autres. Il peut également indiquer une situation dans laquelle vous vous sentez impuissant ou exposé.</p>
+
+<h3>5. Être nu en public</h3>
+<p>La vulnérabilité et la peur d'être "démasqué" sont au cœur de ce rêve. Il reflète souvent un syndrome de l'imposteur ou la crainte que les autres découvrent vos failles cachées.</p>
+
+<h3>6. Rater un examen</h3>
+<p>Très commun chez les adultes, même bien après leurs études. Il représente la peur de l'échec, le sentiment de ne pas être à la hauteur ou l'anxiété face à un défi important dans votre vie actuelle.</p>
+
+<h3>7. Conduire une voiture sans freins</h3>
+<p>Le véhicule symbolise votre vie et votre trajectoire. L'absence de freins traduit un sentiment de perte de maîtrise sur le cours des événements — ou parfois l'inverse : une résistance à "freiner" un projet ou une relation qui devrait s'arrêter.</p>
+
+<h3>8. Rencontrer des personnes décédées</h3>
+<p>Ces rêves sont souvent porteurs de messages profonds. La personne décédée peut symboliser une partie de vous-même, un aspect de votre passé ou véritablement un message de l'au-delà selon votre sensibilité spirituelle.</p>
+
+<h3>9. Se retrouver dans une maison inconnue</h3>
+<p>La maison en rêve représente votre psyché. Explorer des pièces inconnues signifie que vous découvrez de nouvelles facettes de vous-même. Une maison menaçante indique des zones d'ombre non explorées.</p>
+
+<h3>10. Être en retard ou perdu</h3>
+<p>Ce rêve exprime souvent une anxiété liée au temps, aux obligations ou à la peur de rater quelque chose d'important. Il peut refléter un sentiment de surcharge ou de manque de direction dans votre vie quotidienne.</p>
+    `
+  },
+  {
+    id:5,
+    icon:'💫',
+    cat:'Spiritualité',
+    title:'Médium ou voyant : quelle est la différence ?',
+    excerpt:'Ces deux termes sont souvent confondus, mais ils désignent des pratiques et des dons bien distincts. Comprendre la différence vous aidera à choisir le type de consultation dont vous avez besoin.',
+    date:'Janvier 2026',
+    read:'4 min',
+    content:`
+<p>Dans l'imaginaire collectif, les termes "médium" et "voyant" sont souvent utilisés indifféremment. Pourtant, ils recouvrent des pratiques distinctes, même si certaines personnes possèdent les deux types de dons simultanément.</p>
+
+<h3>Le voyant — percevoir le présent et le futur</h3>
+<p>Le voyant est quelqu'un qui perçoit des informations sur le passé, le présent ou l'avenir d'une personne — sans forcément faire appel à des entités spirituelles extérieures. Cette perception peut passer par des visions, des impressions, des ressentis physiques (clairsentience), des sons intérieurs (clairaudience) ou des images mentales (clairvoyance).</p>
+<p>La voyance s'intéresse principalement à la vie concrète de la personne consultante : amour, travail, famille, santé, argent. Le voyant lit les énergies en présence et les tendances qui se dégagent.</p>
+
+<h3>Le médium — communiquer avec l'au-delà</h3>
+<p>Le médium est un intermédiaire — un "medium" au sens latin du terme — entre le monde des vivants et celui des personnes décédées ou des entités spirituelles. Son don spécifique est la médiumnité : la capacité à recevoir des messages d'âmes qui ont quitté le plan physique.</p>
+<p>Une consultation médiumnique s'adresse principalement aux personnes qui souhaitent contacter un être cher décédé, obtenir un message de l'au-delà ou travailler sur des questions spirituelles profondes.</p>
+
+<h3>Les deux en même temps</h3>
+<p>Beaucoup de praticiens sont à la fois voyants et médiums. Ils peuvent passer d'un mode à l'autre selon les besoins de la consultation — lire les énergies de la vie présente d'une personne, puis ouvrir un canal de communication avec une âme défunte si cela est pertinent.</p>
+
+<h3>Comment choisir ?</h3>
+<p>Si vous traversez une période difficile et cherchez à mieux comprendre les tendances de votre vie amoureuse, professionnelle ou familiale — une consultation de voyance est adaptée. Si vous souhaitez renouer avec un proche décédé ou recevoir un message de l'au-delà — privilégiez un médium. Si vous n'êtes pas sûr, une consultation exploratoire avec un praticien expérimenté comme Marco vous permettra de déterminer ce dont vous avez le plus besoin.</p>
+    `
+  },
+  {
+    id:6,
+    icon:'🃏',
+    cat:'Tarot',
+    title:'Le tarot de Marseille : origines et symbolisme',
+    excerpt:'Le tarot de Marseille est l\'un des outils divinatoires les plus anciens et les plus riches de symbolisme. Plongée dans l\'histoire fascinante de ces 78 cartes qui parlent à l\'âme.',
+    date:'Janvier 2026',
+    read:'5 min',
+    content:`
+<p>Le tarot de Marseille est bien plus qu'un simple outil de divination — c'est un véritable livre symbolique, une encyclopédie visuelle de la condition humaine gravée en 78 images. Son histoire remonte au XVe siècle, et son influence sur la pensée ésotérique occidentale est immense.</p>
+
+<h3>Origines historiques</h3>
+<p>Les premières traces du tarot en Europe datent du nord de l'Italie au XVe siècle, où ces cartes étaient utilisées pour un jeu de cour avant de devenir des outils divinatoires. Le nom "Marseille" s'est imposé au XVIIe siècle, lorsque la ville française est devenue le principal centre de fabrication et d'exportation de ces jeux de cartes.</p>
+<p>Le tarot de Marseille tel que nous le connaissons aujourd'hui a été standardisé par des maîtres cartiers marseillais. Sa version la plus célèbre, celle de Nicolas Conver (1760), reste une référence absolue pour les tarologues du monde entier.</p>
+
+<h3>Structure du jeu</h3>
+<p>Le tarot est composé de 78 cartes divisées en deux grands groupes. Les 22 Arcanes Majeurs (de 0, Le Mat, à XXI, Le Monde) représentent les grandes forces archétypales — des figures universelles comme L'Impératrice, La Mort, L'Étoile ou Le Jugement. Les 56 Arcanes Mineurs, divisés en quatre couleurs (Épées, Coupes, Bâtons, Deniers), décrivent les situations concrètes de la vie quotidienne.</p>
+
+<h3>Le symbolisme des couleurs</h3>
+<ul>
+  <li><strong>Les Coupes</strong> : le monde émotionnel, les relations, l'amour, l'intuition</li>
+  <li><strong>Les Épées</strong> : la pensée, les conflits, les défis intellectuels et les épreuves</li>
+  <li><strong>Les Bâtons</strong> : l'énergie créatrice, le travail, les projets, la volonté</li>
+  <li><strong>Les Deniers</strong> : la matière, l'argent, le corps, les réalités concrètes</li>
+</ul>
+
+<h3>Tarot et voyance</h3>
+<p>Dans une consultation de voyance, le tarot n'est pas un oracle magique qui "prédit" l'avenir de manière mécanique. C'est plutôt un miroir qui amplifie la perception intuitive du voyant et lui permet de structurer le message qu'il reçoit. Les cartes servent de point de focus — elles aident à fixer l'attention et à ouvrir le canal intuitif.</p>
+<p>Marco utilise le tarot comme l'un de ses outils de lecture, en combinaison avec d'autres perceptions directes, pour offrir une guidance la plus précise et la plus complète possible.</p>
+    `
+  }
+];
+
+// RENDER GRID
+function renderGrid(){
+  const grid=document.getElementById('articlesGrid');
+  grid.innerHTML=ARTICLES.map(a=>`
+    <div class="article-card" onclick="showArticle(${a.id})">
+      <div class="article-thumb">${a.icon}</div>
+      <div class="article-body">
+        <span class="article-cat">${a.cat}</span>
+        <div class="article-title">${a.title}</div>
+        <p class="article-excerpt">${a.excerpt}</p>
+        <div class="article-meta">
+          <span class="article-date">${a.date}</span>
+          <span class="article-read">Lire · ${a.read}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function showArticle(id){
+  const a=ARTICLES.find(x=>x.id===id);
+  if(!a) return;
+  document.getElementById('blogList').style.display='none';
+  const view=document.getElementById('articleView');
+  document.getElementById('viewCat').textContent=a.cat+' · '+a.read+' de lecture';
+  document.getElementById('viewTitle').textContent=a.title;
+  document.getElementById('viewMeta').textContent='Par Marco Médium · '+a.date;
+  document.getElementById('viewContent').innerHTML=a.content+`
+    <div class="article-cta">
+      <p>Vous souhaitez aller plus loin ? Marco Médium est disponible pour une consultation personnalisée.</p>
+      <a href="index.html#consultation" class="btn-cta">✦ Prendre rendez-vous</a>
+    </div>`;
+  view.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showList(){
+  document.getElementById('articleView').classList.remove('show');
+  document.getElementById('blogList').style.display='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function subscribeNewsletter(){
+  const email=document.getElementById('nlEmail').value.trim();
+  if(!email||!email.includes('@')) return;
+  document.getElementById('nlEmail').value='';
+  document.querySelector('.newsletter p').textContent='✦ Merci ! Vous recevrez bientôt les prochains articles de Marco.';
+}
+
+renderGrid();
+</script>
+</body>
+</html>
