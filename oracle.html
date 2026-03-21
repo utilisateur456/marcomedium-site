@@ -443,121 +443,123 @@
 </footer>
 
 <script>
-(function(){const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');let W,H,stars=[],neb=[];function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}function create(){stars=Array.from({length:180},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,alpha:Math.random()*.7+.1,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.005,color:Math.random()>.8?'201,168,76':Math.random()>.6?'167,139,250':'255,255,255'}));neb=Array.from({length:5},()=>({x:Math.random()*W,y:Math.random()*H*.8,r:Math.random()*200+100,alpha:Math.random()*.05+.01,color:Math.random()>.5?'139,92,246':'201,168,76'}));}function draw(){ctx.clearRect(0,0,W,H);neb.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,`rgba(${n.color},${n.alpha})`);g.addColorStop(1,'transparent');ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();});stars.forEach(s=>{s.tw+=s.ts;const a=s.alpha*(0.5+.5*Math.sin(s.tw));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${s.color},${a})`;ctx.fill();});requestAnimationFrame(draw);}window.addEventListener('resize',()=>{resize();create();});resize();create();draw();})();
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
-document.getElementById('burger').addEventListener('click',function(){const l=document.querySelector('.nav-links');l.style.cssText=l.style.display==='flex'?'':'display:flex;flex-direction:column;position:fixed;top:65px;left:0;right:0;background:rgba(6,4,15,.98);padding:24px;gap:20px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);z-index:99;';});
-const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Stars
+(function(){
+var canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');
+var W,H,stars=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(var i=0;i<120;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.012+.004,t:Math.random()*Math.PI*2});}
+function draw(){ctx.clearRect(0,0,W,H);stars.forEach(function(s){s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(220,210,255,'+s.o+')';ctx.fill();});requestAnimationFrame(draw);}
+resize();initStars();draw();
+window.addEventListener('resize',function(){resize();initStars();});
+})();
+
+// Nav
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);});
+document.getElementById('navBurger').addEventListener('click',function(){document.getElementById('navLinks').classList.toggle('open');});
+
+// Reveal
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+// Status
+(function(){var dot=document.querySelector('.live-dot');if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');})();
+
+// Scroll top
+window.addEventListener('scroll',function(){var s=window.scrollY+window.innerHeight,t=document.documentElement.scrollHeight;document.getElementById('scrollTop').classList.toggle('show',s>=t-200);});
 
 // Card data
-const CARDS=[
-  {sym:'☀️',name:'Le Soleil',meaning:'Lumière, joie, succès'},
-  {sym:'🌙',name:'La Lune',meaning:'Mystère, intuition, rêves'},
-  {sym:'⭐',name:'L\'Étoile',meaning:'Espoir, guidance, renouveau'},
-  {sym:'⚡',name:'La Tour',meaning:'Transformation, révélation'},
-  {sym:'⚖️',name:'La Justice',meaning:'Équilibre, vérité, karma'},
-  {sym:'🔮',name:'La Prêtresse',meaning:'Sagesse cachée, intuition'},
-  {sym:'🌍',name:'Le Monde',meaning:'Accomplissement, complétude'},
-  {sym:'💫',name:'L\'Étoile filante',meaning:'Opportunité, timing parfait'},
-  {sym:'🦋',name:'La Transformation',meaning:'Métamorphose, évolution'},
-  {sym:'🌊',name:'L\'Eau vive',meaning:'Émotions, flux, purification'},
-  {sym:'🔥',name:'Le Feu sacré',meaning:'Passion, énergie, créativité'},
-  {sym:'🌿',name:'La Nature',meaning:'Croissance, fertilité, abondance'},
-  {sym:'👁️',name:'L\'Œil divin',meaning:'Conscience, perception, éveil'},
-  {sym:'🗝️',name:'La Clé',meaning:'Solutions, accès, révélation'},
-  {sym:'🕊️',name:'La Paix',meaning:'Harmonie, réconciliation'},
-  {sym:'🌺',name:'La Fleur',meaning:'Beauté, amour, épanouissement'},
-  {sym:'⚓',name:'L\'Ancre',meaning:'Stabilité, fondation, sécurité'},
-  {sym:'🦅',name:'L\'Aigle',meaning:'Vision, hauteur, liberté'},
-  {sym:'🌈',name:'L\'Arc-en-ciel',meaning:'Promesse, renouveau, joie'},
-  {sym:'💎',name:'Le Diamant',meaning:'Valeur, clarté, préciosité'},
-  {sym:'🌙',name:'Le Croissant',meaning:'Cycles, renouveau, féminin'},
-  {sym:'🏔️',name:'La Montagne',meaning:'Défis, accomplissement, hauteur'}
+var CARDS=[
+  {sym:"Soleil",name:"Le Soleil",meaning:"Lumiere, joie, succes"},
+  {sym:"Lune",name:"La Lune",meaning:"Mystere, intuition, reves"},
+  {sym:"Etoile",name:"L'Etoile",meaning:"Espoir, guidance, renouveau"},
+  {sym:"Tour",name:"La Tour",meaning:"Transformation, revelation"},
+  {sym:"Justice",name:"La Justice",meaning:"Equilibre, verite, karma"},
+  {sym:"Pretresse",name:"La Pretresse",meaning:"Sagesse cachee, intuition"},
+  {sym:"Monde",name:"Le Monde",meaning:"Accomplissement, completude"},
+  {sym:"Chance",name:"La Chance",meaning:"Opportunite, timing parfait"},
+  {sym:"Metamorphose",name:"La Metamorphose",meaning:"Changement, evolution"},
+  {sym:"Eau",name:"L'Eau vive",meaning:"Emotions, flux, purification"},
+  {sym:"Feu",name:"Le Feu sacre",meaning:"Passion, energie, creativite"},
+  {sym:"Nature",name:"La Nature",meaning:"Croissance, fertilite, abondance"},
+  {sym:"Conscience",name:"La Conscience",meaning:"Perception, eveil, clarte"},
+  {sym:"Cle",name:"La Cle",meaning:"Solutions, acces, revelation"},
+  {sym:"Paix",name:"La Paix",meaning:"Harmonie, reconciliation"},
+  {sym:"Fleur",name:"La Fleur",meaning:"Beaute, amour, epanouissement"},
+  {sym:"Ancre",name:"L'Ancre",meaning:"Stabilite, fondation, securite"},
+  {sym:"Aigle",name:"L'Aigle",meaning:"Vision, hauteur, liberte"},
+  {sym:"Arc-en-ciel",name:"L'Arc-en-ciel",meaning:"Promesse, renouveau, joie"},
+  {sym:"Diamant",name:"Le Diamant",meaning:"Valeur, clarte, preciosite"},
+  {sym:"Croissant",name:"Le Croissant",meaning:"Cycles, renouveau, feminin"},
+  {sym:"Montagne",name:"La Montagne",meaning:"Defis, accomplissement, hauteur"}
 ];
 
-const SPREADS={
-  1:{count:1,labels:['Énergie du Jour']},
-  3:{count:3,labels:['Passé','Présent','Futur']},
-  5:{count:5,labels:['Situation','Obstacles','Fondation','Conseil','Issue']}
+var SPREADS={
+  1:{count:1,labels:["Energie du Jour"]},
+  3:{count:3,labels:["Passe","Present","Futur"]},
+  5:{count:5,labels:["Situation","Obstacles","Fondation","Conseil","Issue"]}
 };
 
-let currentSpread=1;
-let selectedCards=[]; // cartes cliquées par l'utilisateur
-let shuffledDeck=[]; // deck mélangé aléatoirement au chargement
+var currentSpread=1;
+var selectedCards=[];
+var shuffledDeck=[];
 
 function buildDeck(){
-  const deck=document.getElementById('card-deck');
+  var deck=document.getElementById('card-deck');
   deck.innerHTML='';
   selectedCards=[];
   updateDrawBtn();
-  const spread=SPREADS[currentSpread];
-  const needed=spread.count;
-
-  // Mélanger le deck
-  shuffledDeck=[...CARDS].sort(()=>Math.random()-.5);
-
-  // Afficher exactement needed+3 cartes (toutes face cachée, à dos visible)
-  const total=Math.min(needed+3, 8);
-  for(let i=0;i<total;i++){
-    const wrap=document.createElement('div');
-    wrap.className='tarot-card-wrap';
-
-    const posLabel=document.createElement('div');
-    posLabel.className='card-pos-label';
-    posLabel.textContent=i<needed?(spread.labels[i]||'Carte '+(i+1)):'';
-
-    const card=document.createElement('div');
-    card.className='tarot-card';
-    card.dataset.slotIdx=i;
-    card.innerHTML='<div class="card-back"></div><div class="card-front"></div>';
-
-    card.addEventListener('click',function(){
-      if(this.classList.contains('flipped')) return;
-      const slot=parseInt(this.dataset.slotIdx);
-      // Vérifier qu'on n'a pas déjà sélectionné toutes les cartes nécessaires
-      if(selectedCards.length>=needed) return;
-
-      // Assigner une carte du deck mélangé à ce slot
-      const cardData=shuffledDeck[slot];
-      this.dataset.assignedCard=JSON.stringify(cardData);
-      selectedCards.push({slot, cardData, label: spread.labels[slot]||'Carte '+(slot+1)});
-
-      // Flip
-      this.classList.add('flipped');
-      const front=this.querySelector('.card-front');
-      setTimeout(()=>{
-        front.innerHTML='<span style="font-size:2rem">'+cardData.sym+'</span>'
-          +'<span style="font-family:Cinzel,serif;font-size:.65rem;letter-spacing:.08em;color:#EDE9F8;margin-top:4px">'+cardData.name+'</span>';
-      },350);
-
-      updateDrawBtn();
-    });
-
-    wrap.appendChild(posLabel);
-    wrap.appendChild(card);
-    deck.appendChild(wrap);
+  var spread=SPREADS[currentSpread];
+  var needed=spread.count;
+  shuffledDeck=CARDS.slice().sort(function(){return Math.random()-.5;});
+  var total=Math.min(needed+3,8);
+  for(var i=0;i<total;i++){
+    (function(idx){
+      var wrap=document.createElement('div');
+      wrap.className='tarot-card-wrap';
+      var posLabel=document.createElement('div');
+      posLabel.className='card-pos-label';
+      posLabel.textContent=idx<needed?(spread.labels[idx]||'Carte '+(idx+1)):'';
+      var card=document.createElement('div');
+      card.className='tarot-card';
+      card.innerHTML='<div class="card-back"></div><div class="card-front"></div>';
+      card.addEventListener('click',function(){
+        if(this.classList.contains('flipped')) return;
+        if(selectedCards.length>=needed) return;
+        var cardData=shuffledDeck[idx];
+        selectedCards.push({slot:idx,cardData:cardData,label:spread.labels[idx]||'Carte '+(idx+1)});
+        this.classList.add('flipped');
+        var front=this.querySelector('.card-front');
+        var self=this;
+        setTimeout(function(){
+          front.innerHTML='<span style="font-size:.9rem;font-family:Cinzel,serif;color:#E2C97E">'+cardData.sym+'</span>'
+            +'<span style="font-size:.6rem;font-family:Cinzel,serif;color:#EDE9F8;margin-top:4px;display:block">'+cardData.name+'</span>';
+        },350);
+        updateDrawBtn();
+      });
+      wrap.appendChild(posLabel);
+      wrap.appendChild(card);
+      deck.appendChild(wrap);
+    })(i);
   }
 }
 
 function updateDrawBtn(){
-  const needed=SPREADS[currentSpread].count;
-  const btn=document.getElementById('btn-draw');
-  const remaining=needed-selectedCards.length;
+  var needed=SPREADS[currentSpread].count;
+  var btn=document.getElementById('btn-draw');
+  var remaining=needed-selectedCards.length;
   if(remaining>0){
     btn.disabled=true;
-    btn.textContent=remaining===needed
-      ? '🃏 Choisissez '+needed+' carte'+(needed>1?'s':'')
-      : '🃏 Encore '+remaining+' carte'+(remaining>1?'s à choisir':'à choisir');
+    btn.textContent=remaining===needed?'Choisissez '+needed+' carte'+(needed>1?'s':''):'Encore '+remaining+' carte'+(remaining>1?'s a choisir':'a choisir');
   } else {
     btn.disabled=false;
-    btn.textContent='✨ Révéler le message de Marco';
+    btn.textContent='Reveler le message de Marco';
   }
 }
 
-// Spread selector
-document.querySelectorAll('.spread-type-btn').forEach(btn=>{
+document.querySelectorAll('.spread-type-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
-    document.querySelectorAll('.spread-type-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.spread-type-btn').forEach(function(b){b.classList.remove('active');});
     this.classList.add('active');
     currentSpread=parseInt(this.dataset.spread);
     buildDeck();
@@ -567,134 +569,79 @@ document.querySelectorAll('.spread-type-btn').forEach(btn=>{
 
 buildDeck();
 
-
-// Lecture dynamique — jamais le même texte
-function generateDynamicReading(cards, spread, intention, seed){
-  const n=parseInt((seed||Date.now().toString()).replace(/[^0-9]/g,'').slice(-8))||1;
-  const pick=(arr,offset)=>arr[((n>>>(offset||0))&0xFF)%arr.length];
-
-  const ouvertures=[
-    'Ce tirage ne s'est pas fait par hasard.',
-    'Les cartes que vous avez choisies portent un message précis.',
-    'Ce que ces cartes révèlent mérite toute votre attention.',
-    'L'énergie de ce tirage est saisissante — regardez-la en face.',
-    'Votre intuition vous a guidé vers exactement ce dont vous aviez besoin.',
-    'Ces cartes parlent avec une clarté inhabituelle.',
-  ];
-
-  const transitions=[
-    'Regardez de plus près :',
-    'Le message est limpide :',
-    'Ce n'est pas anodin —',
-    'L'énergie parle d'elle-même :',
-    'Voici ce que je lis dans ce tirage :',
-  ];
-
-  const conseils=[
-    'Ne cherchez pas à forcer. Ce qui doit venir viendra, à condition que vous restiez ouvert.',
-    'Agissez maintenant — l'énergie est favorable à ceux qui osent faire le premier pas.',
-    'Observez les coïncidences autour de vous dans les prochains jours. Elles ne sont pas anodines.',
-    'Un pas suffit. Vous n'avez pas besoin de voir tout le chemin pour commencer à avancer.',
-    'Faites confiance à ce que vous ressentez, pas seulement à ce que vous voyez.',
-    'Quelque chose en vous sait déjà la réponse. Arrêtez de chercher à l'extérieur.',
-  ];
-
-  let txt = pick(ouvertures,0);
-  if(intention) txt += ' Votre question sur "'+intention+'" est au cœur de ce qui suit.';
-  txt += '\n\n';
-
+function generateDynamicReading(cards,spread,intention,seed){
+  var n=parseInt(String(seed||Date.now()).replace(/[^0-9]/g,'').slice(-6))||1;
+  var ouvertures=["Ce tirage ne s'est pas fait par hasard.","Les cartes que vous avez choisies portent un message precis.","Ce que ces cartes revelent merite toute votre attention.","L'energie de ce tirage est saisissante.","Ces cartes parlent avec une clarte inhabituelle."];
+  var conseils=["Ne cherchez pas a forcer. Laissez venir ce qui doit venir.","Agissez maintenant - l'energie est favorable a ceux qui osent.","Observez les signes autour de vous dans les prochains jours.","Un pas suffit. Vous n'avez pas besoin de voir tout le chemin.","Faites confiance a ce que vous ressentez."];
+  var txt=ouvertures[n%ouvertures.length];
+  if(intention) txt+=' Votre question sur "'+intention+'" est au coeur de ce qui suit.';
+  txt+='\n\n';
   if(cards.length===1){
-    const c=cards[0];
-    txt += pick(transitions,1)+' '+c.name+' — '+c.meaning+'. Cette carte est votre miroir du moment. Elle reflète avec une précision troublante l'énergie qui vous habite et la direction que prend votre vie en ce moment précis. Ce n'est pas une coïncidence — c'est exactement ce dont vous aviez besoin d'entendre.\n\n';
+    txt+=cards[0].name+' - '+cards[0].cardData.meaning+'. Cette carte est votre miroir du moment. Elle reflète avec precision l\'energie qui vous habite actuellement.\n\n';
   } else if(cards.length===3){
-    txt += cards[0].label+' — '+cards[0].name+' ('+cards[0].meaning+'). Ce que vous avez traversé a forgé en vous quelque chose de solide et de précieux. Ne le reniez pas.\n\n';
-    txt += cards[1].label+' — '+cards[1].name+' ('+cards[1].meaning+'). C'est là où vous en êtes maintenant. '+pick(transitions,2)+' une transformation est en cours — vous la sentez probablement déjà sans savoir l'nommer.\n\n';
-    txt += cards[2].label+' — '+cards[2].name+' ('+cards[2].meaning+'). Voilà où tout cela vous mène. Ce n'est pas une promesse — c'est une direction. À vous de la saisir ou de la laisser passer.\n\n';
+    txt+=cards[0].label+' : '+cards[0].cardData.name+' ('+cards[0].cardData.meaning+'). Ce que vous avez vecu a forge en vous quelque chose de solide.\n\n';
+    txt+=cards[1].label+' : '+cards[1].cardData.name+' ('+cards[1].cardData.meaning+'). Une transformation est en cours - vous la sentez probablement deja.\n\n';
+    txt+=cards[2].label+' : '+cards[2].cardData.name+' ('+cards[2].cardData.meaning+'). Voila ou tout cela vous mene. A vous de saisir cette direction.\n\n';
   } else {
-    const roles=['C'est le cœur de votre situation actuelle.','Cela représente ce qui freine — ou ce qui propulse. À vous de discerner lequel.','C'est votre fondation, ce sur quoi vous pouvez vraiment compter.','Voici le conseil que les cartes vous adressent directement.','Et voici l'issue probable si vous suivez cette énergie.'];
-    cards.forEach((c,i)=>{
-      txt += c.label+' — '+c.name+' : '+c.meaning+'. '+(roles[i]||'')+' ';
-    });
-    txt += '\n\n';
+    var roles=["Coeur de votre situation actuelle.","Ce qui freine ou propulse.","Votre fondation, ce sur quoi compter.","Le conseil direct des cartes.","L'issue probable si vous suivez cette energie."];
+    cards.forEach(function(c,i){txt+=c.label+' : '+c.cardData.name+' - '+c.cardData.meaning+'. '+roles[i]+'\n';});
+    txt+='\n';
   }
-
-  txt += pick(conseils,3);
+  txt+=conseils[(n+3)%conseils.length];
   return txt;
 }
 
-// Draw — utilise les cartes sélectionnées par l'utilisateur
-document.getElementById('btn-draw').addEventListener('click',async function(){
-  const intention=document.getElementById('intention').value.trim();
-  const spread=SPREADS[currentSpread];
-  
-  // Utiliser exactement les cartes cliquées par l'utilisateur
-  const drawnCards=selectedCards.map(s=>({...s.cardData, label:s.label}));
-
-  this.disabled=true;
+document.getElementById('btn-draw').addEventListener('click',function(){
+  var intention=document.getElementById('intention').value.trim();
+  var spread=SPREADS[currentSpread];
+  var drawnCards=selectedCards.map(function(s){return {cardData:s.cardData,label:s.label};});
+  var self=this;
+  self.disabled=true;
   document.getElementById('oracle-loading').style.display='block';
   document.getElementById('oracle-result').style.display='none';
 
-  const today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-  const cardsDesc=drawnCards.map((c,i)=>`${c.label||spread.labels[i]||'Carte '+(i+1)}: ${c.name} (${c.meaning})`).join('\n');
-  
-  const prompt=`Tu es Marco Médium, voyant suisse. Voici un tirage de ${spread.count} carte(s) oracle pour aujourd'hui ${today}.
+  var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  var cardsDesc=drawnCards.map(function(c,i){return (c.label||'Carte '+(i+1))+': '+c.cardData.name+' ('+c.cardData.meaning+')';}).join('\n');
 
-${intention?'Intention de la personne: '+intention+'\n\n':''}Cartes tirées:
-${cardsDesc}
+  var prompt='Tu es Marco Medium, voyant suisse. Tirage de '+spread.count+' carte(s) oracle pour '+today+'.\n\n'+(intention?'Intention: '+intention+'\n\n':'')+'Cartes:\n'+cardsDesc+'\n\nDonne un message de guidance de 3-4 paragraphes (180 mots). Direct, bienveillant, authentique. Texte uniquement, pas de JSON.';
 
-Donne un message de guidance spirituelle de 3-4 paragraphes (environ 180 mots). 
-Commence par une introduction sur l'énergie générale du tirage.
-Interprète les cartes dans leur contexte et leur relation.
-Termine par un message d'action concret.
-Style: Marco Médium — direct, bienveillant, sans complaisance, authentique.
-Réponds uniquement en texte, pas de JSON ni de formatage markdown.`;
+  var seed=Date.now()+Math.random().toString(36).slice(2);
 
-  // Anti-cache unique
-  const seed=Date.now()+Math.random().toString(36).slice(2);
-  const promptFinal=prompt+'\n[ref:'+seed+']';
+  var ctrl=new AbortController();
+  var timer=setTimeout(function(){ctrl.abort();},15000);
 
-  let message='';
-  try{
-    const ctrl=new AbortController();
-    const timer=setTimeout(()=>ctrl.abort(),15000);
-    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},
-      body:JSON.stringify({promptCustom:promptFinal}),
-      signal:ctrl.signal
-    });
+  fetch('https://super-band-24a0.utilisateur456.workers.dev/',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},
+    body:JSON.stringify({promptCustom:prompt+'['+seed+']'}),
+    signal:ctrl.signal
+  }).then(function(r){
     clearTimeout(timer);
     if(!r.ok) throw new Error('http');
-    const data=await r.json();
-    const txt=data.data||data.message||data.reply||'';
+    return r.json();
+  }).then(function(data){
+    var txt=data.data||data.message||data.reply||'';
     if(txt.length<40) throw new Error('empty');
-    message=txt;
-  }catch(e){
-    message=generateDynamicReading(drawnCards,spread,intention,seed);
-  }
+    displayResult(txt,drawnCards,spread);
+  }).catch(function(){
+    displayResult(generateDynamicReading(drawnCards,spread,intention,seed),drawnCards,spread);
+  }).finally(function(){
+    self.disabled=false;
+    buildDeck();
+  });
+});
 
+function displayResult(message,drawnCards,spread){
   document.getElementById('oracle-loading').style.display='none';
-  this.disabled=false;
-
-  // Display drawn cards
-  const dcd=document.getElementById('drawn-cards-display');
-  dcd.innerHTML=drawnCards.map((c,i)=>`
-    <div class="drawn-card-item">
-      <div class="drawn-card-visual">
-        <span class="dsym">${c.sym}</span>
-        <span class="dname">${c.name}</span>
-      </div>
-      <div class="drawn-card-pos">${c.label||spread.labels[i]||'Carte '+(i+1)}</div>
-    </div>
-  `).join('');
-  // Reset pour nouveau tirage possible
-  setTimeout(()=>buildDeck(), 100);
-
+  var dcd=document.getElementById('drawn-cards-display');
+  dcd.innerHTML=drawnCards.map(function(c,i){
+    return '<div class="drawn-card-item"><div class="drawn-card-visual"><span class="dsym">'+c.cardData.sym+'</span><span class="dname">'+c.cardData.name+'</span></div><div class="drawn-card-pos">'+(c.label||'Carte '+(i+1))+'</div></div>';
+  }).join('');
   document.getElementById('oracle-text').textContent=message;
-  const result=document.getElementById('oracle-result');
+  var result=document.getElementById('oracle-result');
   result.style.display='block';
   result.scrollIntoView({behavior:'smooth',block:'start'});
-});
+}
 
 document.getElementById('btn-new-draw').addEventListener('click',function(){
   document.getElementById('oracle-result').style.display='none';
@@ -704,12 +651,6 @@ document.getElementById('btn-new-draw').addEventListener('click',function(){
   document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});
 });
 
-// Scroll to top — apparaît en bas de page
-window.addEventListener('scroll',()=>{
-  const scrolled = window.scrollY + window.innerHeight;
-  const total = document.documentElement.scrollHeight;
-  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
-});
 </script>
 
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
