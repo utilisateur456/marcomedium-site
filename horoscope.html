@@ -3,269 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horoscope — Marco Médium</title>
-  <meta name="description" content="Consultez votre horoscope personnalisé avec Marco Médium. Guidance spirituelle pour chaque signe du zodiaque.">
+  <title>Horoscope Personnalisé — Marco Médium</title>
+  <meta name="description" content="Horoscope du jour et de la semaine personnalisé avec votre prénom et signe du zodiaque. Guidance spirituelle authentique par Marco Médium, Vaud Suisse.">
   <meta name="theme-color" content="#080612">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());
+    gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");
+  </script>
   <style>
-    :root {
-      --bg:#06040F;--bg2:#0D0820;--bg3:#130E2A;
-      --surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.06);
-      --border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.25);
-      --purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);
-      --gold:#C9A84C;--gold-light:#E2C97E;--gold-dim:rgba(201,168,76,0.12);
-      --text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;
-      --radius:16px;--radius-sm:10px;
-    }
+    :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--gold-dim:rgba(201,168,76,0.12);--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{overflow-x:hidden;max-width:100vw;}
-    html{scroll-behavior:smooth;}
-    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;overflow-x:hidden;}
+    html{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth;}
+    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;}
     #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
     .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);}
-    .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(139,92,246,0.1),transparent 70%);top:-250px;right:-200px;}
+    .glow-1{width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,0.1),transparent 70%);top:-200px;right:-150px;}
     .glow-2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent 70%);bottom:10%;left:-100px;}
 
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.9)0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.92) 0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
     nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
-    .nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);text-decoration:none;display:flex;align-items:center;gap:10px;}
-        .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
-    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
+    .nav-logo-img{height:72px;width:auto;max-width:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(201,168,76,0.45));transition:filter .3s;}
+    .nav-logo:hover .nav-logo-img{filter:drop-shadow(0 0 20px rgba(201,168,76,0.7));}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
     .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
     .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
-    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
     .nav-links a:hover{color:var(--gold-light);}
     .nav-links a.active{color:var(--gold);}
     .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
-    .nav-cta:hover{box-shadow:0 4px 24px rgba(201,168,76,.4);transform:translateY(-1px);}
-    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
     .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
-    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;}.nav-burger{display:flex;}}
+    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,4,15,.98);flex-direction:column;padding:16px 0;border-bottom:1px solid var(--border);}.nav-links.open{display:flex;}.nav-links li{width:100%;}.nav-links a{display:block;padding:14px 24px;}.nav-burger{display:flex;}.nav-logo-img{height:54px;max-width:160px;}}
 
-    /* PAGE HERO */
-    .page-hero{position:relative;z-index:2;padding:160px 48px 80px;text-align:center;max-width:800px;margin:0 auto;}
-    .page-hero .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
-    .page-hero .label::before,.page-hero .label::after{content:'';display:block;width:20px;height:1px;background:var(--gold-dim);}
-    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
-    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1.1rem;color:var(--text2);max-width:500px;margin:20px auto 0;opacity:0;animation:fadeUp .9s .7s forwards;}
+    .page-hero{position:relative;z-index:2;padding:140px 48px 40px;text-align:center;max-width:700px;margin:0 auto;}
+    .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
+    .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,.3);}
+    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
+    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1rem;color:var(--text2);margin-top:16px;opacity:0;animation:fadeUp .9s .7s forwards;}
 
-    /* CONTENT */
-    .content{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 48px 100px;}
-    @media(max-width:768px){.content{padding:0 24px 70px;}.page-hero{padding:140px 24px 60px;}}
+    .marco-intro{position:relative;z-index:2;text-align:center;margin-top:-10px;margin-bottom:32px;}
+    .marco-intro img{width:160px;height:auto;filter:drop-shadow(0 0 30px rgba(139,92,246,0.4));opacity:0;animation:fadeUp .8s 1s forwards;}
 
-    /* SIGNS GRID */
-    .signs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:60px;}
-    @media(max-width:900px){.signs-grid{grid-template-columns:repeat(3,1fr);}}
-    @media(max-width:600px){.signs-grid{grid-template-columns:repeat(2,1fr);gap:8px;}}
+    .content{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 48px 100px;}
+    @media(max-width:768px){.content{padding:0 20px 80px;}.page-hero{padding:120px 20px 32px;}}
 
-    .sign-card{
-      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
-      padding:20px 16px;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);
-      position:relative;overflow:hidden;
-    }
-    .sign-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(139,92,246,.15),transparent 70%);opacity:0;transition:opacity .3s;}
-    .sign-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 8px 32px rgba(139,92,246,.2);}
-    .sign-card:hover::before{opacity:1;}
-    .sign-card.selected{border-color:var(--purple);background:var(--purple-dim);box-shadow:0 0 24px rgba(139,92,246,.25);}
-    .sign-emoji{font-size:2rem;margin-bottom:8px;display:block;}
-    .sign-name{font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;color:var(--text);display:block;}
-    .sign-dates{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.06em;color:var(--text3);margin-top:4px;display:block;}
+    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;margin-bottom:36px;position:relative;overflow:hidden;}
+    .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+    .form-card h2{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;letter-spacing:.06em;margin-bottom:6px;}
+    .form-card > p{color:var(--text3);font-size:.88rem;margin-bottom:28px;}
 
-    /* RESULT */
-    .result-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px;position:relative;overflow:hidden;min-height:200px;transition:all .4s;}
-    .result-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--purple),var(--gold),transparent);}
-    .result-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;color:var(--text3);}
-    .result-placeholder .big-icon{font-size:3.5rem;margin-bottom:16px;opacity:.4;}
-    .result-placeholder p{font-family:'Inter',sans-serif;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;}
-    .result-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
-    .result-sign-icon{font-size:2.5rem;}
-    .result-sign-name{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:600;color:var(--text);}
-    .result-date{font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-top:4px;}
-    .result-text{font-size:1rem;color:var(--text2);line-height:1.85;white-space:pre-line;}
-    .result-text .first-letter{float:left;font-family:'Cinzel',serif;font-size:3.5rem;font-weight:700;line-height:.75;color:var(--gold-light);margin-right:6px;margin-top:4px;}
-    .result-domains{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px;}
-    @media(max-width:600px){.result-domains{grid-template-columns:1fr 1fr;}}
-    .domain-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;}
-    .domain-icon{font-size:1.2rem;margin-bottom:6px;display:block;}
-    .domain-title{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
-    .domain-text{font-size:.85rem;color:var(--text2);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+    .form-group label{display:block;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+    .form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;color:var(--text);font-family:'Lora',serif;font-size:16px;outline:none;transition:border-color .3s;}
+    .form-input:focus{border-color:var(--gold);}
+    .form-input::placeholder{color:var(--text3);}
 
-    /* LOADING */
-    .loading-state{display:none;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:20px;}
-    .crystal-ball{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(180,150,255,.8),rgba(100,50,200,.4),rgba(20,10,60,.9));box-shadow:0 0 30px rgba(139,92,246,.4),inset 0 0 20px rgba(255,255,255,.05);animation:float 3s ease-in-out infinite,glow 3s ease-in-out infinite;}
-    .loading-text{font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--text3);}
-    .loading-dots span{animation:blink 1.4s infinite;display:inline-block;}
-    .loading-dots span:nth-child(2){animation-delay:.2s;}
-    .loading-dots span:nth-child(3){animation-delay:.4s;}
+    .field-label{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:block;}
 
-    /* BTN */
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:14px 30px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;white-space:nowrap;}
-    .btn-gold{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;}
-    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4);}
-    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);}
-    .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-    .btn-purple{background:linear-gradient(135deg,var(--purple),#7C3AED);color:white;}
-    .btn-purple:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(139,92,246,.4);}
-    .btn-full{width:100%;}
-    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;}
+    .signs-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:24px;}
+    @media(max-width:600px){.signs-grid{grid-template-columns:repeat(4,1fr);gap:6px;}}
+    .sign-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 4px;text-align:center;cursor:pointer;transition:all .25s;user-select:none;-webkit-tap-highlight-color:transparent;}
+    .sign-chip:hover{border-color:var(--border2);}
+    .sign-chip.selected{background:var(--gold-dim);border-color:var(--gold);}
+    .sign-chip .s-emoji{font-size:1.4rem;display:block;margin-bottom:4px;}
+    .sign-chip .s-name{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text3);}
+    .sign-chip.selected .s-name{color:var(--gold);}
 
-    /* FOOTER */
-    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-    @media(max-width:600px){footer{padding:32px 24px;flex-direction:column;text-align:center;}}
-    .footer-brand{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;color:var(--gold-light);letter-spacing:.15em;}
-    .footer-links{display:flex;gap:24px;flex-wrap:wrap;}
-    .footer-links a{font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
+    .type-selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+    .type-btn{padding:16px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .3s;text-align:center;-webkit-tap-highlight-color:transparent;}
+    .type-btn:hover{border-color:var(--border2);}
+    .type-btn.active{background:var(--gold-dim);border-color:var(--gold);}
+    .type-btn .t-icon{font-size:1.5rem;display:block;margin-bottom:6px;}
+    .type-btn .t-label{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.1em;display:block;color:var(--text);}
+    .type-btn.active .t-label{color:var(--gold-light);}
+    .type-btn .t-sub{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--text3);margin-top:3px;display:block;}
+
+    .btn-generate{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.15em;border:none;border-radius:50px;cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;}
+    .btn-generate:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4);}
+    .btn-generate:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+    .loading{display:none;text-align:center;padding:48px 20px;}
+    .loading.show{display:block;}
+    .stars-loader{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
+    .stars-loader span{font-size:1.5rem;animation:starPulse 1.4s ease-in-out infinite;}
+    .stars-loader span:nth-child(2){animation-delay:.2s;}
+    .stars-loader span:nth-child(3){animation-delay:.4s;}
+    .loading p{font-family:'Lora',serif;font-style:italic;color:var(--text2);}
+
+    .result{display:none;}
+    .result.show{display:block;animation:fadeUp .8s forwards;}
+
+    .result-header{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.25);border-radius:var(--radius);padding:32px;margin-bottom:24px;text-align:center;}
+    .result-sign{font-size:3.5rem;display:block;margin-bottom:8px;}
+    .result-title{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,#fff,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+    .result-subtitle{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);}
+
+    .chiffres-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+    .chiffre-chip{flex:1;min-width:90px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 8px;text-align:center;}
+    .chiffre-val{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;color:var(--gold);display:block;line-height:1.2;}
+    .chiffre-label{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);display:block;margin-top:6px;}
+
+    .horoscope-text-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;margin-bottom:24px;position:relative;}
+    .horoscope-text-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+    .section-tag{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block;}
+    .horoscope-text{color:var(--text2);font-size:.97rem;line-height:1.95;white-space:pre-line;}
+    .horoscope-text::first-letter{font-family:'Cinzel',serif;font-size:3rem;font-weight:700;float:left;line-height:.85;margin-right:8px;margin-top:6px;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+    .domains-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+    @media(max-width:600px){.domains-row{grid-template-columns:1fr;}}
+    .domain-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;transition:border-color .3s;}
+    .domain-box:hover{border-color:var(--border2);}
+    .domain-icon{font-size:1.4rem;display:block;margin-bottom:8px;}
+    .domain-title{font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
+    .domain-text{color:var(--text2);font-size:.85rem;line-height:1.75;}
+
+    .conseil-box{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.2);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:28px;}
+    .conseil-box .q{font-size:3rem;color:rgba(201,168,76,.15);font-family:'Cinzel',serif;line-height:.5;display:block;margin-bottom:16px;}
+    .conseil-box p{font-family:'Lora',serif;font-style:italic;color:var(--text2);font-size:.97rem;line-height:1.85;}
+    .conseil-box .sig{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:16px;display:block;}
+
+    .btn-nouveau{display:block;margin:0 auto;padding:13px 36px;background:transparent;border:1px solid var(--border2);border-radius:50px;color:var(--text2);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.14em;cursor:pointer;transition:all .3s;}
+    .btn-nouveau:hover{border-color:var(--gold);color:var(--gold);}
+
+    .promo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px;}
+    @media(max-width:600px){.promo-grid{grid-template-columns:1fr;}}
+    .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center;text-decoration:none;color:var(--text);transition:all .3s;display:block;}
+    .promo-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+    .promo-card .p-icon{font-size:1.8rem;display:block;margin-bottom:10px;}
+    .promo-card .p-title{font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;}
+    .promo-card .p-desc{font-size:.78rem;color:var(--text3);}
+
+    #scrollTop{position:fixed;bottom:36px;right:40px;z-index:200;background:none;border:none;padding:8px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s,transform .4s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+    #scrollTop .arrow-shaft{width:1px;height:28px;background:linear-gradient(to top,transparent,rgba(201,168,76,0.6));}
+    #scrollTop .arrow-head{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid rgba(201,168,76,0.7);filter:drop-shadow(0 0 4px rgba(201,168,76,0.5));order:-1;}
+    #scrollTop.show{opacity:1;pointer-events:all;}
+    #scrollTop:hover{transform:translateY(-5px);}
+
+    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;text-align:center;}
+    .footer-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);margin-bottom:16px;}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 28px;margin-bottom:20px;list-style:none;}
+    .footer-links a{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
     .footer-links a:hover{color:var(--gold);}
+    .footer-copy{font-size:.75rem;color:var(--text3);}
+    @media(max-width:768px){footer{padding:32px 20px;}}
 
-    /* REVEAL */
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+    @keyframes starPulse{0%,100%{transform:scale(1);opacity:.4;}50%{transform:scale(1.3);opacity:1;}}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s;}
     .reveal.visible{opacity:1;transform:none;}
 
-    /* CROSS PROMO */
-    .cross-promo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:60px;}
-    @media(max-width:600px){.cross-promo{grid-template-columns:1fr;}}
-    .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;text-decoration:none;color:inherit;transition:all .3s;display:flex;flex-direction:column;gap:10px;}
-    .promo-card:hover{border-color:var(--border2);transform:translateY(-3px);}
-    .promo-icon{font-size:1.6rem;}
-    .promo-title{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.05em;color:var(--text);}
-    .promo-desc{font-size:.82rem;color:var(--text3);}
-    .promo-link{font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto;}
-
-    /* ANIMATIONS */
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.9);}}
-    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-    @keyframes glow{0%,100%{box-shadow:0 0 30px rgba(139,92,246,.4);}50%{box-shadow:0 0 50px rgba(139,92,246,.7),0 0 20px rgba(201,168,76,.3);}}
-    @keyframes blink{0%,80%,100%{opacity:0;}40%{opacity:1;}}
-    @keyframes typewriter{from{width:0;}to{width:100%;}}
-
-    /* Section divider */
-    .section-divider{position:relative;z-index:2;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 30%,var(--border2) 70%,transparent);}
-      .nav-logo-img { height: 72px; width: auto; max-width: 220px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
-    .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
-    .nav-logo { gap: 10px; }
-    @media(max-width:768px){ .nav-logo-img { height: 54px; max-width: 160px; } }
-
-    /* ═══ SCROLL TO TOP ═══ */
-    #scrollTop {
-      position: fixed; bottom: 36px; right: 40px; z-index: 200;
-      background: none; border: none; padding: 8px;
-      cursor: pointer; opacity: 0; pointer-events: none;
-      transition: opacity .5s, transform .4s;
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-    }
-    #scrollTop .arrow-shaft {
-      width: 1px; height: 28px;
-      background: linear-gradient(to top, transparent, rgba(201,168,76,0.6));
-      transition: height .3s;
-    }
-    #scrollTop .arrow-head {
-      width: 0; height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-bottom: 8px solid rgba(201,168,76,0.7);
-      filter: drop-shadow(0 0 4px rgba(201,168,76,0.5));
-      transition: filter .3s;
-      order: -1;
-    }
-    #scrollTop.show { opacity: 1; pointer-events: all; }
-    #scrollTop:hover { transform: translateY(-5px); }
-    #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
-    #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
-    @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
-  
-    /* ═══ RESPONSIVE MOBILE — iOS & Android ═══ */
     @media(max-width:480px){
-      .signs-grid { grid-template-columns: repeat(3,1fr) !important; gap:8px; }
-      .sign-card { padding:16px 8px; }
-      .sign-symbol { font-size:1.8rem; }
-      .sign-name { font-size:.65rem; }
-      .result-wrap { padding:24px 16px; }
-      .domains-row { grid-template-columns:1fr !important; }
-      @media(max-width:480px){
-      /* Touch targets minimum 44px */
-      .btn, .tab-btn, .nav-cta { min-height:44px; }
-      button, a { -webkit-tap-highlight-color: transparent; }
-
-      /* Nav */
-      nav { padding:14px 16px; }
-      .nav-logo-img { height:42px !important; }
-
-      /* Hero */
-      .hero { padding:100px 20px 60px; min-height:auto; }
-      .hero h1 { font-size:clamp(2.8rem,12vw,4rem); }
-      .hero-tagline { font-size:.95rem; }
-      .hero-actions { flex-direction:column; gap:12px; width:100%; }
-      .hero-actions .btn { width:100%; justify-content:center; padding:16px; }
-      .hero-portrait { width:170px !important; }
-
-      /* Sections */
-      .section { padding:50px 16px; }
-      .section-title { font-size:clamp(1.6rem,7vw,2.5rem); }
-
-      /* Services */
-      .services-grid { grid-template-columns:1fr !important; gap:1px; }
-
-      /* Consultation tabs — empilés sur mobile */
-      .consult-tabs { flex-direction:column; border-radius:var(--radius); }
-      .tab-btn { border-right:none !important; border-bottom:1px solid var(--border); flex-direction:row; gap:10px; justify-content:flex-start; padding:14px 20px; }
-      .tab-btn:last-child { border-bottom:none; }
-
-      /* Payment methods */
-      .pay-methods { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
-      .pay-method { padding:12px 8px; font-size:.65rem; }
-
-      /* Min buttons */
-      .min-options { flex-wrap:wrap; gap:8px; }
-      .min-btn { flex:1; min-width:calc(50% - 4px); font-size:.72rem; padding:10px 8px; }
-
-      /* About */
-      .about-grid { grid-template-columns:1fr !important; }
-      .about-img { max-width:260px; margin:0 auto; }
-
-      /* Forms */
-      .form-grid { grid-template-columns:1fr !important; }
-      input, select, textarea { font-size:16px !important; } /* prevent iOS zoom */
-
-      /* Testimonials */
-      .testi-grid { grid-template-columns:1fr !important; }
-
-      /* FAQ */
-      .faq-question { font-size:.82rem; padding:18px 16px; }
-
-      /* Footer */
-      .footer-top { grid-template-columns:1fr !important; gap:24px; }
-      .footer-links { flex-direction:column; gap:12px; }
-
-      /* Scroll top arrow */
-      #scrollTop { right:16px; bottom:16px; }
-    }
-
-    @media(max-width:768px){
-      /* Tablet / large phone */
-      .hero { padding:110px 24px 60px; }
-      .section { padding:60px 24px; }
-      .about-img { max-width:300px; margin:0 auto; display:block; }
-      input, select, textarea { font-size:16px !important; }
+      .form-card{padding:24px 16px;}
+      .signs-grid{grid-template-columns:repeat(4,1fr);}
+      .chiffres-row{gap:8px;}
+      .chiffre-chip{min-width:80px;}
+      input,select{font-size:16px!important;}
+      #scrollTop{bottom:20px;right:20px;}
+      .page-hero h1{font-size:2.2rem;}
     }
   </style>
-  <!-- Google Tags: Analytics · Ads · Tag Manager -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-C979FB1QEG");
-    gtag("config", "GT-MKP7HSD");
-    gtag("config", "AW-11435134690");
-    gtag("config", "GT-PBSRNDX6");
-    gtag("config", "GT-TW5DK3H6");
-  </script>
 </head>
 <body>
 
@@ -274,11 +179,11 @@
 <div class="glow glow-2"></div>
 
 <nav id="nav">
-    <a href="index.html" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
-    <span class="live-dot"></span>
+    <span class="live-dot" id="liveDot"></span>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="horoscope.html" class="active">Horoscope</a></li>
     <li><a href="numerologie.html">Numérologie</a></li>
@@ -286,308 +191,326 @@
     <li><a href="reves.html">Rêves</a></li>
     <li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
   </ul>
-  <div class="nav-burger" id="burger"><span></span><span></span><span></span></div>
+  <div class="nav-burger" id="navBurger">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
-<div class="page-hero">
-  <div class="label">Astrologie · Guidance</div>
-  <h1>Votre<br>Horoscope</h1>
-  <p>Choisissez votre signe et recevez un message personnalisé canalisé par Marco.</p>
+<section class="page-hero">
+  <div class="label">✦ Astrologie · Guidance Personnalisée</div>
+  <h1>Votre Horoscope<br>Personnalisé</h1>
+  <p>Entrez votre prénom et votre signe — Marco canalise un message unique, jamais le même, fait pour vous.</p>
+</section>
+
+<div class="marco-intro">
+  <img src="marco-bras-croises.webp" alt="Marco Médium — Horoscope personnalisé">
 </div>
 
-  <div style="text-align:center;margin-top:-20px;margin-bottom:40px;position:relative;z-index:2;">
-    <img src="marco-bras-croises.webp" alt="Marco Médium — Horoscope"
-      style="width:180px;border-radius:20px;filter:drop-shadow(0 0 30px rgba(139,92,246,0.45));opacity:0;animation:fadeUp .8s 1s forwards;">
-  </div>
 <div class="content">
-  <!-- SIGN GRID -->
-  <div class="signs-grid reveal" id="signs-grid">
-    <div class="sign-card" data-sign="Bélier" data-emoji="♈" data-dates="21 mars – 19 avril">
-      <span class="sign-emoji">♈</span>
-      <span class="sign-name">Bélier</span>
-      <span class="sign-dates">21 mar – 19 avr</span>
-    </div>
-    <div class="sign-card" data-sign="Taureau" data-emoji="♉" data-dates="20 avril – 20 mai">
-      <span class="sign-emoji">♉</span>
-      <span class="sign-name">Taureau</span>
-      <span class="sign-dates">20 avr – 20 mai</span>
-    </div>
-    <div class="sign-card" data-sign="Gémeaux" data-emoji="♊" data-dates="21 mai – 20 juin">
-      <span class="sign-emoji">♊</span>
-      <span class="sign-name">Gémeaux</span>
-      <span class="sign-dates">21 mai – 20 jun</span>
-    </div>
-    <div class="sign-card" data-sign="Cancer" data-emoji="♋" data-dates="21 juin – 22 juillet">
-      <span class="sign-emoji">♋</span>
-      <span class="sign-name">Cancer</span>
-      <span class="sign-dates">21 jun – 22 jul</span>
-    </div>
-    <div class="sign-card" data-sign="Lion" data-emoji="♌" data-dates="23 juillet – 22 août">
-      <span class="sign-emoji">♌</span>
-      <span class="sign-name">Lion</span>
-      <span class="sign-dates">23 jul – 22 aoû</span>
-    </div>
-    <div class="sign-card" data-sign="Vierge" data-emoji="♍" data-dates="23 août – 22 septembre">
-      <span class="sign-emoji">♍</span>
-      <span class="sign-name">Vierge</span>
-      <span class="sign-dates">23 aoû – 22 sep</span>
-    </div>
-    <div class="sign-card" data-sign="Balance" data-emoji="♎" data-dates="23 septembre – 22 octobre">
-      <span class="sign-emoji">♎</span>
-      <span class="sign-name">Balance</span>
-      <span class="sign-dates">23 sep – 22 oct</span>
-    </div>
-    <div class="sign-card" data-sign="Scorpion" data-emoji="♏" data-dates="23 octobre – 21 novembre">
-      <span class="sign-emoji">♏</span>
-      <span class="sign-name">Scorpion</span>
-      <span class="sign-dates">23 oct – 21 nov</span>
-    </div>
-    <div class="sign-card" data-sign="Sagittaire" data-emoji="♐" data-dates="22 novembre – 21 décembre">
-      <span class="sign-emoji">♐</span>
-      <span class="sign-name">Sagittaire</span>
-      <span class="sign-dates">22 nov – 21 déc</span>
-    </div>
-    <div class="sign-card" data-sign="Capricorne" data-emoji="♑" data-dates="22 décembre – 19 janvier">
-      <span class="sign-emoji">♑</span>
-      <span class="sign-name">Capricorne</span>
-      <span class="sign-dates">22 déc – 19 jan</span>
-    </div>
-    <div class="sign-card" data-sign="Verseau" data-emoji="♒" data-dates="20 janvier – 18 février">
-      <span class="sign-emoji">♒</span>
-      <span class="sign-name">Verseau</span>
-      <span class="sign-dates">20 jan – 18 fév</span>
-    </div>
-    <div class="sign-card" data-sign="Poissons" data-emoji="♓" data-dates="19 février – 20 mars">
-      <span class="sign-emoji">♓</span>
-      <span class="sign-name">Poissons</span>
-      <span class="sign-dates">19 fév – 20 mar</span>
-    </div>
-  </div>
 
-  <!-- RESULT AREA -->
-  <div class="result-wrap reveal" id="result-wrap">
-    <div class="result-placeholder" id="placeholder">
-      <div class="big-icon">🔮</div>
-      <p>Sélectionnez votre signe zodiacal<br>pour recevoir votre message</p>
-    </div>
-    <div class="loading-state" id="loading">
-      <div class="crystal-ball"></div>
-      <div class="loading-text">Marco consulte les astres<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
-    </div>
-    <div id="result-content" style="display:none;">
-      <div class="result-header">
-        <span class="result-sign-icon" id="res-emoji"></span>
-        <div>
-          <div class="result-sign-name" id="res-name"></div>
-          <div class="result-date" id="res-dates"></div>
-        </div>
+  <div class="form-card reveal">
+    <h2>✨ Recevez votre guidance</h2>
+    <p>Chaque horoscope est généré en direct, personnalisé avec votre prénom et adapté à votre signe.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Votre prénom *</label>
+        <input type="text" class="form-input" id="prenom" placeholder="Ex : Sophie" maxlength="30">
       </div>
-      <div class="result-text" id="res-text"></div>
-      <div class="result-domains" id="res-domains"></div>
-      <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;">
-        <a href="index.html#consultation" class="btn btn-gold" style="flex:1;">✨ Consultation personnalisée</a>
-        <button class="btn btn-outline" id="btn-retry" style="flex:1;">🔄 Régénérer</button>
+      <div class="form-group">
+        <label>Date de naissance <span style="color:var(--text3);font-size:.65rem;">(optionnel)</span></label>
+        <input type="text" class="form-input" id="birthdate" placeholder="Ex : 14 mars 1985">
       </div>
     </div>
+
+    <span class="field-label">Votre signe du zodiaque *</span>
+    <div class="signs-grid" id="signsGrid"></div>
+
+    <span class="field-label">Type d'horoscope</span>
+    <div class="type-selector">
+      <div class="type-btn active" data-type="jour" onclick="selectType(this)">
+        <span class="t-icon">☀️</span>
+        <span class="t-label">Horoscope du Jour</span>
+        <span class="t-sub">Message pour aujourd'hui</span>
+      </div>
+      <div class="type-btn" data-type="semaine" onclick="selectType(this)">
+        <span class="t-icon">🌙</span>
+        <span class="t-label">Horoscope de la Semaine</span>
+        <span class="t-sub">Vision des 7 prochains jours</span>
+      </div>
+    </div>
+
+    <button class="btn-generate" id="btnGenerate" onclick="generateHoroscope()">
+      ✦ &nbsp; Révéler mon horoscope
+    </button>
   </div>
 
-  <!-- CROSS PROMO -->
-  <div class="cross-promo reveal" style="margin-top:60px;">
-    <a href="numerologie.html" class="promo-card">
-      <span class="promo-icon">🔢</span>
-      <div class="promo-title">Numérologie</div>
-      <div class="promo-desc">Décodez les vibrations de votre chemin de vie</div>
-      <div class="promo-link">Découvrir →</div>
-    </a>
+  <div class="loading" id="loading">
+    <div class="stars-loader"><span>⭐</span><span>🌙</span><span>✨</span></div>
+    <p id="loadingText">Marco consulte les astres pour vous...</p>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-header">
+      <span class="result-sign" id="resultSign"></span>
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+    </div>
+
+    <div class="chiffres-row" id="chiffresRow"></div>
+
+    <div class="horoscope-text-card">
+      <span class="section-tag" id="sectionTag">✦ Votre horoscope</span>
+      <div class="horoscope-text" id="horoscopeText"></div>
+    </div>
+
+    <div class="domains-row" id="domainsRow"></div>
+
+    <div class="conseil-box">
+      <span class="q">"</span>
+      <p id="conseilText"></p>
+      <span class="sig">— Marco Médium</span>
+    </div>
+
+    <button class="btn-nouveau" onclick="resetForm()">↺ &nbsp; Nouvel horoscope</button>
+  </div>
+
+  <div class="promo-grid reveal">
     <a href="oracle.html" class="promo-card">
-      <span class="promo-icon">🃏</span>
-      <div class="promo-title">Oracle du Jour</div>
-      <div class="promo-desc">Un tirage de cartes pour votre journée</div>
-      <div class="promo-link">Tirer les cartes →</div>
+      <span class="p-icon">🃏</span>
+      <span class="p-title">Oracle</span>
+      <span class="p-desc">Tirage de cartes personnalisé</span>
     </a>
-    <a href="reves.html" class="promo-card">
-      <span class="promo-icon">🌙</span>
-      <div class="promo-title">Rêves</div>
-      <div class="promo-desc">Décodez les messages de vos rêves</div>
-      <div class="promo-link">Interpréter →</div>
+    <a href="numerologie.html" class="promo-card">
+      <span class="p-icon">🔢</span>
+      <span class="p-title">Numérologie</span>
+      <span class="p-desc">Votre chemin de vie</span>
+    </a>
+    <a href="index.html#consultation" class="promo-card">
+      <span class="p-icon">📞</span>
+      <span class="p-title">Consultation</span>
+      <span class="p-desc">Séance privée avec Marco</span>
     </a>
   </div>
+
 </div>
 
-<div class="section-divider"></div>
 <footer>
-  <a href="index.html" class="footer-brand">Marco Médium</a>
-  <div class="footer-links">
-    <a href="index.html">Accueil</a>
-    <a href="horoscope.html">Horoscope</a>
-    <a href="numerologie.html">Numérologie</a>
-    <a href="oracle.html">Oracle</a>
-    <a href="reves.html">Rêves</a>
-    <a href="tel:+41218623326">📞 Appeler</a>
-  </div>
-  <span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--text3);">© 2025–2026 marcomedium.com</span>
+  <div class="footer-logo">Marco Médium</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="oracle.html">Oracle</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="reves.html">Rêves</a></li>
+    <li><a href="index.html#consultation">Consultation</a></li>
+    <li><a href="tel:+41218623326">+41 21 862 33 26</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Marco Médium — Vaud, Suisse · Voyance &amp; Guidance Spirituelle</p>
 </footer>
 
-<script>
-// Stars
-(function(){
-  const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');
-  let W,H,stars=[],nebula=[];
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  function create(){
-    stars=Array.from({length:180},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,alpha:Math.random()*.7+.1,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.005,color:Math.random()>.8?'201,168,76':Math.random()>.6?'167,139,250':'255,255,255'}));
-    nebula=Array.from({length:5},()=>({x:Math.random()*W,y:Math.random()*H*.8,r:Math.random()*200+100,alpha:Math.random()*.05+.01,color:Math.random()>.5?'139,92,246':'201,168,76'}));
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    nebula.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,`rgba(${n.color},${n.alpha})`);g.addColorStop(1,'transparent');ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();});
-    stars.forEach(s=>{s.tw+=s.ts;const a=s.alpha*(0.5+.5*Math.sin(s.tw));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${s.color},${a})`;ctx.fill();});
-    requestAnimationFrame(draw);
-  }
-  window.addEventListener('resize',()=>{resize();create();});
-  resize();create();draw();
-})();
-
-// Nav
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
-document.getElementById('burger').addEventListener('click',function(){
-  const l=document.querySelector('.nav-links');
-  l.style.cssText=l.style.display==='flex'?'':'display:flex;flex-direction:column;position:fixed;top:65px;left:0;right:0;background:rgba(6,4,15,.98);padding:24px;gap:20px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);z-index:99;';
-});
-
-// Reveal
-const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// Horoscope logic
-let currentSign=null;
-
-const WORKER_URL = 'https://super-band-24a0.utilisateur456.workers.dev/';
-
-async function getHoroscope(sign, emoji, dates) {
-  const placeholder=document.getElementById('placeholder');
-  const loading=document.getElementById('loading');
-  const resultContent=document.getElementById('result-content');
-
-  placeholder.style.display='none';
-  loading.style.display='flex';
-  resultContent.style.display='none';
-
-  try {
-    const today = new Date().toLocaleDateString('fr-FR', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    const prompt = `Tu es Marco Médium, voyant suisse authentique. Génère un horoscope pour le signe ${sign} (${dates}) pour aujourd'hui ${today}. 
-
-Réponds UNIQUEMENT en JSON avec cette structure exacte (pas de balises markdown, pas d'explication) :
-{
-  "message": "Un paragraphe de 4-6 lignes de guidance spirituelle profonde et personnelle pour ce signe. Commence par une observation astrologique forte, puis donne des conseils pratiques et concrets. Ton: authentique, direct, bienveillant mais sans complaisance.",
-  "amour": "2 phrases sur l'amour et les relations",
-  "travail": "2 phrases sur le travail et les projets", 
-  "energie": "2 phrases sur l'énergie et le bien-être du jour"
-}`;
-
-    // Try Cloudflare Worker first
-    let response;
-    try {
-      response = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({promptCustom: prompt})
-      });
-      if (!response.ok) throw new Error('Worker unavailable');
-      const workerData = await response.json();
-      const text = workerData.data || workerData.message || '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error('No JSON in worker response');
-      const parsed = JSON.parse(jsonMatch[0]);
-      displayResult(sign, emoji, dates, parsed);
-    } catch(workerErr) {
-      // Fallback: direct Anthropic API (from artifact context if available)
-      const apiResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:800,
-          system:"Tu es Marco Médium, voyant suisse. Réponds uniquement en JSON valide, sans markdown ni explication.",
-          messages:[{role:'user',content:prompt}]
-        })
-      });
-      const apiData = await apiResponse.json();
-      const raw = apiData.content?.[0]?.text || '';
-      const jsonMatch = raw.match(/\{[\s\S]*\}/);
-      if(!jsonMatch) throw new Error('Parsing failed');
-      const parsed = JSON.parse(jsonMatch[0]);
-      displayResult(sign, emoji, dates, parsed);
-    }
-  } catch(err) {
-    console.error(err);
-    // Static fallback
-    displayResult(sign, emoji, dates, {
-      message:`Les astres illuminent votre chemin, ${sign}. Une énergie de transformation est à l'œuvre en ce moment. Ce n'est pas un hasard si vous cherchez une guidance aujourd'hui — quelque chose en vous sait qu'un tournant approche. Restez ancré dans vos valeurs profondes et faites confiance à votre instinct. Les réponses que vous cherchez émergent lentement mais sûrement à la surface de votre conscience. Permettez-vous d'observer sans juger, d'agir sans précipitation.`,
-      amour:`Une connexion authentique mérite votre attention. Ne laissez pas la peur de la vulnérabilité bloquer ce qui veut se manifester naturellement.`,
-      travail:`Votre créativité est votre atout majeur aujourd'hui. Un projet demande votre énergie complète — ne vous dispersez pas.`,
-      energie:`Votre vitalité est en montée. Profitez de cette clarté mentale pour prendre des décisions importantes.`
-    });
-  }
-}
-
-function displayResult(sign, emoji, dates, data) {
-  document.getElementById('loading').style.display='none';
-  document.getElementById('res-emoji').textContent=emoji;
-  document.getElementById('res-name').textContent=sign;
-  document.getElementById('res-dates').textContent=dates;
-  
-  const text = data.message || '';
-  const firstChar = text.charAt(0);
-  const rest = text.slice(1);
-  document.getElementById('res-text').innerHTML = 
-    `<span class="first-letter">${firstChar}</span>${rest}`;
-
-  document.getElementById('res-domains').innerHTML = `
-    <div class="domain-card"><span class="domain-icon">❤️</span><div class="domain-title">Amour</div><div class="domain-text">${data.amour||''}</div></div>
-    <div class="domain-card"><span class="domain-icon">💼</span><div class="domain-title">Travail</div><div class="domain-text">${data.travail||''}</div></div>
-    <div class="domain-card"><span class="domain-icon">✨</span><div class="domain-title">Énergie</div><div class="domain-text">${data.energie||''}</div></div>
-  `;
-  
-  document.getElementById('result-content').style.display='block';
-}
-
-// Sign selection
-document.querySelectorAll('.sign-card').forEach(card=>{
-  card.addEventListener('click',function(){
-    document.querySelectorAll('.sign-card').forEach(c=>c.classList.remove('selected'));
-    this.classList.add('selected');
-    currentSign={sign:this.dataset.sign,emoji:this.dataset.emoji,dates:this.dataset.dates};
-    document.getElementById('result-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-    setTimeout(()=>getHoroscope(currentSign.sign,currentSign.emoji,currentSign.dates), 300);
-  });
-});
-
-// Retry button
-document.getElementById('btn-retry').addEventListener('click',()=>{
-  if(currentSign) getHoroscope(currentSign.sign,currentSign.emoji,currentSign.dates);
-});
-
-// Scroll to top — apparaît en bas de page
-window.addEventListener('scroll',()=>{
-  const scrolled = window.scrollY + window.innerHeight;
-  const total = document.documentElement.scrollHeight;
-  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
-});
-</script>
-
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter">
   <span class="arrow-head"></span>
   <span class="arrow-shaft"></span>
 </button>
+
 <script>
-  // Sync status dot avec index.html
-  (function(){
-    const dot = document.querySelector('.live-dot');
-    if(!dot) return;
-    if(localStorage.getItem('mm_status') === 'busy'){
-      dot.classList.add('busy');
-    }
-  })();</script>
+// STARS
+const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');
+let stars=[],W,H,pts=[],lastMouse=0;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(let i=0;i<180;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.015+.005,t:Math.random()*Math.PI*2});}
+window.addEventListener('mousemove',e=>{const now=Date.now();if(now-lastMouse<70)return;lastMouse=now;pts.push({x:e.clientX,y:e.clientY,r:Math.random()*1.1+.3,alpha:Math.random()*.5+.2,vx:(Math.random()-.5)*.7,vy:-(Math.random()*.7+.3),life:1,decay:Math.random()*.04+.025,color:Math.random()>.6?'201,168,76':'167,139,250'});if(pts.length>25)pts.shift();});
+function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(220,210,255,${s.o})`;ctx.fill();});
+  [[W*.7,H*.2,200,'rgba(60,40,140,0.05)'],[W*.2,H*.8,150,'rgba(40,80,150,0.04)']].forEach(([x,y,r,c])=>{const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,c);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);});
+  for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;if(p.life<=0){pts.splice(i,1);continue;}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.color},${p.alpha*p.life})`;ctx.fill();}
+  requestAnimationFrame(drawStars);
+}
+resize();initStars();drawStars();
+window.addEventListener('resize',()=>{resize();initStars();});
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+document.getElementById('navBurger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+// SCROLL TOP
+window.addEventListener('scroll',()=>{const s=window.scrollY+window.innerHeight,t=document.documentElement.scrollHeight;document.getElementById('scrollTop').classList.toggle('show',s>=t-200);});
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// STATUS
+(function(){const dot=document.getElementById('liveDot');if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');})();
+
+// SIGNES
+const SIGNS=[
+  {sym:'♈',name:'Bélier',dates:'21 mars – 19 avr',element:'Feu',planet:'Mars'},
+  {sym:'♉',name:'Taureau',dates:'20 avr – 20 mai',element:'Terre',planet:'Vénus'},
+  {sym:'♊',name:'Gémeaux',dates:'21 mai – 20 juin',element:'Air',planet:'Mercure'},
+  {sym:'♋',name:'Cancer',dates:'21 juin – 22 juil',element:'Eau',planet:'Lune'},
+  {sym:'♌',name:'Lion',dates:'23 juil – 22 août',element:'Feu',planet:'Soleil'},
+  {sym:'♍',name:'Vierge',dates:'23 août – 22 sept',element:'Terre',planet:'Mercure'},
+  {sym:'♎',name:'Balance',dates:'23 sept – 22 oct',element:'Air',planet:'Vénus'},
+  {sym:'♏',name:'Scorpion',dates:'23 oct – 21 nov',element:'Eau',planet:'Pluton'},
+  {sym:'♐',name:'Sagittaire',dates:'22 nov – 21 déc',element:'Feu',planet:'Jupiter'},
+  {sym:'♑',name:'Capricorne',dates:'22 déc – 19 jan',element:'Terre',planet:'Saturne'},
+  {sym:'♒',name:'Verseau',dates:'20 jan – 18 fév',element:'Air',planet:'Uranus'},
+  {sym:'♓',name:'Poissons',dates:'19 fév – 20 mars',element:'Eau',planet:'Neptune'},
+];
+
+let selectedSign=null, selectedType='jour';
+
+const grid=document.getElementById('signsGrid');
+SIGNS.forEach(s=>{
+  const chip=document.createElement('div');
+  chip.className='sign-chip';
+  chip.innerHTML=`<span class="s-emoji">${s.sym}</span><span class="s-name">${s.name}</span>`;
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.sign-chip').forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedSign=s;
+  });
+  grid.appendChild(chip);
+});
+
+function selectType(btn){
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedType=btn.dataset.type;
+}
+
+async function generateHoroscope(){
+  const prenom=document.getElementById('prenom').value.trim();
+  const birthdate=document.getElementById('birthdate').value.trim();
+
+  if(!prenom){document.getElementById('prenom').style.borderColor='rgba(239,68,68,.5)';setTimeout(()=>document.getElementById('prenom').style.borderColor='',2000);return;}
+  if(!selectedSign){document.querySelectorAll('.sign-chip').forEach(c=>c.style.outline='1px solid rgba(239,68,68,.4)');setTimeout(()=>document.querySelectorAll('.sign-chip').forEach(c=>c.style.outline=''),2000);return;}
+
+  const s=selectedSign;
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const lundi=new Date(today);lundi.setDate(today.getDate()-today.getDay()+1);
+  const dim=new Date(lundi);dim.setDate(lundi.getDate()+6);
+  const weekStr=`du ${lundi.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})} au ${dim.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}`;
+  const isJour=selectedType==='jour';
+
+  const messages=isJour
+    ?['Marco consulte les astres pour vous...','Alignement des énergies planétaires...','Votre message prend forme...']
+    :['Marco scrute la semaine à venir...','Les influences planétaires se dévoilent...','Votre guidance hebdomadaire arrive...'];
+
+  let mi=0;
+  document.getElementById('loadingText').textContent=messages[0];
+  const iv=setInterval(()=>{mi=(mi+1)%messages.length;document.getElementById('loadingText').textContent=messages[mi];},2200);
+
+  document.getElementById('btnGenerate').disabled=true;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('result').classList.remove('show');
+  document.querySelector('.form-card').style.opacity='.4';
+
+  const prompt=`Tu es Marco Médium, astrologue et voyant suisse de renom. Génère un horoscope ${isJour?'du jour':'de la semaine'} SÉRIEUX, PERSONNALISÉ et UNIQUE.
+
+Prénom : ${prenom}${birthdate?` (né·e le ${birthdate})`:''}
+Signe astrologique : ${s.name} ${s.sym}
+Période : ${s.dates}
+Élément : ${s.element} | Astre gouverneur : ${s.planet}
+${isJour?`Aujourd'hui : ${dateStr}`:`Semaine : ${weekStr}`}
+
+INSTRUCTIONS IMPORTANTES :
+- Commence le texte principal directement par le prénom "${prenom}"
+- Cite le signe ${s.name} et son astre ${s.planet} de façon naturelle
+- Sois précis, concret, jamais vague — évite les généralités creuses
+- Le style est celui d'un professionnel : sérieux, bienveillant, direct
+- Chaque horoscope doit être UNIQUE et différent des précédents
+- Adapte le message à la période (${isJour?'journée spécifique':'semaine précise'})
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
+{
+  "titre": "Titre personnalisé avec ${prenom} et référence au ${s.name} (6-9 mots)",
+  "subtitle": "Sous-titre poétique lié à ${s.planet} et la période",
+  "chiffres": {
+    "chance": "chiffre 1-9",
+    "couleur": "couleur symbolique pour ${s.name}",
+    "mot": "mot-clé fort et précis pour cette période"
+  },
+  "texte_principal": "5-6 phrases personnalisées. Commence par '${prenom}, '. Parle des influences de ${s.planet} sur votre signe ${s.name} ${isJour?"aujourd'hui":"cette semaine"}. Évoque les défis concrets et les opportunités réelles. Mentionne des aspects pratiques de la vie. Style Marco Médium : franc, chaleureux, sans complaisance.",
+  "domaines": [
+    {"icone": "💕", "titre": "Amour & Relations", "texte": "2-3 phrases PRÉCISES sur la vie amoureuse et relationnelle de ${prenom} ${isJour?"aujourd'hui":"cette semaine"}. Cite une situation concrète."},
+    {"icone": "💼", "titre": "Travail & Finances", "texte": "2-3 phrases sur les opportunités ou vigilances professionnelles et financières. Concret et actionnable."},
+    {"icone": "🌿", "titre": "Santé & Énergie", "texte": "2-3 phrases sur l'état énergétique et physique lié à l'élément ${s.element}. Conseil pratique."}
+  ],
+  "conseil": "Message direct de Marco à ${prenom}. Commence par '${prenom}, '. Conseil concret, mémorable, tourné vers l'action. 2 phrases maximum. Parle en 'vous'."
+}`;
+
+  let data=null;
+  try{
+    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt}),signal:AbortSignal.timeout(16000)});
+    if(!r.ok) throw new Error();
+    const raw=await r.json();
+    const txt=raw.data||raw.message||'';
+    const clean=txt.replace(/```json|```/g,'').trim();
+    data=JSON.parse(clean);
+    if(!data.texte_principal||data.texte_principal.length<30) throw new Error('too short');
+  }catch(e){
+    data=buildFallback(prenom,s,isJour,dateStr);
+  }
+
+  clearInterval(iv);
+  displayResult(data,prenom,s,isJour,isJour?dateStr:weekStr);
+}
+
+function buildFallback(prenom,s,isJour,dateStr){
+  const energies={Feu:['ardente et créatrice','l\'audace et l\'initiative'],Terre:['stable et pragmatique','la patience et la persévérance'],Air:['intellectuelle et communicative','la flexibilité et l\'adaptabilité'],Eau:['intuitive et sensible','l\'empathie et la profondeur']};
+  const e=energies[s.element]||['puissante','la détermination'];
+  const couleurs={Bélier:'rouge cardinal',Taureau:'vert émeraude',Gémeaux:'jaune topaze',Cancer:'blanc nacré',Lion:'or solaire',Vierge:'vert sauge',Balance:'rose quartz',Scorpion:'bordeaux intense',Sagittaire:'indigo',Capricorne:'gris ardoise',Verseau:'bleu électrique',Poissons:'turquoise'};
+  const mots={Bélier:'Initiative',Taureau:'Stabilité',Gémeaux:'Communication',Cancer:'Intuition',Lion:'Confiance',Vierge:'Précision',Balance:'Équilibre',Scorpion:'Transformation',Sagittaire:'Expansion',Capricorne:'Ambition',Verseau:'Innovation',Poissons:'Intuition'};
+  return{
+    titre:`${prenom}, les astres du ${s.name} vous guident`,
+    subtitle:`Sous l'influence de ${s.planet} · ${isJour?'Message du jour':'Semaine à venir'}`,
+    chiffres:{chance:String(Math.floor(Math.random()*9)+1),couleur:couleurs[s.name]||'or doré',mot:mots[s.name]||'Confiance'},
+    texte_principal:`${prenom}, l'énergie ${e[0]} de votre signe ${s.name} est au premier plan ${isJour?"aujourd'hui":"cette semaine"}. ${s.planet}, votre astre gouverneur, crée des conditions propices pour avancer sur les dossiers importants de votre vie. Vous avez en vous des ressources que vous sous-estimez — c'est le moment de les mobiliser pleinement. Une situation qui semblait bloquée pourrait trouver son dénouement si vous faites confiance à ${e[1]}. Ne laissez pas les doutes extérieurs freiner votre élan intérieur, ${prenom}. Ce ${isJour?"jour":"moment"} vous appartient.`,
+    domaines:[
+      {icone:'💕',titre:'Amour & Relations',texte:`${isJour?"Aujourd'hui":"Cette semaine"}, vos relations bénéficient d'une sincérité bienvenue. Une conversation honnête pourrait transformer une tension en rapprochement. Osez exprimer ce que vous ressentez vraiment.`},
+      {icone:'💼',titre:'Travail & Finances',texte:`L'influence de ${s.planet} favorise la clarté dans vos décisions professionnelles. Un projet ou une proposition mérite votre attention — examinez-le avec votre intuition de ${s.name}, pas seulement votre raison.`},
+      {icone:'🌿',titre:'Santé & Énergie',texte:`Votre énergie de type ${s.element} a besoin d'être rechargée. Accordez-vous des moments de calme et évitez la dispersion. Votre vitalité retrouvée sera votre meilleur atout.`}
+    ],
+    conseil:`${prenom}, faites confiance aux signaux que la vie vous envoie — ils ne sont jamais anodins. Avancez avec la certitude tranquille que votre chemin de ${s.name} est juste.`
+  };
+}
+
+function displayResult(data,prenom,s,isJour,periode){
+  document.getElementById('loading').classList.remove('show');
+  document.querySelector('.form-card').style.opacity='1';
+  document.getElementById('resultSign').textContent=s.sym;
+  document.getElementById('resultTitle').textContent=data.titre||`${prenom} — ${s.name}`;
+  document.getElementById('resultSubtitle').textContent=(isJour?'Horoscope du jour · ':'Horoscope de la semaine · ')+periode;
+  document.getElementById('sectionTag').textContent=isJour?'✦ Votre horoscope du jour':'✦ Votre horoscope de la semaine';
+
+  const ch=data.chiffres||{};
+  document.getElementById('chiffresRow').innerHTML=`
+    <div class="chiffre-chip"><span class="chiffre-val">${ch.chance||'7'}</span><span class="chiffre-label">Chiffre chance</span></div>
+    <div class="chiffre-chip"><span class="chiffre-val" style="font-size:.9rem;padding-top:8px">${ch.couleur||'Or'}</span><span class="chiffre-label">Couleur du jour</span></div>
+    <div class="chiffre-chip"><span class="chiffre-val" style="font-size:.9rem;padding-top:8px">${ch.mot||'Confiance'}</span><span class="chiffre-label">Mot-clé</span></div>`;
+
+  document.getElementById('horoscopeText').textContent=data.texte_principal||'';
+  document.getElementById('domainsRow').innerHTML=(data.domaines||[]).map(d=>`
+    <div class="domain-box">
+      <span class="domain-icon">${d.icone}</span>
+      <span class="domain-title">${d.titre}</span>
+      <p class="domain-text">${d.texte}</p>
+    </div>`).join('');
+  document.getElementById('conseilText').textContent=data.conseil||'';
+  document.getElementById('btnGenerate').disabled=false;
+  document.getElementById('result').classList.add('show');
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetForm(){
+  document.getElementById('result').classList.remove('show');
+  document.querySelector('.form-card').style.opacity='1';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
 </body>
 </html>
