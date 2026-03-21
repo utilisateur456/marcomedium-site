@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interprétation des Rêves — Marco Médium</title>
+  <meta name="description" content="Décryptez les messages cachés de vos rêves avec Marco Médium. Interprétation symbolique et spirituelle personnalisée.">
+  <meta name="theme-color" content="#080612">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--blue:#4FC3F7;--blue-dim:rgba(79,195,247,0.12);--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;overflow-x:hidden;}
+    #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(90px);}
+    .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(40,80,160,0.12),transparent 70%);top:-200px;right:-200px;}
+    .glow-2{width:500px;height:500px;background:radial-gradient(circle,rgba(80,40,160,0.10),transparent 70%);bottom:0;left:-100px;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.92)0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
+    nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
+    .nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);text-decoration:none;display:flex;align-items:center;gap:10px;}
+        .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
+    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
+    .nav-links a:hover{color:var(--gold-light);}
+    .nav-links a.active{color:var(--gold);}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+    .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,4,15,.98);flex-direction:column;gap:0;padding:16px 0;border-bottom:1px solid var(--border);}.nav-links.open{display:flex;}.nav-links li{width:100%;}.nav-links a{display:block;padding:14px 24px;}.nav-burger{display:flex;}}
+
+    .page-hero{position:relative;z-index:2;padding:160px 48px 60px;text-align:center;max-width:800px;margin:0 auto;}
+    .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
+    .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(79,195,247,.3);}
+    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--blue) 40%,var(--purple-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
+    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--text2);max-width:500px;margin:20px auto 0;opacity:0;animation:fadeUp .9s .7s forwards;}
+
+    .content{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:0 48px 100px;}
+    @media(max-width:768px){.content{padding:0 24px 70px;}.page-hero{padding:140px 24px 60px;}}
+
+    /* MOON PHASES DECO */
+    .moon-deco{display:flex;justify-content:center;gap:16px;margin-bottom:48px;opacity:0;animation:fadeUp .8s 1s forwards;}
+    .moon-phase{font-size:1.6rem;opacity:.3;transition:opacity .3s;}
+    .moon-phase.active{opacity:1;animation:moonGlow 3s infinite;}
+
+    /* DREAM INPUT CARD */
+    .dream-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;margin-bottom:32px;position:relative;overflow:hidden;}
+    .dream-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),transparent);}
+    .dream-card h3{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;letter-spacing:.05em;margin-bottom:8px;}
+    .dream-card p{color:var(--text3);font-size:.9rem;margin-bottom:20px;}
+    .dream-textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;color:var(--text);font-family:'Lora',serif;font-size:1rem;font-style:italic;outline:none;transition:all .3s;resize:vertical;min-height:160px;line-height:1.8;}
+    .dream-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,195,247,.1);}
+    .dream-textarea::placeholder{color:var(--text3);}
+
+    /* THEMES SELECTOR */
+    .themes-section{margin-top:24px;}
+    .themes-label{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:block;}
+    .themes-grid{display:flex;flex-wrap:wrap;gap:8px;}
+    .theme-chip{padding:7px 16px;background:var(--surface);border:1px solid var(--border);border-radius:50px;color:var(--text3);font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.08em;cursor:pointer;transition:all .25s;user-select:none;}
+    .theme-chip.selected{background:var(--blue-dim);border-color:var(--blue);color:var(--blue);}
+    .theme-chip:hover:not(.selected){border-color:var(--border2);color:var(--text);}
+
+    /* INTERPRET BUTTON */
+    .btn-interpret{width:100%;margin-top:28px;padding:18px 40px;background:linear-gradient(135deg,rgba(79,195,247,.15),rgba(139,92,246,.15));border:1px solid rgba(79,195,247,.3);border-radius:50px;color:var(--text);font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;}
+    .btn-interpret::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,195,247,.1),rgba(139,92,246,.1));opacity:0;transition:opacity .3s;}
+    .btn-interpret:hover::before{opacity:1;}
+    .btn-interpret:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,195,247,.2);}
+    .btn-interpret:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+    /* LOADING */
+    .loading{display:none;flex-direction:column;align-items:center;gap:24px;padding:60px 20px;text-align:center;}
+    .loading.show{display:flex;}
+    .dream-spinner{position:relative;width:80px;height:80px;}
+    .dream-spinner::before,.dream-spinner::after{content:'';position:absolute;border-radius:50%;animation:dreamSpin 3s linear infinite;}
+    .dream-spinner::before{inset:0;border:2px solid transparent;border-top-color:var(--blue);border-right-color:var(--purple);}
+    .dream-spinner::after{inset:10px;border:2px solid transparent;border-bottom-color:var(--blue);border-left-color:var(--gold);animation-direction:reverse;animation-duration:2s;}
+    .spinner-moon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;animation:moonFloat 2s ease-in-out infinite;}
+    .loading-text{font-family:'Lora',serif;font-style:italic;color:var(--text2);font-size:1rem;}
+    .loading-dots::after{content:'...';animation:dots 1.5s infinite;}
+
+    /* RESULT */
+    .result-section{display:none;}
+    .result-section.show{display:block;animation:fadeUp .8s forwards;}
+
+    .result-header{background:linear-gradient(135deg,rgba(79,195,247,.08),rgba(139,92,246,.08));border:1px solid rgba(79,195,247,.2);border-radius:var(--radius);padding:32px;margin-bottom:28px;text-align:center;position:relative;overflow:hidden;}
+    .result-header::before{content:'🌙';font-size:3rem;display:block;margin-bottom:16px;animation:moonFloat 3s ease-in-out infinite;}
+    .result-header h2{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:600;letter-spacing:.05em;background:linear-gradient(135deg,var(--blue),var(--purple-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+    .result-header p{color:var(--text3);font-size:.9rem;}
+
+    /* SYMBOLS FOUND */
+    .symbols-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:28px;}
+    .symbol-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center;transition:all .3s;}
+    .symbol-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .symbol-icon{font-size:1.8rem;margin-bottom:8px;display:block;}
+    .symbol-name{font-family:'Cinzel',serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;color:var(--text2);display:block;}
+
+    /* INTERPRETATION TEXT */
+    .interpretation-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;margin-bottom:24px;position:relative;}
+    .interpretation-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+    .section-label{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--purple-light);margin-bottom:16px;display:block;}
+    .interpretation-card p{color:var(--text2);font-size:.97rem;line-height:1.9;}
+    .interpretation-card p::first-letter{font-family:'Cinzel',serif;font-size:3.2rem;font-weight:700;float:left;line-height:.8;margin-right:8px;margin-top:4px;background:linear-gradient(135deg,var(--blue),var(--purple-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+    /* DOMAINS */
+    .domains-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:28px;}
+    .domain-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;transition:all .3s;}
+    .domain-card:hover{border-color:var(--border2);}
+    .domain-icon{font-size:1.5rem;margin-bottom:10px;display:block;}
+    .domain-title{font-family:'Cinzel',serif;font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block;}
+    .domain-text{color:var(--text2);font-size:.87rem;line-height:1.7;}
+
+    /* CONSEIL FINAL */
+    .conseil-card{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.2);border-radius:var(--radius);padding:32px;text-align:center;}
+    .conseil-card .quote-mark{font-size:4rem;color:rgba(201,168,76,.15);font-family:'Cinzel',serif;line-height:.5;margin-bottom:20px;display:block;}
+    .conseil-card p{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--text2);line-height:1.9;margin-bottom:16px;}
+    .conseil-card .signature{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+
+    /* SYMBOL LIBRARY */
+    .library-section{margin-top:60px;}
+    .library-title{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:600;letter-spacing:.05em;text-align:center;margin-bottom:8px;}
+    .library-subtitle{color:var(--text3);font-size:.9rem;text-align:center;margin-bottom:36px;}
+    .library-filter{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+    .filter-btn{padding:7px 18px;background:var(--surface);border:1px solid var(--border);border-radius:50px;color:var(--text3);font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.08em;cursor:pointer;transition:all .25s;}
+    .filter-btn.active{background:var(--purple-dim);border-color:var(--purple);color:var(--purple-light);}
+    .library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+    .lib-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;transition:all .3s;cursor:pointer;}
+    .lib-card:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-2px);}
+    .lib-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+    .lib-icon{font-size:1.6rem;}
+    .lib-name{font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;letter-spacing:.08em;color:var(--text);}
+    .lib-category{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);}
+    .lib-meaning{color:var(--text3);font-size:.82rem;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+    /* CROSS-PROMO */
+    .promo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:60px;}
+    .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;text-align:center;text-decoration:none;color:var(--text);transition:all .3s;display:block;}
+    .promo-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+    .promo-icon{font-size:2rem;display:block;margin-bottom:12px;}
+    .promo-title{font-family:'Cinzel',serif;font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;}
+    .promo-desc{font-size:.8rem;color:var(--text3);}
+
+    /* RESET BTN */
+    .btn-reset{display:block;margin:32px auto 0;padding:12px 32px;background:transparent;border:1px solid var(--border);border-radius:50px;color:var(--text3);font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+    .btn-reset:hover{border-color:var(--border2);color:var(--text);}
+
+    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48px;text-align:center;}
+    .footer-logo{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);margin-bottom:20px;}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 32px;margin-bottom:24px;list-style:none;}
+    .footer-links a{font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-copy{font-size:.78rem;color:var(--text3);}
+    @media(max-width:768px){footer{padding:40px 24px;}}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+    @keyframes moonFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+    @keyframes dreamSpin{to{transform:rotate(360deg);}}
+    @keyframes moonGlow{0%,100%{opacity:1;filter:drop-shadow(0 0 6px rgba(79,195,247,.5));}50%{opacity:.6;filter:none;}}
+    @keyframes dots{0%{content:'.';}33%{content:'..';}66%{content:'...';}100%{content:'....';}}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+      .nav-logo-img { height: 72px; width: auto; max-width: 220px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
+    .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
+    .nav-logo { gap: 10px; }
+    @media(max-width:768px){ .nav-logo-img { height: 54px; max-width: 160px; } }
+
+    /* ═══ SCROLL TO TOP ═══ */
+    #scrollTop {
+      position: fixed; bottom: 36px; right: 40px; z-index: 200;
+      background: none; border: none; padding: 8px;
+      cursor: pointer; opacity: 0; pointer-events: none;
+      transition: opacity .5s, transform .4s;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    #scrollTop .arrow-shaft {
+      width: 1px; height: 28px;
+      background: linear-gradient(to top, transparent, rgba(201,168,76,0.6));
+      transition: height .3s;
+    }
+    #scrollTop .arrow-head {
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid rgba(201,168,76,0.7);
+      filter: drop-shadow(0 0 4px rgba(201,168,76,0.5));
+      transition: filter .3s;
+      order: -1;
+    }
+    #scrollTop.show { opacity: 1; pointer-events: all; }
+    #scrollTop:hover { transform: translateY(-5px); }
+    #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
+    #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
+    @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
+  </style>
+  <!-- Google Tags: Analytics · Ads · Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-C979FB1QEG");
+    gtag("config", "GT-MKP7HSD");
+    gtag("config", "AW-11435134690");
+    gtag("config", "GT-PBSRNDX6");
+    gtag("config", "GT-TW5DK3H6");
+  </script>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<nav id="nav">
+    <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
+    <span class="live-dot"></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="horoscope.html">Horoscope</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="oracle.html">Oracle</a></li>
+    <li><a href="reves.html" class="active">Rêves</a></li>
+    <li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
+  </ul>
+  <div class="nav-burger" id="navBurger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="label">✦ Interprétation des rêves</div>
+  <h1>Les Rêves Parlent</h1>
+  <p>Chaque rêve est un message de votre âme. Décryptez les symboles et découvrez ce que l'inconscient vous révèle.</p>
+</section>
+
+  <div style="text-align:center;margin-top:-20px;margin-bottom:20px;position:relative;z-index:2;">
+    <img src="marco-portrait.webp" alt="Marco Médium — Interprétation des rêves"
+      style="width:180px;border-radius:20px;filter:drop-shadow(0 0 30px rgba(79,195,247,0.4));opacity:0;animation:fadeUp .8s 1s forwards;">
+  </div>
+<div class="content">
+
+  <!-- Moon Deco -->
+  <div class="moon-deco">
+    <span class="moon-phase">🌑</span>
+    <span class="moon-phase">🌒</span>
+    <span class="moon-phase">🌓</span>
+    <span class="moon-phase">🌔</span>
+    <span class="moon-phase active">🌕</span>
+    <span class="moon-phase">🌖</span>
+    <span class="moon-phase">🌗</span>
+    <span class="moon-phase">🌘</span>
+  </div>
+
+  <!-- Dream Input -->
+  <div class="dream-card reveal">
+    <h3>✨ Racontez votre rêve</h3>
+    <p>Décrivez votre rêve avec autant de détails que possible : les personnages, les lieux, les couleurs, les émotions ressenties…</p>
+    <textarea class="dream-textarea" id="dreamText" placeholder="Cette nuit, j'ai rêvé que je volais au-dessus d'une forêt sombre. Il y avait une lumière au loin et je ressentais une étrange sérénité mêlée d'inquiétude..."></textarea>
+
+    <div class="themes-section">
+      <span class="themes-label">Thèmes présents dans votre rêve (optionnel)</span>
+      <div class="themes-grid">
+        <span class="theme-chip" onclick="toggleTheme(this)">💧 Eau</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🔥 Feu</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🌊 Mer / Océan</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🌲 Forêt</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🏠 Maison</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">✈️ Vol</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🐍 Serpent</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">👁️ Poursuite</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">💀 Mort</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">👶 Enfant</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">🌑 Obscurité</span>
+        <span class="theme-chip" onclick="toggleTheme(this)">☀️ Lumière</span>
+      </div>
+    </div>
+
+    <button class="btn-interpret" id="interpretBtn" onclick="interpretDream()">
+      🌙 &nbsp; Interpréter mon rêve
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="dream-spinner">
+      <span class="spinner-moon">🌙</span>
+    </div>
+    <p class="loading-text">Marco explore votre rêve<span class="loading-dots"></span></p>
+    <p style="color:var(--text3);font-size:.82rem;">Voyage dans les profondeurs de l'inconscient</p>
+  </div>
+
+  <!-- Result -->
+  <div class="result-section" id="resultSection">
+    <div class="result-header">
+      <h2 id="resultTitle">Votre Rêve Décodé</h2>
+      <p id="resultSub">Voici ce que vos symboles révèlent</p>
+    </div>
+
+    <!-- Symbols detected -->
+    <div id="symbolsGrid" class="symbols-grid"></div>
+
+    <!-- Main interpretation -->
+    <div class="interpretation-card reveal">
+      <span class="section-label">✦ Interprétation générale</span>
+      <p id="interpretationText"></p>
+    </div>
+
+    <!-- Domains -->
+    <div class="domains-grid" id="domainsGrid"></div>
+
+    <!-- Conseil de Marco -->
+    <div class="conseil-card reveal">
+      <span class="quote-mark">"</span>
+      <p id="conseilText">Vos rêves sont des messagers bienveillants. Écoutez-les avec le cœur ouvert et sans jugement — ils vous guident vers votre vérité profonde.</p>
+      <span class="signature">— Marco Médium</span>
+    </div>
+
+    <button class="btn-reset" onclick="resetForm()">↺ &nbsp; Interpréter un autre rêve</button>
+  </div>
+
+  <!-- Symbol Library -->
+  <div class="library-section reveal">
+    <h2 class="library-title">Dictionnaire des Symboles</h2>
+    <p class="library-subtitle">Les symboles universels et leur signification spirituelle</p>
+    <div class="library-filter">
+      <button class="filter-btn active" onclick="filterLib(this,'all')">Tous</button>
+      <button class="filter-btn" onclick="filterLib(this,'nature')">🌿 Nature</button>
+      <button class="filter-btn" onclick="filterLib(this,'action')">⚡ Actions</button>
+      <button class="filter-btn" onclick="filterLib(this,'lieu')">🏛 Lieux</button>
+      <button class="filter-btn" onclick="filterLib(this,'animal')">🦁 Animaux</button>
+      <button class="filter-btn" onclick="filterLib(this,'emotion')">💫 Émotions</button>
+    </div>
+    <div class="library-grid" id="libraryGrid"></div>
+  </div>
+
+  <!-- Cross-promo -->
+  <div class="promo-grid reveal">
+    <a href="horoscope.html" class="promo-card">
+      <span class="promo-icon">♈</span>
+      <span class="promo-title">Horoscope</span>
+      <span class="promo-desc">Votre thème astral du jour</span>
+    </a>
+    <a href="oracle.html" class="promo-card">
+      <span class="promo-icon">🃏</span>
+      <span class="promo-title">Oracle</span>
+      <span class="promo-desc">Un message de guidance</span>
+    </a>
+    <a href="numerologie.html" class="promo-card">
+      <span class="promo-icon">🔢</span>
+      <span class="promo-title">Numérologie</span>
+      <span class="promo-desc">Votre chemin de vie</span>
+    </a>
+    <a href="index.html#consultation" class="promo-card">
+      <span class="promo-icon">📞</span>
+      <span class="promo-title">Consultation</span>
+      <span class="promo-desc">Séance privée avec Marco</span>
+    </a>
+  </div>
+
+</div><!-- /content -->
+
+<footer>
+  <div class="footer-logo">Marco Médium</div>
+  <ul class="footer-links">
+    <li><a href="horoscope.html">Horoscope</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="oracle.html">Oracle</a></li>
+    <li><a href="reves.html">Rêves</a></li>
+    <li><a href="index.html#consultation">Consultation</a></li>
+    <li><a href="tel:+41218623326">+41 21 862 33 26</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Marco Médium — Vaud, Suisse · Voyance &amp; Guidance Spirituelle</p>
+</footer>
+
+<script>
+// ═══ STAR CANVAS ═══
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [], W, H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.015+.005,t:Math.random()*Math.PI*2});}}
+function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{
+    s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(220,210,255,${s.o})`;ctx.fill();
+  });
+  // nebula blobs
+  [[W*.7,H*.2,200,'rgba(60,40,140,0.05)'],[W*.2,H*.8,150,'rgba(40,80,150,0.04)']].forEach(([x,y,r,c])=>{
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,c);g.addColorStop(1,'transparent');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  });
+  requestAnimationFrame(drawStars);
+
+  // Traînée souris
+  (function(){
+    const cv=document.getElementById('stars-canvas');
+    if(!cv)return;
+    const cx=cv.getContext('2d');
+    let pts=[];
+    window.addEventListener('mousemove',e=>{
+      if(Math.random()>.6)return;
+      for(let i=0;i<2;i++){
+        pts.push({x:e.clientX+(Math.random()-.5)*6,y:e.clientY+(Math.random()-.5)*6,
+          r:Math.random()*1.6+0.3,alpha:Math.random()*.6+0.3,
+          vx:(Math.random()-.5)*1.1,vy:(Math.random()-.5)*1.1-.4,
+          life:1,decay:Math.random()*.025+0.015,
+          color:Math.random()>.6?'201,168,76':'167,139,250'});
+      }
+      if(pts.length>100)pts.splice(0,pts.length-100);
+    });
+    function loop(){
+      pts.forEach((p,i)=>{
+        p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;p.vy-=0.018;
+        if(p.life<=0){pts.splice(i,1);return;}
+        const g=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*2);
+        g.addColorStop(0,`rgba(${p.color},${p.alpha*p.life})`);
+        g.addColorStop(1,'transparent');
+        cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,p.r*2,0,Math.PI*2);cx.fill();
+      });
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+}
+resize();initStars();drawStars();
+window.addEventListener('resize',()=>{resize();initStars();});
+
+// ═══ NAV ═══
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ═══ REVEAL ═══
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ═══ THEMES ═══
+function toggleTheme(el){el.classList.toggle('selected');}
+
+// ═══ SYMBOL LIBRARY DATA ═══
+const symbols = [
+  {icon:'💧',name:'Eau',cat:'nature',meaning:'Émotions, inconscient, purification et renouveau de l\'âme'},
+  {icon:'🔥',name:'Feu',cat:'nature',meaning:'Passion, transformation, énergie créatrice ou destructrice'},
+  {icon:'🌊',name:'Mer',cat:'nature',meaning:'Profondeurs de l\'inconscient, liberté, voyage intérieur'},
+  {icon:'🌲',name:'Forêt',cat:'lieu',meaning:'L\'inconnu, les aspects cachés de soi, les peurs à explorer'},
+  {icon:'🏠',name:'Maison',cat:'lieu',meaning:'Votre psyché, votre identité profonde et vos fondations'},
+  {icon:'✈️',name:'Vol',cat:'action',meaning:'Liberté, ambitions élevées, désir d\'élévation spirituelle'},
+  {icon:'🐍',name:'Serpent',cat:'animal',meaning:'Transformation, sagesse, guérison ou peur refoulée'},
+  {icon:'🦁',name:'Lion',cat:'animal',meaning:'Courage, pouvoir intérieur, fierté et leadership'},
+  {icon:'👁️',name:'Poursuite',cat:'action',meaning:'Fuite d\'une peur, d\'un problème non résolu en soi'},
+  {icon:'💀',name:'Mort',cat:'emotion',meaning:'Fin d\'un cycle, renaissance, transformation profonde'},
+  {icon:'👶',name:'Enfant',cat:'emotion',meaning:'L\'enfant intérieur, innocence, nouveaux commencements'},
+  {icon:'🌑',name:'Obscurité',cat:'nature',meaning:'L\'inconnu, les peurs cachées, l\'ombre selon Jung'},
+  {icon:'☀️',name:'Lumière',cat:'nature',meaning:'Conscience, clarté, éveil spirituel et guidance divine'},
+  {icon:'🏛',name:'Temple',cat:'lieu',meaning:'Spiritualité, connexion au divin, quête de sens'},
+  {icon:'🗡️',name:'Épée',cat:'action',meaning:'Conflit intérieur, décision à prendre, vérité à affronter'},
+  {icon:'🌹',name:'Fleur',cat:'nature',meaning:'Amour, beauté, épanouissement personnel et ouverture'},
+  {icon:'🐦',name:'Oiseau',cat:'animal',meaning:'Messages de l\'âme, liberté d\'esprit, aspirations'},
+  {icon:'🌙',name:'Lune',cat:'nature',meaning:'Intuition, cycles féminins, le subconscient et les rêves'},
+  {icon:'🪞',name:'Miroir',cat:'lieu',meaning:'Connaissance de soi, reflet de l\'âme, vérité intérieure'},
+  {icon:'🌉',name:'Pont',cat:'lieu',meaning:'Transition, passage entre deux états, prise de décision'},
+  {icon:'💎',name:'Trésor',cat:'emotion',meaning:'Talents cachés, valeur personnelle, ressources intérieures'},
+  {icon:'🌪️',name:'Tempête',cat:'nature',meaning:'Chaos émotionnel, changement imminent, énergie à libérer'},
+];
+
+function renderLibrary(filter='all'){
+  const grid=document.getElementById('libraryGrid');
+  const filtered=filter==='all'?symbols:symbols.filter(s=>s.cat===filter);
+  grid.innerHTML=filtered.map(s=>`
+    <div class="lib-card">
+      <div class="lib-card-top">
+        <span class="lib-icon">${s.icon}</span>
+        <div>
+          <div class="lib-name">${s.name}</div>
+          <div class="lib-category">${{nature:'🌿 Nature',action:'⚡ Action',lieu:'🏛 Lieu',animal:'🦁 Animal',emotion:'💫 Émotion'}[s.cat]||s.cat}</div>
+        </div>
+      </div>
+      <div class="lib-meaning">${s.meaning}</div>
+    </div>`).join('');
+}
+function filterLib(btn,cat){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLibrary(cat);
+}
+renderLibrary();
+
+// ═══ WORKER URL ═══
+const WORKER_URL='https://super-band-24a0.utilisateur456.workers.dev/';
+
+// ═══ INTERPRET DREAM ═══
+async function interpretDream(){
+  const text=document.getElementById('dreamText').value.trim();
+  if(!text||text.length<20){
+    document.getElementById('dreamText').style.borderColor='rgba(239,68,68,.5)';
+    setTimeout(()=>document.getElementById('dreamText').style.borderColor='',2000);
+    return;
+  }
+  const selectedThemes=[...document.querySelectorAll('.theme-chip.selected')].map(c=>c.textContent.trim()).join(', ');
+  const prompt=`Tu es Marco Médium, expert en interprétation des rêves selon les traditions ésotériques, jungienne et spirituelle.
+
+Rêve décrit : "${text}"
+${selectedThemes?`Thèmes identifiés par le rêveur : ${selectedThemes}`:''}
+
+Réponds UNIQUEMENT avec un objet JSON valide, sans backticks ni preamble :
+{
+  "titre": "titre poétique pour ce rêve (6-8 mots)",
+  "sous_titre": "une phrase courte sur le message principal",
+  "symboles": [
+    {"icone": "emoji", "nom": "nom du symbole"},
+    {"icone": "emoji", "nom": "nom du symbole"},
+    {"icone": "emoji", "nom": "nom du symbole"}
+  ],
+  "interpretation": "3-4 phrases d'interprétation générale profonde et personnalisée (commence directement sans 'Ce rêve')",
+  "domaines": [
+    {"icone": "emoji", "titre": "Amour & Relations", "texte": "2 phrases sur ce que le rêve révèle pour l'amour"},
+    {"icone": "emoji", "titre": "Vie Professionnelle", "texte": "2 phrases sur ce que le rêve révèle pour le travail"},
+    {"icone": "emoji", "titre": "Croissance Spirituelle", "texte": "2 phrases sur la dimension spirituelle"}
+  ],
+  "conseil": "Un conseil bienveillant et inspirant de Marco Médium pour le rêveur (2-3 phrases, personnel et chaleureux)"
+}`;
+
+  document.getElementById('interpretBtn').disabled=true;
+  document.querySelector('.dream-card').style.opacity='.4';
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('resultSection').classList.remove('show');
+
+  try {
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt})});
+    const d=await res.json();
+    const raw=d.data||d.message||'';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const json=JSON.parse(clean);
+    displayResult(json);
+  } catch(e) {
+    // Fallback
+    displayResult({
+      titre:"Les Portes de l'Inconscient S'Ouvrent",
+      sous_titre:"Un message important vous est adressé cette nuit",
+      symboles:[{icone:"🌙",nom:"Lune"},{icone:"💫",nom:"Lumière"},{icone:"🌊",nom:"Profondeur"}],
+      interpretation:"Votre rêve témoigne d'une période de transformation intérieure significative. Les images qui vous ont visité portent des messages de votre âme profonde, cherchant à vous guider vers une meilleure connaissance de vous-même. Cette vision nocturne révèle un travail inconscient important : votre psyché intègre des expériences récentes et vous prépare à un nouveau cycle de vie.",
+      domaines:[
+        {icone:"💕",titre:"Amour & Relations",texte:"Vos rêves révèlent un désir de connexion authentique. Ouvrez votre cœur aux messages qui vous parviennent."},
+        {icone:"⭐",titre:"Vie Professionnelle",texte:"Une intuition créatrice cherche à s'exprimer. Faites confiance aux insights qui émergent de votre inconscient."},
+        {icone:"🔮",titre:"Croissance Spirituelle",texte:"Vous êtes en plein éveil. Vos rêves sont des portails vers une compréhension plus profonde de votre mission de vie."}
+      ],
+      conseil:"Vos rêves sont des cadeaux précieux de votre âme. Tenez un journal de rêves pour capturer ces messages au réveil, avant qu'ils ne s'effacent. Votre inconscient vous parle — apprenez à l'écouter avec bienveillance et sans jugement."
+    });
+  }
+}
+
+function displayResult(json){
+  document.getElementById('loading').classList.remove('show');
+  document.querySelector('.dream-card').style.opacity='1';
+
+  document.getElementById('resultTitle').textContent=json.titre||'Votre Rêve Décodé';
+  document.getElementById('resultSub').textContent=json.sous_titre||'';
+
+  // Symbols
+  const sg=document.getElementById('symbolsGrid');
+  sg.innerHTML=(json.symboles||[]).map(s=>`
+    <div class="symbol-card">
+      <span class="symbol-icon">${s.icone}</span>
+      <span class="symbol-name">${s.nom}</span>
+    </div>`).join('');
+
+  document.getElementById('interpretationText').textContent=json.interpretation||'';
+
+  // Domains
+  const dg=document.getElementById('domainsGrid');
+  dg.innerHTML=(json.domaines||[]).map(d=>`
+    <div class="domain-card">
+      <span class="domain-icon">${d.icone}</span>
+      <span class="domain-title">${d.titre}</span>
+      <p class="domain-text">${d.texte}</p>
+    </div>`).join('');
+
+  document.getElementById('conseilText').textContent=json.conseil||'';
+
+  document.getElementById('resultSection').classList.add('show');
+  document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('interpretBtn').disabled=false;
+}
+
+function resetForm(){
+  document.getElementById('dreamText').value='';
+  document.querySelectorAll('.theme-chip.selected').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('resultSection').classList.remove('show');
+  document.querySelector('.dream-card').style.opacity='1';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Scroll to top — apparaît en bas de page
+window.addEventListener('scroll',()=>{
+  const scrolled = window.scrollY + window.innerHeight;
+  const total = document.documentElement.scrollHeight;
+  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
+});
+</script>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
+  <span class="arrow-head"></span>
+  <span class="arrow-shaft"></span>
+</button>
+</body>
+</html>

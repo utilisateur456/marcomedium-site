@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oracle du Jour — Marco Médium</title>
+  <meta name="description" content="Tirage de l'oracle avec Marco Médium. Recevez un message de guidance pour votre journée.">
+  <meta name="theme-color" content="#080612">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;overflow-x:hidden;}
+    #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(90px);}
+    .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(80,40,160,0.13),transparent 70%);top:-200px;right:-200px;}
+    .glow-2{width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent 70%);bottom:0;left:-100px;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.92)0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
+    nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
+    .nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);text-decoration:none;display:flex;align-items:center;gap:10px;}
+        .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
+    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
+    .nav-links a:hover{color:var(--gold-light);}
+    .nav-links a.active{color:var(--gold);}
+    .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
+    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;}.nav-burger{display:flex;}}
+
+    .page-hero{position:relative;z-index:2;padding:160px 48px 60px;text-align:center;max-width:800px;margin:0 auto;}
+    .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
+    .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,.3);}
+    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
+    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--text2);max-width:500px;margin:20px auto 0;opacity:0;animation:fadeUp .9s .7s forwards;}
+
+    .content{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:0 48px 100px;}
+    @media(max-width:768px){.content{padding:0 24px 70px;}.page-hero{padding:140px 24px 60px;}}
+
+    /* INTENTION INPUT */
+    .intention-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;margin-bottom:40px;position:relative;overflow:hidden;}
+    .intention-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+    .intention-card h3{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;letter-spacing:.05em;margin-bottom:8px;}
+    .intention-card p{color:var(--text3);font-size:.9rem;margin-bottom:20px;}
+    .intention-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;color:var(--text);font-family:'Lora',serif;font-size:1rem;font-style:italic;outline:none;transition:all .3s;resize:none;min-height:80px;}
+    .intention-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,.12);}
+    .intention-input::placeholder{color:var(--text3);}
+
+    /* CARDS SPREAD */
+    .spread-section{margin-bottom:48px;text-align:center;}
+    .spread-title{font-family:'Cinzel',serif;font-size:.85rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:32px;}
+    
+    .spread-types{display:flex;gap:12px;justify-content:center;margin-bottom:32px;flex-wrap:wrap;}
+    .spread-type-btn{
+      padding:10px 20px;background:var(--surface);border:1px solid var(--border);
+      border-radius:50px;color:var(--text3);font-family:'Inter',sans-serif;font-size:.75rem;
+      letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .3s;
+    }
+    .spread-type-btn.active{background:var(--purple-dim);border-color:var(--purple);color:var(--purple-light);}
+    .spread-type-btn:hover:not(.active){border-color:var(--border2);color:var(--text);}
+
+    /* CARD DECK */
+    .card-deck{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:40px;flex-wrap:wrap;}
+    
+    .tarot-card{
+      width:120px;height:200px;
+      background:linear-gradient(135deg,#1A1035,#0D0820);
+      border:1px solid var(--border2);border-radius:12px;
+      cursor:pointer;position:relative;overflow:hidden;
+      transition:all .4s cubic-bezier(.16,1,.3,1);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .tarot-card::before{
+      content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(45deg,rgba(139,92,246,.03) 0,rgba(139,92,246,.03) 1px,transparent 0,transparent 50%);
+      background-size:10px 10px;
+    }
+    .tarot-card::after{
+      content:'✦';position:absolute;
+      font-size:1.5rem;color:rgba(201,168,76,.2);
+    }
+    .tarot-card:hover{transform:translateY(-8px) scale(1.03);border-color:var(--gold);box-shadow:0 16px 40px rgba(139,92,246,.3);}
+    .tarot-card.drawn{cursor:default;transform:none!important;}
+    .tarot-card.flipping{animation:cardFlip .6s ease-in-out;}
+
+    .card-pos-label{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);text-align:center;margin-top:10px;}
+
+    /* CARD FACE */
+    .card-face{display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;gap:6px;}
+    .card-face.show{display:flex;}
+    .card-symbol{font-size:2.2rem;}
+    .card-name{font-family:'Cinzel',serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;color:var(--text);word-break:break-word;}
+    .card-back-symbol{font-size:2rem;color:rgba(201,168,76,.25);}
+
+    /* TIRAGE BTN */
+    .tirage-btn-wrap{text-align:center;margin-bottom:40px;}
+
+    /* RESULT */
+    .oracle-result{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px;position:relative;overflow:hidden;}
+    .oracle-result::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--purple),transparent);}
+    
+    .drawn-cards-display{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+    .drawn-card-item{text-align:center;flex:0 0 auto;}
+    .drawn-card-visual{
+      width:90px;height:150px;background:linear-gradient(135deg,var(--purple-dim),rgba(201,168,76,.05));
+      border:1px solid var(--border2);border-radius:10px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:6px;margin-bottom:8px;
+    }
+    .drawn-card-visual .dsym{font-size:1.8rem;}
+    .drawn-card-visual .dname{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.08em;color:var(--text2);padding:0 6px;text-align:center;}
+    .drawn-card-pos{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+
+    .oracle-message{margin-top:24px;}
+    .oracle-message-title{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+    .oracle-message-title::before,.oracle-message-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2));}
+    .oracle-text{font-size:1rem;color:var(--text2);line-height:1.9;white-space:pre-line;}
+
+    /* LOADING */
+    .oracle-loading{display:none;text-align:center;padding:48px;}
+    .cards-spinning{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+    .spin-card{width:40px;height:64px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;animation:cardSpin 1.5s ease-in-out infinite;}
+    .spin-card:nth-child(2){animation-delay:.15s;}
+    .spin-card:nth-child(3){animation-delay:.3s;}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:14px 30px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;white-space:nowrap;}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4);}
+    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);}
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+    .btn-purple{background:linear-gradient(135deg,var(--purple),#7C3AED);color:white;}
+    .btn-purple:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(139,92,246,.4);}
+    .btn-lg{padding:18px 40px;font-size:.9rem;}
+    .btn-full{width:100%;}
+    .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+    .cross-promo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:60px;}
+    @media(max-width:600px){.cross-promo{grid-template-columns:1fr;}}
+    .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;text-decoration:none;color:inherit;transition:all .3s;display:flex;flex-direction:column;gap:10px;}
+    .promo-card:hover{border-color:var(--border2);transform:translateY(-3px);}
+    .promo-icon{font-size:1.6rem;}.promo-title{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.05em;}
+    .promo-desc{font-size:.82rem;color:var(--text3);}
+    .promo-link{font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto;}
+
+    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    @media(max-width:600px){footer{padding:32px 24px;flex-direction:column;text-align:center;}}
+    .footer-brand{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;color:var(--gold-light);letter-spacing:.15em;}
+    .footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+    .footer-links a{font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
+    .footer-links a:hover{color:var(--gold);}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+    .reveal.visible{opacity:1;transform:none;}
+    .section-divider{position:relative;z-index:2;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 30%,var(--border2) 70%,transparent);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.9);}}
+    @keyframes cardFlip{0%{transform:rotateY(0);}50%{transform:rotateY(90deg);}100%{transform:rotateY(0);}}
+    @keyframes cardSpin{0%,100%{transform:rotateY(0);opacity:.5;}50%{transform:rotateY(180deg);opacity:1;}}
+    @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+      .nav-logo-img { height: 72px; width: auto; max-width: 220px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
+    .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
+    .nav-logo { gap: 10px; }
+    @media(max-width:768px){ .nav-logo-img { height: 54px; max-width: 160px; } }
+
+    /* ═══ SCROLL TO TOP ═══ */
+    #scrollTop {
+      position: fixed; bottom: 36px; right: 40px; z-index: 200;
+      background: none; border: none; padding: 8px;
+      cursor: pointer; opacity: 0; pointer-events: none;
+      transition: opacity .5s, transform .4s;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    #scrollTop .arrow-shaft {
+      width: 1px; height: 28px;
+      background: linear-gradient(to top, transparent, rgba(201,168,76,0.6));
+      transition: height .3s;
+    }
+    #scrollTop .arrow-head {
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid rgba(201,168,76,0.7);
+      filter: drop-shadow(0 0 4px rgba(201,168,76,0.5));
+      transition: filter .3s;
+      order: -1;
+    }
+    #scrollTop.show { opacity: 1; pointer-events: all; }
+    #scrollTop:hover { transform: translateY(-5px); }
+    #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
+    #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
+    @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
+  </style>
+  <!-- Google Tags: Analytics · Ads · Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-C979FB1QEG");
+    gtag("config", "GT-MKP7HSD");
+    gtag("config", "AW-11435134690");
+    gtag("config", "GT-PBSRNDX6");
+    gtag("config", "GT-TW5DK3H6");
+  </script>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<nav id="nav">
+    <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
+    <span class="live-dot"></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="horoscope.html">Horoscope</a></li>
+    <li><a href="numerologie.html">Numérologie</a></li>
+    <li><a href="oracle.html" class="active">Oracle</a></li>
+    <li><a href="reves.html">Rêves</a></li>
+    <li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
+  </ul>
+  <div class="nav-burger" id="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="label">Tirage · Messages · Guidance</div>
+  <h1>Oracle<br>du Jour</h1>
+  <p>Concentrez-vous sur votre intention. Les cartes vous parleront à travers la voix de Marco.</p>
+</div>
+
+  <div style="text-align:center;margin-top:-20px;margin-bottom:40px;position:relative;z-index:2;">
+    <img src="marco-tarot.webp" alt="Marco Médium avec ses cartes de tarot"
+      style="width:200px;border-radius:20px;filter:drop-shadow(0 0 30px rgba(139,92,246,0.5));opacity:0;animation:fadeUp .8s 1s forwards;">
+  </div>
+<div class="content">
+  <!-- INTENTION -->
+  <div class="intention-card reveal">
+    <h3>Votre intention du moment</h3>
+    <p>Avant de tirer vos cartes, ancrez votre question ou votre intention dans votre conscience.</p>
+    <textarea class="intention-input" id="intention" placeholder="Quelle question ou situation porte votre attention en ce moment ? (optionnel)"></textarea>
+  </div>
+
+  <!-- SPREAD SELECTION -->
+  <div class="spread-section reveal">
+    <div class="spread-title">Choisissez votre tirage</div>
+    <div class="spread-types">
+      <button class="spread-type-btn active" data-spread="1">1 Carte · Énergie du jour</button>
+      <button class="spread-type-btn" data-spread="3">3 Cartes · Passé · Présent · Futur</button>
+      <button class="spread-type-btn" data-spread="5">5 Cartes · Croix celtique</button>
+    </div>
+
+    <!-- CARD DECK -->
+    <div class="card-deck" id="card-deck">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="tirage-btn-wrap">
+      <button class="btn btn-purple btn-lg" id="btn-draw">🃏 Révéler les cartes</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="oracle-loading" id="oracle-loading">
+    <div class="cards-spinning">
+      <div class="spin-card"></div>
+      <div class="spin-card"></div>
+      <div class="spin-card"></div>
+    </div>
+    <p style="font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.15em;color:var(--text3);">Marco reçoit le message des cartes...</p>
+  </div>
+
+  <!-- RESULT -->
+  <div class="oracle-result reveal" id="oracle-result">
+    <div class="drawn-cards-display" id="drawn-cards-display"></div>
+    <div class="oracle-message">
+      <div class="oracle-message-title">Message de Marco</div>
+      <div class="oracle-text" id="oracle-text"></div>
+    </div>
+    <div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="index.html#consultation" class="btn btn-gold" style="flex:1;">✨ Consultation personnalisée</a>
+      <button class="btn btn-outline" id="btn-new-draw" style="flex:1;">🔄 Nouveau tirage</button>
+    </div>
+  </div>
+
+  <!-- CROSS PROMO -->
+  <div class="cross-promo reveal">
+    <a href="horoscope.html" class="promo-card">
+      <span class="promo-icon">♈</span>
+      <div class="promo-title">Horoscope</div>
+      <div class="promo-desc">Guidance astrologique pour votre signe</div>
+      <div class="promo-link">Consulter →</div>
+    </a>
+    <a href="numerologie.html" class="promo-card">
+      <span class="promo-icon">🔢</span>
+      <div class="promo-title">Numérologie</div>
+      <div class="promo-desc">Découvrez votre chemin de vie</div>
+      <div class="promo-link">Calculer →</div>
+    </a>
+    <a href="reves.html" class="promo-card">
+      <span class="promo-icon">🌙</span>
+      <div class="promo-title">Rêves</div>
+      <div class="promo-desc">Décodez vos rêves et leur symbolisme</div>
+      <div class="promo-link">Interpréter →</div>
+    </a>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+<footer>
+  <a href="index.html" class="footer-brand">Marco Médium</a>
+  <div class="footer-links">
+    <a href="index.html">Accueil</a>
+    <a href="horoscope.html">Horoscope</a>
+    <a href="numerologie.html">Numérologie</a>
+    <a href="reves.html">Rêves</a>
+    <a href="tel:+41218623326">📞 Appeler</a>
+  </div>
+  <span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--text3);">© 2025–2026 marcomedium.com</span>
+</footer>
+
+<script>
+(function(){const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');let W,H,stars=[],neb=[];function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}function create(){stars=Array.from({length:180},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,alpha:Math.random()*.7+.1,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.005,color:Math.random()>.8?'201,168,76':Math.random()>.6?'167,139,250':'255,255,255'}));neb=Array.from({length:5},()=>({x:Math.random()*W,y:Math.random()*H*.8,r:Math.random()*200+100,alpha:Math.random()*.05+.01,color:Math.random()>.5?'139,92,246':'201,168,76'}));}function draw(){ctx.clearRect(0,0,W,H);neb.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,`rgba(${n.color},${n.alpha})`);g.addColorStop(1,'transparent');ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();});stars.forEach(s=>{s.tw+=s.ts;const a=s.alpha*(0.5+.5*Math.sin(s.tw));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${s.color},${a})`;ctx.fill();});requestAnimationFrame(draw);}window.addEventListener('resize',()=>{resize();create();});resize();create();draw();})();
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
+document.getElementById('burger').addEventListener('click',function(){const l=document.querySelector('.nav-links');l.style.cssText=l.style.display==='flex'?'':'display:flex;flex-direction:column;position:fixed;top:65px;left:0;right:0;background:rgba(6,4,15,.98);padding:24px;gap:20px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);z-index:99;';});
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Card data
+const CARDS=[
+  {sym:'☀️',name:'Le Soleil',meaning:'Lumière, joie, succès'},
+  {sym:'🌙',name:'La Lune',meaning:'Mystère, intuition, rêves'},
+  {sym:'⭐',name:'L\'Étoile',meaning:'Espoir, guidance, renouveau'},
+  {sym:'⚡',name:'La Tour',meaning:'Transformation, révélation'},
+  {sym:'⚖️',name:'La Justice',meaning:'Équilibre, vérité, karma'},
+  {sym:'🔮',name:'La Prêtresse',meaning:'Sagesse cachée, intuition'},
+  {sym:'🌍',name:'Le Monde',meaning:'Accomplissement, complétude'},
+  {sym:'💫',name:'L\'Étoile filante',meaning:'Opportunité, timing parfait'},
+  {sym:'🦋',name:'La Transformation',meaning:'Métamorphose, évolution'},
+  {sym:'🌊',name:'L\'Eau vive',meaning:'Émotions, flux, purification'},
+  {sym:'🔥',name:'Le Feu sacré',meaning:'Passion, énergie, créativité'},
+  {sym:'🌿',name:'La Nature',meaning:'Croissance, fertilité, abondance'},
+  {sym:'👁️',name:'L\'Œil divin',meaning:'Conscience, perception, éveil'},
+  {sym:'🗝️',name:'La Clé',meaning:'Solutions, accès, révélation'},
+  {sym:'🕊️',name:'La Paix',meaning:'Harmonie, réconciliation'},
+  {sym:'🌺',name:'La Fleur',meaning:'Beauté, amour, épanouissement'},
+  {sym:'⚓',name:'L\'Ancre',meaning:'Stabilité, fondation, sécurité'},
+  {sym:'🦅',name:'L\'Aigle',meaning:'Vision, hauteur, liberté'},
+  {sym:'🌈',name:'L\'Arc-en-ciel',meaning:'Promesse, renouveau, joie'},
+  {sym:'💎',name:'Le Diamant',meaning:'Valeur, clarté, préciosité'},
+  {sym:'🌙',name:'Le Croissant',meaning:'Cycles, renouveau, féminin'},
+  {sym:'🏔️',name:'La Montagne',meaning:'Défis, accomplissement, hauteur'}
+];
+
+const SPREADS={
+  1:{count:1,labels:['Énergie du Jour']},
+  3:{count:3,labels:['Passé','Présent','Futur']},
+  5:{count:5,labels:['Situation','Obstacles','Fondation','Conseil','Issue']}
+};
+
+let currentSpread=1;
+let drawnCards=[];
+
+function buildDeck(){
+  const deck=document.getElementById('card-deck');
+  deck.innerHTML='';
+  const n=Math.min(SPREADS[currentSpread].count+4,8);
+  for(let i=0;i<n;i++){
+    const card=document.createElement('div');
+    card.className='tarot-card';
+    card.innerHTML='<span class="card-back-symbol">✦</span>';
+    card.style.animationDelay=(i*.08)+'s';
+    deck.appendChild(card);
+  }
+}
+
+// Spread selector
+document.querySelectorAll('.spread-type-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.spread-type-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    currentSpread=parseInt(this.dataset.spread);
+    buildDeck();
+    document.getElementById('oracle-result').style.display='none';
+  });
+});
+
+buildDeck();
+
+// Draw
+document.getElementById('btn-draw').addEventListener('click',async function(){
+  const intention=document.getElementById('intention').value.trim();
+  const spread=SPREADS[currentSpread];
+  
+  // Pick random cards
+  const shuffled=[...CARDS].sort(()=>Math.random()-.5);
+  drawnCards=shuffled.slice(0,spread.count);
+
+  // Animate deck cards
+  document.querySelectorAll('.tarot-card').forEach((c,i)=>{
+    c.classList.add('flipping');
+    setTimeout(()=>c.classList.remove('flipping'),600);
+  });
+
+  this.disabled=true;
+  document.getElementById('oracle-loading').style.display='block';
+  document.getElementById('oracle-result').style.display='none';
+
+  const today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  const cardsDesc=drawnCards.map((c,i)=>`${spread.labels[i]||'Carte '+(i+1)}: ${c.name} (${c.meaning})`).join('\n');
+  
+  const prompt=`Tu es Marco Médium, voyant suisse. Voici un tirage de ${spread.count} carte(s) oracle pour aujourd'hui ${today}.
+
+${intention?'Intention de la personne: '+intention+'\n\n':''}Cartes tirées:
+${cardsDesc}
+
+Donne un message de guidance spirituelle de 3-4 paragraphes (environ 180 mots). 
+Commence par une introduction sur l'énergie générale du tirage.
+Interprète les cartes dans leur contexte et leur relation.
+Termine par un message d'action concret.
+Style: Marco Médium — direct, bienveillant, sans complaisance, authentique.
+Réponds uniquement en texte, pas de JSON ni de formatage markdown.`;
+
+  let message='';
+  try{
+    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt})});
+    if(!r.ok) throw new Error();
+    const data=await r.json();
+    message=data.data||data.message||'';
+  }catch(e){
+    message=`Ce tirage révèle une énergie remarquable. Les cartes parlent d'un moment charnière, d'un croisement entre ce qui était et ce qui veut se manifester. Quelque chose en vous est prêt — plus prêt que vous ne le pensez.
+
+La ${drawnCards[0].name} ouvre ce tirage avec toute sa force. Son message : ${drawnCards[0].meaning}. C'est votre énergie dominante du moment, celle qui colore tout ce que vous traversez actuellement.
+
+${drawnCards.length>1?'La dynamique entre ces cartes indique un mouvement, un déplacement intérieur en cours. Ne cherchez pas à forcer les choses — laissez les énergies s\'aligner naturellement.':''}
+
+Mon conseil : restez attentif aux synchronicités des prochains jours. Un message important cherche à vous atteindre. Faites confiance à votre première intuition, elle est juste.`;
+  }
+
+  document.getElementById('oracle-loading').style.display='none';
+  this.disabled=false;
+
+  // Display drawn cards
+  const dcd=document.getElementById('drawn-cards-display');
+  dcd.innerHTML=drawnCards.map((c,i)=>`
+    <div class="drawn-card-item">
+      <div class="drawn-card-visual">
+        <span class="dsym">${c.sym}</span>
+        <span class="dname">${c.name}</span>
+      </div>
+      <div class="drawn-card-pos">${spread.labels[i]||'Carte '+(i+1)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('oracle-text').textContent=message;
+  const result=document.getElementById('oracle-result');
+  result.style.display='block';
+  result.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('btn-new-draw').addEventListener('click',function(){
+  document.getElementById('oracle-result').style.display='none';
+  document.getElementById('intention').value='';
+  buildDeck();
+  document.getElementById('btn-draw').disabled=false;
+  document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});
+});
+
+// Scroll to top — apparaît en bas de page
+window.addEventListener('scroll',()=>{
+  const scrolled = window.scrollY + window.innerHeight;
+  const total = document.documentElement.scrollHeight;
+  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
+});
+</script>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
+  <span class="arrow-head"></span>
+  <span class="arrow-shaft"></span>
+</button>
+</body>
+</html>
