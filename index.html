@@ -15,7 +15,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    /* ===== DESIGN SYSTEM ===== */
     :root {
       --bg: #06040F; --bg2: #0D0820; --bg3: #130E2A;
       --surface: rgba(255,255,255,0.03); --surface2: rgba(255,255,255,0.06);
@@ -34,18 +33,13 @@
       color: var(--text);
       font-family: 'Lora', Georgia, serif;
       line-height: 1.7;
-      overflow-x: hidden;
       min-height: 100vh;
     }
     #stars-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-    /* Glow backgrounds */
     .glow { position: fixed; pointer-events: none; z-index: 0; border-radius: 50%; filter: blur(80px); }
     .glow-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%); top: -250px; right: -200px; }
     .glow-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(139,92,246,0.07), transparent 70%); bottom: 10%; left: -150px; }
     .glow-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(201,168,76,0.06), transparent 70%); top: 50%; left: 40%; transform: translateX(-50%); }
-
-    /* ===== NAV ===== */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 20px 48px;
@@ -89,32 +83,26 @@
     .nav-cta::after { display: none !important; }
     .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .nav-burger span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
-
     @media(max-width:768px) {
       nav { padding: 18px 24px; }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
     }
-
-    /* ===== HERO ===== */
     .hero-inner { display: flex; align-items: center; justify-content: center; gap: 60px; max-width: 1100px; margin: 0 auto; width: 100%; }
     .hero-text { flex: 1; min-width: 0; }
     .hero-portrait {
-      flex: 0 0 300px; position: relative;
+      flex: 0 0 480px; position: relative;
       opacity: 0; animation: fadeUp 1s 0.8s forwards;
       text-align: center;
     }
     .hero-portrait img {
       width: 100%; height: auto;
       filter: drop-shadow(0 0 40px rgba(139,92,246,0.45));
+      
     }
     @media(max-width: 900px) {
       .hero-inner { flex-direction: column; gap: 30px; }
-      .hero-portrait { flex: 0 0 auto; width: 200px; margin: 0 auto; }
-    }
-    @media(max-width: 900px) {
-      .hero-inner { flex-direction: column; gap: 30px; }
-      .hero-portrait { flex: 0 0 auto; width: 220px; }
+      .hero-portrait { flex: 0 0 auto; width: 320px; }
     }
     .hero {
       position: relative; z-index: 2;
@@ -124,7 +112,6 @@
       text-align: center;
       padding: 120px 40px 80px;
     }
-
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 400;
@@ -135,7 +122,6 @@
     .hero-eyebrow::before, .hero-eyebrow::after {
       content: ''; display: block; width: 24px; height: 1px; background: var(--gold-dim);
     }
-
     .hero h1 {
       font-family: 'Cinzel', serif;
       font-size: clamp(3rem, 8vw, 7rem);
@@ -147,7 +133,6 @@
       margin-bottom: 8px;
       opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
     }
-
     .hero-subtitle-line {
       font-family: 'Cinzel', serif;
       font-size: clamp(0.9rem, 2vw, 1.2rem);
@@ -158,7 +143,6 @@
       margin-bottom: 40px;
       opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
     }
-
     .hero-tagline {
       font-family: 'Lora', serif;
       font-style: italic;
@@ -169,12 +153,10 @@
       margin-bottom: 56px;
       opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
     }
-
     .hero-actions {
       display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center;
       opacity: 0; animation: fadeUp 0.9s 1.1s forwards;
     }
-
     .hero-status {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 400;
@@ -191,7 +173,6 @@
     .hero-status .dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; box-shadow: 0 0 8px #34D399; animation: pulse 2s infinite; transition: background .3s, box-shadow .3s; }
     .hero-status.busy { color: #F87171; background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.25); }
     .hero-status.busy .dot { background: #F87171; box-shadow: 0 0 8px #F87171; }
-
     .scroll-indicator {
       position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -200,11 +181,8 @@
       opacity: 0; animation: fadeUp 1s 1.5s forwards;
     }
     .scroll-line { width: 1px; height: 40px; background: linear-gradient(180deg, var(--border2), transparent); animation: scrollPulse 2s infinite; }
-
-    /* ===== SECTIONS ===== */
     .section { position: relative; z-index: 2; padding: 100px 48px; max-width: 1280px; margin: 0 auto; }
     @media(max-width:768px) { .section { padding: 70px 24px; } }
-
     .section-label {
       display: inline-flex; align-items: center; gap: 10px;
       font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 400;
@@ -212,26 +190,20 @@
       margin-bottom: 20px;
     }
     .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold); }
-
     h2 {
       font-family: 'Cinzel', serif;
       font-size: clamp(1.8rem, 4vw, 3rem);
       font-weight: 600; letter-spacing: 0.02em; line-height: 1.2;
       margin-bottom: 16px;
     }
-
     .gradient-text {
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
     p.lead { color: var(--text2); font-size: 1.05rem; max-width: 600px; }
-
-    /* ===== SERVICES GRID ===== */
     .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
     @media(max-width:900px) { .services-grid { grid-template-columns: 1fr 1fr; } }
     @media(max-width:600px) { .services-grid { grid-template-columns: 1fr; } }
-
     .service-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -251,7 +223,6 @@
       .service-card:nth-child(4) { border-radius: 0; }
       .service-card:last-child { border-radius: 0 0 var(--radius) var(--radius); }
     }
-
     .service-card::before {
       content: ''; position: absolute; inset: 0;
       background: radial-gradient(circle at 30% 20%, rgba(139,92,246,0.1), transparent 60%);
@@ -259,7 +230,6 @@
     }
     .service-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: var(--glow-purple); z-index: 1; }
     .service-card:hover::before { opacity: 1; }
-
     .service-icon {
       font-size: 2rem; margin-bottom: 20px;
       display: flex; align-items: center; justify-content: center;
@@ -279,8 +249,6 @@
       transition: gap 0.3s;
     }
     .service-card:hover .service-arrow { gap: 10px; }
-
-    /* ===== CONSULTATION SECTION ===== */
     .consult-tabs {
       display: flex; gap: 0;
       border: 1px solid var(--border);
@@ -305,25 +273,20 @@
     .tab-btn .tab-icon { font-size: 1.2rem; }
     .tab-btn.active { background: var(--purple-dim); color: var(--purple-light); border-color: var(--border2); }
     .tab-btn:hover:not(.active) { background: var(--surface2); color: var(--text); }
-
     .tab-panel { display: none; }
     .tab-panel.active { display: block; animation: fadeUp 0.4s; }
-
     .consult-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 40px;
     }
-
     .consult-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; }
     .consult-price {
       font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 600;
       color: var(--gold-light); white-space: nowrap;
     }
     .consult-price small { font-size: 0.9rem; color: var(--text3); font-family: 'Inter', sans-serif; font-weight: 400; }
-
-    /* Phone minutes picker */
     .minutes-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
     .min-btn {
       padding: 12px 20px;
@@ -339,8 +302,6 @@
       font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--gold);
       margin: 16px 0 24px;
     }
-
-    /* Payment methods */
     .payment-methods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 32px; }
     @media(max-width:600px) { .payment-methods { grid-template-columns: repeat(2, 1fr); } }
     .pay-method {
@@ -353,8 +314,6 @@
     .pay-method:hover { border-color: var(--border2); background: var(--surface2); transform: translateY(-2px); }
     .pay-method .pay-icon { font-size: 1.6rem; }
     .pay-method span { font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
-
-    /* Form */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } }
     .form-group { margin-bottom: 16px; }
@@ -372,8 +331,6 @@
     .form-group select option { background: #130E2A; }
     .form-group textarea { min-height: 110px; resize: vertical; }
     .form-group.full { grid-column: 1 / -1; }
-
-    /* ===== ABOUT ===== */
     .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: center; }
     @media(max-width:900px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
     .about-img-wrap { position: relative; }
@@ -382,7 +339,7 @@
       background: linear-gradient(135deg, var(--gold-dim), var(--purple-dim));
       border-radius: 20px; z-index: -1;
     }
-    .about-img { width: 100%; border-radius: 18px; display: block; object-fit: contain; object-position: top center; }
+    .about-img { width: 100%; border-radius: 18px; display: block; object-fit: contain; object-position: top center;  }
     .about-qualities { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
     .quality {
       display: flex; align-items: flex-start; gap: 16px;
@@ -393,8 +350,6 @@
     .quality-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
     .quality h4 { font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 4px; }
     .quality p { font-size: 0.85rem; color: var(--text3); }
-
-    /* ===== TESTIMONIALS ===== */
     .testi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 48px; }
     @media(max-width:900px) { .testi-grid { grid-template-columns: 1fr; } }
     .testi-card {
@@ -410,8 +365,6 @@
     .testi-author { font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
     .testi-location { font-family: 'Inter', sans-serif; font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
     .stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 4px; }
-
-    /* ===== FAQ ===== */
     .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 2px; }
     .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
     .faq-question {
@@ -427,8 +380,6 @@
     .faq-answer-inner { padding: 0 28px 22px; color: var(--text2); font-size: 0.95rem; border-top: 1px solid var(--border); padding-top: 16px; }
     .faq-item.open .faq-chevron { transform: rotate(180deg); }
     .faq-item.open .faq-answer { max-height: 300px; }
-
-    /* ===== FOOTER ===== */
     footer { position: relative; z-index: 2; border-top: 1px solid var(--border); padding: 60px 48px 40px; }
     .footer-inner { max-width: 1280px; margin: 0 auto; }
     .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
@@ -444,8 +395,6 @@
     .footer-col ul a:hover { color: var(--gold); }
     .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     .footer-copy { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: var(--text3); }
-
-    /* ===== BUTTONS ===== */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
@@ -461,39 +410,28 @@
     .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
     .btn-sm { padding: 10px 22px; font-size: 0.76rem; }
     .btn-full { width: 100%; }
-
-    /* ===== DIVIDER ===== */
     .full-divider {
       position: relative; z-index: 2; width: 100%; height: 1px;
       background: linear-gradient(90deg, transparent, var(--border2) 30%, var(--border2) 70%, transparent);
     }
-
-    /* ===== REVEAL ===== */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
     .reveal.visible { opacity: 1; transform: none; }
     .reveal.delay-1 { transition-delay: 0.1s; }
     .reveal.delay-2 { transition-delay: 0.2s; }
     .reveal.delay-3 { transition-delay: 0.3s; }
     .reveal.delay-4 { transition-delay: 0.4s; }
-
-    /* ===== CTA STRIP ===== */
     .cta-strip {
       position: relative; z-index: 2; padding: 80px 48px; text-align: center;
       background: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(201,168,76,0.06) 100%);
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
-
-    /* ===== ANIMATIONS ===== */
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.6;transform:scale(.9);} }
     @keyframes scrollPulse { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(.6);opacity:.4;} }
-
     .form-success { display: none; text-align: center; padding: 24px; color: #34D399; font-family: 'Cinzel', serif; font-size: 1rem; }
-    .nav-logo-img { height: 90px; width: auto; max-width: 220px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
+    .nav-logo-img { height: 90px; width: auto; max-width: 320px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
     .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
-    .nav-logo { gap: 10px; }
     @media(max-width:768px){ .nav-logo-img { height: 64px; max-width: 180px; } }
-
     #scrollTop {
       position: fixed; bottom: 36px; right: 40px; z-index: 200;
       background: none; border: none; padding: 8px;
@@ -501,23 +439,16 @@
       transition: opacity .5s, transform .4s;
       display: flex; flex-direction: column; align-items: center; gap: 2px;
     }
-    #scrollTop .arrow-shaft { width: 1px; height: 28px; background: linear-gradient(to top, transparent, rgba(201,168,76,0.6)); transition: height .3s; }
-    #scrollTop .arrow-head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid rgba(201,168,76,0.7); filter: drop-shadow(0 0 4px rgba(201,168,76,0.5)); transition: filter .3s; order: -1; }
+    #scrollTop .arrow-shaft { width: 1px; height: 28px; background: linear-gradient(to top, transparent, rgba(201,168,76,0.6)); }
+    #scrollTop .arrow-head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid rgba(201,168,76,0.7); filter: drop-shadow(0 0 4px rgba(201,168,76,0.5)); order: -1; }
     #scrollTop.show { opacity: 1; pointer-events: all; }
     #scrollTop:hover { transform: translateY(-5px); }
-    #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
-    #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
-    @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
-
     .btn-text-mobile { display: none; }
     @media(max-width: 600px) {
       .btn-text-full { display: none; }
       .btn-text-mobile { display: inline; }
-      .btn-full { font-size: 0.95rem !important; }
     }
     @media(max-width:480px){
-      .btn, .tab-btn, .nav-cta { min-height:44px; }
-      button, a { -webkit-tap-highlight-color: transparent; }
       nav { padding:14px 16px; }
       .nav-logo-img { height:42px !important; }
       .hero { padding:100px 20px 60px; min-height:auto; }
@@ -525,16 +456,14 @@
       .hero-tagline { font-size:.95rem; }
       .hero-actions { flex-direction:column; gap:12px; width:100%; }
       .hero-actions .btn { width:100%; justify-content:center; padding:16px; }
-      .hero-portrait { width:170px !important; }
+      .hero-portrait { width:260px !important; }
       .section { padding:50px 16px; }
-      .section-title { font-size:clamp(1.6rem,7vw,2.5rem); }
       .services-grid { grid-template-columns:1fr !important; gap:1px; }
       .consult-tabs { flex-direction:column; border-radius:var(--radius); }
       .tab-btn { border-right:none !important; border-bottom:1px solid var(--border); flex-direction:row; gap:10px; justify-content:flex-start; padding:14px 20px; }
       .tab-btn:last-child { border-bottom:none; }
-      .pay-methods { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
-      .pay-method { padding:12px 8px; font-size:.65rem; }
-      .min-options { flex-wrap:wrap; gap:8px; }
+      .payment-methods { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
+      .pay-method { padding:12px 8px; }
       .min-btn { flex:1; min-width:calc(50% - 4px); font-size:.72rem; padding:10px 8px; }
       .about-grid { grid-template-columns:1fr !important; }
       .about-img { max-width:260px; margin:0 auto; }
@@ -543,7 +472,6 @@
       .testi-grid { grid-template-columns:1fr !important; }
       .faq-question { font-size:.82rem; padding:18px 16px; }
       .footer-top { grid-template-columns:1fr !important; gap:24px; }
-      .footer-links { flex-direction:column; gap:12px; }
       #scrollTop { right:16px; bottom:16px; }
     }
     @media(max-width:768px){
@@ -552,16 +480,8 @@
       .about-img { max-width:300px; margin:0 auto; display:block; }
       input, select, textarea { font-size:16px !important; }
     }
-
-    #stars-canvas { will-change: transform; }
-    nav { will-change: transform; }
-    .reveal { will-change: opacity, transform; }
-    .hero-portrait img, .marco-intro img { will-change: transform; }
-    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-    .service-card, .tab-btn, .btn, .sign-chip, .tarot-card { -webkit-transform: translateZ(0); transform: translateZ(0); backface-visibility: hidden; }
     body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   </style>
-  <!-- Google Tags: Analytics · Ads · Tag Manager -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>emailjs.init("liRFAyxBo1908cbzF");</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
@@ -577,13 +497,11 @@
   </script>
 </head>
 <body>
-
 <canvas id="stars-canvas"></canvas>
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
 <div class="glow glow-3"></div>
 
-<!-- NAV -->
 <nav id="nav">
   <a href="index.html" class="nav-logo">
     <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
@@ -603,33 +521,31 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
   <div class="hero-inner">
-  <div class="hero-text">
-  <div class="hero-status" id="statusBadge" onclick="handleStatusClick()"><span class="dot" id="statusDot"></span> <span id="statusLabel">Disponible</span></div>
-  <div class="hero-eyebrow">Voyance · Médiumnité · Écriture automatique</div>
-  <h1>Marco<br>Médium</h1>
-  <p class="hero-subtitle-line">Vaud · Suisse</p>
-  <p class="hero-tagline">Explorons ensemble votre chemin de vie<br>et trouvons les réponses que vous cherchez.</p>
-  <div class="hero-actions">
-    <a href="tel:+41218623326" class="btn btn-gold">📞 Appeler maintenant</a>
-    <a href="#consultation" class="btn btn-outline">Prendre rendez-vous</a>
-  </div>
-  <div class="scroll-indicator">
-    <span>Découvrir</span>
-    <div class="scroll-line"></div>
-  </div>
-</div>
-  <div class="hero-portrait">
-    <img src="marco-bras-croises.webp" alt="Marco Médium — Voyant Vaud Suisse" loading="eager">
-  </div>
+    <div class="hero-text">
+      <div class="hero-status" id="statusBadge" onclick="handleStatusClick()"><span class="dot" id="statusDot"></span> <span id="statusLabel">Disponible</span></div>
+      <div class="hero-eyebrow">Voyance · Médiumnité · Écriture automatique</div>
+      <h1>Marco<br>Médium</h1>
+      <p class="hero-subtitle-line">Vaud · Suisse</p>
+      <p class="hero-tagline">Explorons ensemble votre chemin de vie<br>et trouvons les réponses que vous cherchez.</p>
+      <div class="hero-actions">
+        <a href="tel:+41218623326" class="btn btn-gold">📞 Appeler maintenant</a>
+        <a href="#consultation" class="btn btn-outline">Prendre rendez-vous</a>
+      </div>
+      <div class="scroll-indicator">
+        <span>Découvrir</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="marco-telephone.webp" alt="Marco Médium — Voyant Vaud Suisse" loading="eager">
+    </div>
   </div>
 </header>
 
 <div class="full-divider"></div>
 
-<!-- SERVICES -->
 <section class="section">
   <div class="reveal">
     <div class="section-label">Ce que je propose</div>
@@ -678,7 +594,6 @@
 
 <div class="full-divider"></div>
 
-<!-- CONSULTATION -->
 <section class="section" id="consultation">
   <div class="reveal">
     <div class="section-label">Commencer</div>
@@ -691,8 +606,6 @@
       <button class="tab-btn" data-tab="whatsapp"><span class="tab-icon">💬</span>WhatsApp</button>
       <button class="tab-btn" data-tab="email"><span class="tab-icon">✉️</span>E-mail</button>
     </div>
-
-    <!-- PHONE TAB -->
     <div class="tab-panel active consult-card" id="tab-phone">
       <div class="consult-header">
         <div>
@@ -725,8 +638,6 @@
         <p style="text-align:center;margin-top:12px;font-family:'Inter',sans-serif;font-size:0.72rem;color:var(--text3);letter-spacing:0.05em;">✦ Sous réserve de disponibilité · Lun–Ven 9h–19h</p>
       </div>
     </div>
-
-    <!-- RDV TAB -->
     <div class="tab-panel consult-card" id="tab-rdv">
       <div class="consult-header">
         <div>
@@ -754,8 +665,6 @@
         <div class="form-success">✦ Demande envoyée ! Marco vous contactera pour confirmer.</div>
       </form>
     </div>
-
-    <!-- WHATSAPP TAB -->
     <div class="tab-panel consult-card" id="tab-whatsapp">
       <div class="consult-header">
         <div>
@@ -764,7 +673,7 @@
         </div>
         <div class="consult-price">CHF 2.–<small> /question</small></div>
       </div>
-      <p style="color:var(--text2);margin-bottom:28px;font-size:0.95rem;">Simple. Clair. Direct. Vous allez à l'essentiel, sans perdre de temps. Marco vous répond de manière claire, précise et ciblée.</p>
+      <p style="color:var(--text2);margin-bottom:28px;font-size:0.95rem;">Simple. Clair. Direct. Vous allez à l'essentiel, sans perdre de temps.</p>
       <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;margin-bottom:28px;">
         <p style="font-family:'Inter',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;">Comment ça marche :</p>
         <ol style="list-style:none;display:flex;flex-direction:column;gap:12px;">
@@ -778,8 +687,6 @@
         <a href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="btn btn-outline" style="flex:1;">🟦 Twint</a>
       </div>
     </div>
-
-    <!-- EMAIL TAB -->
     <div class="tab-panel consult-card" id="tab-email">
       <div class="consult-header">
         <div>
@@ -817,11 +724,10 @@
 
 <div class="full-divider"></div>
 
-<!-- ABOUT -->
 <section class="section">
   <div class="about-grid">
     <div class="reveal">
-      <img src="marco-portrait.webp" alt="Marco Médium" class="about-img">
+      <img src="marco-bras-croises.webp" alt="Marco Médium" class="about-img">
     </div>
     <div>
       <div class="section-label reveal">À propos de Marco</div>
@@ -838,7 +744,6 @@
 
 <div class="full-divider"></div>
 
-<!-- TESTIMONIALS -->
 <section class="section">
   <div class="reveal">
     <div class="section-label">Ce qu'ils disent</div>
@@ -863,7 +768,6 @@
   </div>
 </section>
 
-<!-- CTA STRIP -->
 <div class="cta-strip">
   <div class="section-label reveal" style="justify-content:center;">Consultation</div>
   <h2 class="reveal delay-1" style="margin-bottom:12px;">Prêt à obtenir<br><span class="gradient-text">vos réponses ?</span></h2>
@@ -874,7 +778,6 @@
   </div>
 </div>
 
-<!-- FAQ -->
 <section class="section">
   <div class="reveal">
     <div class="section-label">Questions fréquentes</div>
@@ -895,16 +798,15 @@
     </div>
     <div class="faq-item">
       <button class="faq-question">Je ne suis pas en Suisse, puis-je consulter ?<span class="faq-chevron">▾</span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">Oui. Tant que tu peux payer via PayPal et appeler, c'est bon. L'énergie n'a pas de frontières. Les consultations WhatsApp et email sont disponibles partout dans le monde.</div></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Oui. Tant que tu peux payer via PayPal et appeler, c'est bon. L'énergie n'a pas de frontières.</div></div>
     </div>
     <div class="faq-item">
       <button class="faq-question">Puis-je offrir une consultation en cadeau ?<span class="faq-chevron">▾</span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">Absolument. Contactez Marco directement par email ou WhatsApp pour un bon cadeau personnalisé — une expérience unique pour vos proches.</div></div>
+      <div class="faq-answer"><div class="faq-answer-inner">Absolument. Contactez Marco directement par email ou WhatsApp pour un bon cadeau personnalisé.</div></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -945,7 +847,6 @@
 </footer>
 
 <script>
-// Stars
 (function(){
   const canvas = document.getElementById('stars-canvas');
   const ctx = canvas.getContext('2d');
@@ -1010,17 +911,14 @@
   resize(); createStars(); draw();
 })();
 
-// Nav scroll
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY>50);
 });
 
-// === STATUS BADGE — TEMPS RÉEL ===
 (function(){
   const PASS = 'marco2026';
   const STATUS_URL = 'https://super-band-24a0.marcomedium-com.workers.dev/status';
   let clicks = 0, timer;
-
   async function fetchStatus() {
     try {
       const r = await fetch(STATUS_URL);
@@ -1030,7 +928,6 @@ window.addEventListener('scroll',()=>{
   }
   fetchStatus();
   setInterval(fetchStatus, 30000);
-
   window.handleStatusClick = function(){
     clicks++;
     clearTimeout(timer);
@@ -1050,7 +947,6 @@ window.addEventListener('scroll',()=>{
       }
     }
   };
-
   function setBusy(busy){
     const badge = document.getElementById('statusBadge');
     const label = document.getElementById('statusLabel');
@@ -1067,7 +963,6 @@ window.addEventListener('scroll',()=>{
   }
 })();
 
-// Mobile menu
 document.getElementById('burger').addEventListener('click',function(){
   const links=document.querySelector('.nav-links');
   const isOpen = links.style.display==='flex';
@@ -1077,13 +972,11 @@ document.getElementById('burger').addEventListener('click',function(){
     'border-bottom:1px solid rgba(180,120,255,.15);backdrop-filter:blur(20px);z-index:99;';
 });
 
-// Scroll Reveal
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
 },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-// Tabs
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click',function(){
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1093,7 +986,6 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   });
 });
 
-// Minutes picker
 document.querySelectorAll('.min-btn').forEach(btn=>{
   btn.addEventListener('click',function(){
     document.querySelectorAll('.min-btn').forEach(b=>b.classList.remove('active'));
@@ -1102,7 +994,6 @@ document.querySelectorAll('.min-btn').forEach(btn=>{
   });
 });
 
-// FAQ
 document.querySelectorAll('.faq-question').forEach(q=>{
   q.addEventListener('click',function(){
     const item=this.parentElement;
@@ -1112,7 +1003,6 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   });
 });
 
-// Forms
 function sendForm(formId){
   const f=document.getElementById(formId);
   if(!f) return;
@@ -1144,7 +1034,6 @@ function sendForm(formId){
 sendForm('form-rdv');
 sendForm('form-email');
 
-// Scroll to top
 window.addEventListener('scroll',()=>{
   const scrolled = window.scrollY + window.innerHeight;
   const total = document.documentElement.scrollHeight;
