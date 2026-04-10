@@ -539,7 +539,7 @@
       </div>
     </div>
     <div class="hero-portrait">
-      <img src="marco-telephone.webp" alt="Marco Médium — Voyant Vaud Suisse" loading="eager">
+      <img src="marco-telephone.png" alt="Marco Médium — Voyant Vaud Suisse" loading="eager">
     </div>
   </div>
 </header>
@@ -614,23 +614,7 @@
         </div>
         <div class="consult-price">CHF 2.–<small> /min</small></div>
       </div>
-      <p style="color:var(--text2);font-size:0.9rem;margin-bottom:4px;">Sélectionnez la durée de votre consultation :</p>
-      <div class="minutes-grid">
-        <button class="min-btn" data-min="10" data-price="20">10 min · CHF 20.–</button>
-        <button class="min-btn active" data-min="20" data-price="40">20 min · CHF 40.–</button>
-        <button class="min-btn" data-min="30" data-price="60">30 min · CHF 60.–</button>
-        <button class="min-btn" data-min="45" data-price="90">45 min · CHF 90.–</button>
-        <button class="min-btn" data-min="60" data-price="120">60 min · CHF 120.–</button>
-      </div>
-      <div class="min-total" id="phone-total">Total : CHF 40.–</div>
-      <p style="font-family:'Inter',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;">Modes de paiement :</p>
-      <div class="payment-methods">
-        <a href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="pay-method"><span class="pay-icon">🟦</span><span>Twint</span></a>
-        <a href="https://www.paypal.com/ncp/payment/VEWS58585DEVC" target="_blank" class="pay-method"><span class="pay-icon">🅿️</span><span>PayPal</span></a>
-        <a href="https://www.paypal.com/ncp/payment/VEWS58585DEVC" target="_blank" class="pay-method"><span class="pay-icon">💳</span><span>Carte</span></a>
-        <a href="facture-qr.pdf" target="_blank" class="pay-method"><span class="pay-icon">🏦</span><span>IBAN / QR</span></a>
-      </div>
-      <div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border);">
+      <div style="margin-top:8px;">
         <a href="tel:+41218623326" class="btn btn-gold btn-full" style="font-size:1rem;padding:18px;">
           <span class="btn-text-full">📞 +41 21 862 33 26 — Appeler maintenant</span>
           <span class="btn-text-mobile">📞 Appeler Marco</span>
@@ -658,9 +642,8 @@
           <div class="form-group"><label>Heure souhaitée *</label><input type="time" name="heure" required></div>
           <div class="form-group full"><label>Message (optionnel)</label><textarea name="message" placeholder="Précisez votre question ou contexte..."></textarea></div>
         </div>
-        <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;">
-          <button type="submit" class="btn btn-gold" style="flex:1;">✨ Demander un rendez-vous</button>
-          <a href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="btn btn-outline" style="flex:1;">💳 Payer en avance</a>
+        <div style="margin-top:8px;">
+          <button type="submit" class="btn btn-gold btn-full">✨ Demander un rendez-vous</button>
         </div>
         <div class="form-success">✦ Demande envoyée ! Marco vous contactera pour confirmer.</div>
       </form>
@@ -727,7 +710,7 @@
 <section class="section">
   <div class="about-grid">
     <div class="reveal">
-      <img src="marco-bras-croises.webp" alt="Marco Médium" class="about-img">
+      <img src="marco-bras-croises.png" alt="Marco Médium" class="about-img">
     </div>
     <div>
       <div class="section-label reveal">À propos de Marco</div>
@@ -983,14 +966,6 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
     this.classList.add('active');
     document.getElementById('tab-'+this.dataset.tab).classList.add('active');
-  });
-});
-
-document.querySelectorAll('.min-btn').forEach(btn=>{
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.min-btn').forEach(b=>b.classList.remove('active'));
-    this.classList.add('active');
-    document.getElementById('phone-total').textContent='Total : CHF '+this.dataset.price+'.-';
   });
 });
 
