@@ -179,60 +179,34 @@ document.querySelectorAll('.spread-type-btn').forEach(function(btn){btn.addEvent
 buildDeck();
 function generateLocalReading(cards,intention){
   var txt='';
-  
   var intros=[
-    "Ce tirage arrive à un moment précis de votre vie — ce n'est pas un hasard. Les cartes ne mentent pas : elles révèlent ce qui est déjà là, sous la surface de votre quotidien, en attente d'être vu et agi.",
-    "Avant de lire ce message, prenez un moment. Posez vos mains à plat. Respirez. Ce que les cartes ont à vous dire mérite votre présence complète — pas une lecture rapide entre deux obligations.",
-    "Les cartes que vous avez choisies ne sont pas venues par hasard. Votre main, guidée par quelque chose que votre mental ne contrôle pas entièrement, a sélectionné exactement ce qui devait être vu maintenant."
+    "Ce tirage arrive a un moment precis de votre vie. Les cartes ne mentent pas — elles revelent ce qui est deja la, sous la surface.",
+    "Avant de lire, prenez un moment. Ce que les cartes ont a vous dire merite votre presence complete.",
+    "Les cartes que vous avez choisies ne sont pas venues par hasard. Votre intuition a selectionne exactement ce qui devait etre vu maintenant."
   ];
-  
-  var n = Math.floor(Math.random()*3);
-  txt += intros[n] + '
-
-';
-  
-  if(intention) txt += 'Votre question — "'+intention+'" — traverse chacune de ces cartes comme un fil conducteur. Lisez chaque message en le reliant à cette question.
-
-';
-  
+  txt += intros[Math.floor(Math.random()*3)] + '\n\n';
+  if(intention) txt += 'Votre question : "' + intention + '" traverse chacune de ces cartes comme un fil conducteur.\n\n';
   if(cards.length===1){
     var cd=cards[0].cardData;
-    txt += cd.name + '
-
-';
-    txt += cd.essence + ' ' + cd.conseil + '
-
-';
-    txt += "Cette carte unique concentre toute la puissance du tirage. Elle ne vous donne pas une réponse partielle — elle vous donne LA réponse. Pas nécessairement celle que vous espériez, mais celle dont vous avez besoin. Relisez-la demain matin avec un regard neuf — le sens s'approfondit avec le temps.";
+    txt += cd.name + '\n\n';
+    txt += cd.essence + ' ' + cd.conseil + '\n\n';
+    txt += "Cette carte unique concentre toute la puissance du tirage. Elle ne vous donne pas une reponse partielle — elle vous donne LA reponse. Pas necessairement celle que vous esperiez, mais celle dont vous avez besoin. Relisez-la demain matin avec un regard neuf.";
   } else if(cards.length===3){
-    var positions=['Ce que le passé a construit en vous','Ce qui est en jeu dans votre présent','Ce qui vous attend si vous suivez cette voie'];
+    var positions=['Ce que le passe a construit en vous','Ce qui est en jeu dans votre present','Ce qui vous attend si vous suivez cette voie'];
     for(var i=0;i<3;i++){
       var cd=cards[i].cardData;
-      txt += (cards[i].label||positions[i]) + ' — ' + cd.name + '
-
-';
-      txt += cd.essence + '
-
-' + cd.conseil + '
-
-';
+      txt += (cards[i].label||positions[i]) + ' — ' + cd.name + '\n\n';
+      txt += cd.essence + '\n\n' + cd.conseil + '\n\n';
     }
-    txt += "Ces trois cartes forment une histoire cohérente sur votre parcours actuel. Le passé explique le présent, qui dessine le futur possible. Mais rien n'est gravé dans le marbre — le futur dépend de ce que vous décidez de faire avec ce que le présent révèle. Quelle est la décision que cette lecture vous invite à prendre ?";
+    txt += "Ces trois cartes forment une histoire coherente sur votre parcours actuel. Le passe explique le present, qui dessine le futur possible. Quelle est la decision que cette lecture vous invite a prendre ?";
   } else {
-    var labels=['La situation telle qu'elle est vraiment','Ce qui bloque ou résiste','La fondation sur laquelle vous vous appuyez','Le conseil des cartes pour avancer','L'issue probable si vous suivez ce conseil'];
+    var labels=['La situation telle quelle est vraiment','Ce qui bloque ou resiste','La fondation sur laquelle vous vous appuyez','Le conseil des cartes pour avancer','Lissue probable si vous suivez ce conseil'];
     for(var i=0;i<cards.length;i++){
       var cd=cards[i].cardData;
-      var lbl=cards[i].label||labels[i]||'Carte '+(i+1);
-      txt += lbl + ' — ' + cd.name + '
-
-';
-      txt += cd.essence + '
-
-' + cd.conseil + '
-
-';
+      txt += (cards[i].label||labels[i]||'Carte '+(i+1)) + ' — ' + cd.name + '\n\n';
+      txt += cd.essence + '\n\n' + cd.conseil + '\n\n';
     }
-    txt += "Ce tirage complet dessine une cartographie précise de votre situation. Chaque carte parle à la suivante — lisez-les en dialogue plutôt qu'en isolation. La vérité de ce tirage est dans l'ensemble, dans les tensions et les résonances entre les cartes. Qu'est-ce que ce tirage vous dit que vous saviez déjà mais que vous n'aviez pas encore accepté ?";
+    txt += "Ce tirage complet dessine une cartographie precise de votre situation. Lisez les cartes en dialogue plutot quen isolation. Quelle verite ce tirage vous dit-il que vous saviez deja mais naviez pas encore acceptee ?";
   }
   return txt;
 }
