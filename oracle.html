@@ -3,21 +3,18 @@
 <head><script src="status-sync.js" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/favicon-180.png">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Oracle — Marco Médium</title>
   <meta name="description" content="Tirage de cartes oracle avec Marco Médium. Guidance spirituelle personnalisée, Vaud Suisse.">
   <meta name="theme-color" content="#080612">
   <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");</script>
   <style>
     :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{overflow-x:hidden;scroll-behavior:smooth;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{overflow-x:hidden;scroll-behavior:smooth;}
     body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
     #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
     .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);}
@@ -32,8 +29,7 @@
     .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
     .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
     .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
-    .nav-links a:hover{color:var(--gold-light);}
-    .nav-links a.active{color:var(--gold);}
+    .nav-links a:hover{color:var(--gold-light);}.nav-links a.active{color:var(--gold);}
     .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
     .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
     .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
@@ -52,8 +48,7 @@
     .intention-card h3{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;letter-spacing:.06em;margin-bottom:8px;}
     .intention-card p{color:var(--text3);font-size:.86rem;margin-bottom:14px;}
     .intention-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;color:var(--text);font-family:'Lora',serif;font-size:16px;font-style:italic;outline:none;transition:border-color .3s;resize:none;min-height:65px;}
-    .intention-input:focus{border-color:var(--purple);}
-    .intention-input::placeholder{color:var(--text3);}
+    .intention-input:focus{border-color:var(--purple);}.intention-input::placeholder{color:var(--text3);}
     .spread-section{margin-bottom:36px;text-align:center;}
     .spread-label{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:block;}
     .spread-types{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
@@ -77,8 +72,7 @@
     .oracle-loading{display:none;text-align:center;padding:48px;}
     .spin-row{display:flex;gap:14px;justify-content:center;margin-bottom:18px;}
     .spin-card{width:36px;height:58px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;animation:cardSpin 1.5s ease-in-out infinite;}
-    .spin-card:nth-child(2){animation-delay:.15s;}
-    .spin-card:nth-child(3){animation-delay:.3s;}
+    .spin-card:nth-child(2){animation-delay:.15s;}.spin-card:nth-child(3){animation-delay:.3s;}
     .oracle-result{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;position:relative;overflow:hidden;}
     .oracle-result::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--purple),transparent);}
     .drawn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
@@ -107,8 +101,7 @@
     .footer-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);margin-bottom:16px;}
     .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 28px;margin-bottom:20px;list-style:none;}
     .footer-links a{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
-    .footer-links a:hover{color:var(--gold);}
-    .footer-copy{font-size:.75rem;color:var(--text3);}
+    .footer-links a:hover{color:var(--gold);}.footer-copy{font-size:.75rem;color:var(--text3);}
     @media(max-width:768px){footer{padding:32px 20px;}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
@@ -118,43 +111,28 @@
 </head>
 <body>
 <canvas id="stars-canvas"></canvas>
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
-
+<div class="glow glow-1"></div><div class="glow glow-2"></div>
 <nav id="nav">
-  <a href="index.html" class="nav-logo">
-    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
-    <span class="live-dot" id="liveDot"></span>
-  </a>
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Marco Médium" class="nav-logo-img"><span class="live-dot" id="liveDot"></span></a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="horoscope.html">Horoscope</a></li>
-    <li><a href="numerologie.html">Numérologie</a></li>
-    <li><a href="oracle.html" class="active">Oracle</a></li>
-    <li><a href="reves.html">Rêves</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
+    <li><a href="index.html">Accueil</a></li><li><a href="horoscope.html">Horoscope</a></li><li><a href="numerologie.html">Numérologie</a></li><li><a href="oracle.html" class="active">Oracle</a></li><li><a href="reves.html">Rêves</a></li><li><a href="blog.html">Blog</a></li><li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
   </ul>
   <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
 </nav>
-
 <section class="page-hero">
   <div class="label">Oracle &middot; Guidance</div>
   <h1>L'Oracle<br>de Marco</h1>
   <p>Choisissez vos cartes en silence. Laissez votre intuition vous guider — elles vous répondront.</p>
 </section>
-
 <div class="marco-photo">
-  <img src="marco-tarot.webp" alt="Marco Médium avec ses cartes de tarot">
+  <img src="marco-tarot.png" alt="Marco Médium avec ses cartes de tarot">
 </div>
-
 <div class="content">
   <div class="intention-card">
     <h3>Votre intention du moment</h3>
     <p>Avant de tirer vos cartes, ancrez votre question ou votre intention dans votre conscience.</p>
     <textarea class="intention-input" id="intention" placeholder="Quelle question ou situation porte votre attention en ce moment ? (optionnel)"></textarea>
   </div>
-
   <div class="spread-section">
     <span class="spread-label">Choisissez votre tirage</span>
     <div class="spread-types">
@@ -165,316 +143,70 @@
     <div class="card-deck" id="card-deck"></div>
     <button class="btn-draw" id="btn-draw" disabled>Choisissez 1 carte</button>
   </div>
-
   <div class="oracle-loading" id="oracle-loading">
     <div class="spin-row"><div class="spin-card"></div><div class="spin-card"></div><div class="spin-card"></div></div>
     <p style="font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.12em;color:var(--text3)">Marco reçoit le message des cartes...</p>
   </div>
-
   <div class="oracle-result" id="oracle-result">
     <div class="drawn-row" id="drawn-row"></div>
     <div class="oracle-msg-title">Message de Marco</div>
     <div class="oracle-text" id="oracle-text"></div>
     <button class="btn-new" id="btn-new">Nouveau tirage</button>
   </div>
-
   <div class="promo-grid">
     <a href="horoscope.html" class="promo-card"><span class="promo-icon">&#9800;</span><span class="promo-title">Horoscope</span><span class="promo-desc">Personnalisé avec votre prénom</span></a>
     <a href="numerologie.html" class="promo-card"><span class="promo-icon">&#9679;</span><span class="promo-title">Numérologie</span><span class="promo-desc">Votre chemin de vie</span></a>
     <a href="index.html#consultation" class="promo-card"><span class="promo-icon">&#9742;</span><span class="promo-title">Consultation</span><span class="promo-desc">Séance privée avec Marco</span></a>
   </div>
 </div>
-
 <footer>
   <div class="footer-logo">Marco Médium</div>
-  <ul class="footer-links">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="horoscope.html">Horoscope</a></li>
-    <li><a href="numerologie.html">Numérologie</a></li>
-    <li><a href="reves.html">Rêves</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="index.html#consultation">Consultation</a></li>
-    <li><a href="tel:+41218623326">+41 21 862 33 26</a></li>
-  </ul>
+  <ul class="footer-links"><li><a href="index.html">Accueil</a></li><li><a href="horoscope.html">Horoscope</a></li><li><a href="numerologie.html">Numérologie</a></li><li><a href="reves.html">Rêves</a></li><li><a href="blog.html">Blog</a></li><li><a href="index.html#consultation">Consultation</a></li><li><a href="tel:+41218623326">+41 21 862 33 26</a></li></ul>
   <p class="footer-copy">&copy; 2026 Marcomedium.com</p>
 </footer>
-
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter">
-  <span class="ah"></span><span class="as"></span>
-</button>
-
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter"><span class="ah"></span><span class="as"></span></button>
 <script>
-(function(){
-  // Stars
-  var c=document.getElementById('stars-canvas'),x=c.getContext('2d'),W,H,S=[];
-  function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-  function init(){S=[];for(var i=0;i<120;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.012+.004,t:Math.random()*Math.PI*2});}
-  function draw(){x.clearRect(0,0,W,H);S.forEach(function(s){s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);x.fillStyle='rgba(220,210,255,'+s.o+')';x.fill();});requestAnimationFrame(draw);}
-  r();init();draw();window.addEventListener('resize',function(){r();init();});
-  // Nav
-  window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);document.getElementById('scrollTop').classList.toggle('show',window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-200);});
-  document.getElementById('navBurger').addEventListener('click',function(){document.getElementById('navLinks').classList.toggle('open');});
-  // Status
-  var dot=document.getElementById('liveDot');
-  if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');
-})();
+(function(){var c=document.getElementById('stars-canvas'),x=c.getContext('2d'),W,H,S=[];function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}function init(){S=[];for(var i=0;i<120;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.012+.004,t:Math.random()*Math.PI*2});}function draw(){x.clearRect(0,0,W,H);S.forEach(function(s){s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);x.fillStyle='rgba(220,210,255,'+s.o+')';x.fill();});requestAnimationFrame(draw);}r();init();draw();window.addEventListener('resize',function(){r();init();});window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);document.getElementById('scrollTop').classList.toggle('show',window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-200);});document.getElementById('navBurger').addEventListener('click',function(){document.getElementById('navLinks').classList.toggle('open');});var dot=document.getElementById('liveDot');if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');})();
 </script>
-
 <script>
-var CARDS=[
-  {name:"Le Soleil",meaning:"Lumiere, joie, succes, vitalite",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="10" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="3" fill="#C9A84C"/><line x1="28" y1="4" x2="28" y2="13" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="43" x2="28" y2="52" stroke="#C9A84C" stroke-width="1.5"/><line x1="4" y1="28" x2="13" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="43" y1="28" x2="52" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="11" y1="11" x2="17" y2="17" stroke="#C9A84C" stroke-width="1.5"/><line x1="39" y1="39" x2="45" y2="45" stroke="#C9A84C" stroke-width="1.5"/><line x1="45" y1="11" x2="39" y2="17" stroke="#C9A84C" stroke-width="1.5"/><line x1="11" y1="45" x2="17" y2="39" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"Le Soleil est la carte de la vitalite supreme et de la reussite epanouie. Elle annonce une periode de clarte interieure, de joie profonde et de succes merite. Tout ce que vous touchez en ce moment peut prendre de la lumiere.",
-   conseil:"Avancez avec confiance et sans retenue. L energie solaire vous soutient pleinement. Montrez-vous tel que vous etes — votre authentique rayonnement est votre plus grande force."},
+var CARDS=[{name:"Le Soleil",meaning:"Lumiere, joie, succes, vitalite",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="10" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="3" fill="#C9A84C"/><line x1="28" y1="4" x2="28" y2="13" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="43" x2="28" y2="52" stroke="#C9A84C" stroke-width="1.5"/><line x1="4" y1="28" x2="13" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="43" y1="28" x2="52" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="11" y1="11" x2="17" y2="17" stroke="#C9A84C" stroke-width="1.5"/><line x1="39" y1="39" x2="45" y2="45" stroke="#C9A84C" stroke-width="1.5"/><line x1="45" y1="11" x2="39" y2="17" stroke="#C9A84C" stroke-width="1.5"/><line x1="11" y1="45" x2="17" y2="39" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"Le Soleil est la carte de la vitalite supreme. Elle annonce clarte interieure, joie profonde et succes merite.",conseil:"Avancez avec confiance. L energie solaire vous soutient pleinement."},{name:"La Lune",meaning:"Mystere, intuition profonde, illusions, cycles",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M34 8 A20 20 0 1 0 34 48 A14 14 0 1 1 34 8Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Lune parle des profondeurs de votre inconscient. Ce que vous voyez n est peut-etre pas tout ce qui est.",conseil:"Faites confiance a votre intuition profonde. La verite se revelera progressivement."},{name:"L'Etoile",meaning:"Espoir renouvele, guidance divine, clarte",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 32,20 50,20 36,30 41,47 28,37 15,47 20,30 6,20 24,20" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"L Etoile est la carte de l espoir renouvele. Elle apparait apres les tempetes pour rappeler que la lumiere existe toujours.",conseil:"Regardez vers l avant avec confiance. Les etoiles vous guident."},{name:"La Tour",meaning:"Transformation radicale, revelation, bouleversement",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><rect x="16" y="16" width="24" height="34" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M22 8 L28 2 L34 8" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Tour annonce une transformation radicale. Ce qui doit s effondrer pour laisser place au nouveau s effondrera.",conseil:"Ne resistez pas aux bouleversements en cours. La reconstruction qui suit est toujours plus solide."},{name:"La Justice",meaning:"Equilibre, verite, karma, droiture",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="6" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="16" x2="12" y2="26" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="16" x2="44" y2="26" stroke="#C9A84C" stroke-width="1.5"/><circle cx="12" cy="29" r="7" fill="none" stroke="#C9A84C" stroke-width="1.2"/><circle cx="44" cy="29" r="7" fill="none" stroke="#C9A84C" stroke-width="1.2"/></svg>',essence:"La Justice rappelle que chaque action engendre une consequence et que l equilibre finit toujours par se retablir.",conseil:"Agissez avec droiture. Le karma est en mouvement — ce que vous semez reviendra vers vous."},{name:"La Pretresse",meaning:"Sagesse cachee, introspection, connaissance interieure",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="15" r="8" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 23 L20 50 L36 50 Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Pretresse est la gardienne du savoir cache. Elle vous invite a ecouter ce que votre ame sait deja.",conseil:"Faites silence. La reponse est en vous."},{name:"Le Monde",meaning:"Accomplissement total, completion, plenitude",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><ellipse cx="28" cy="28" rx="20" ry="24" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="3.5" fill="#C9A84C" opacity="0.6"/></svg>',essence:"Le Monde est la carte de l accomplissement total. Un cycle important touche a sa completion naturelle.",conseil:"Reconnaissez ce que vous avez accompli. Une nouvelle phase s ouvre devant vous."},{name:"La Fortune",meaning:"Cycles du destin, opportunite, chance",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="12" fill="none" stroke="#C9A84C" stroke-width="1"/><circle cx="28" cy="28" r="4" fill="#C9A84C"/></svg>',essence:"La Fortune symbolise les grands cycles du destin. La roue tourne — elle est en ce moment en votre faveur.",conseil:"N hesitez pas. Agissez maintenant. La chance sourit aux audacieux."},{name:"La Metamorphose",meaning:"Transformation profonde, mort symbolique, renaissance",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 6 C16 6 8 16 8 26 C8 40 16 46 28 50 C40 46 48 40 48 26 C48 16 40 6 28 6Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Metamorphose est la carte de la transformation profonde. Ce qui finit ne se perd pas, il se transforme.",conseil:"Acceptez ce qui se transforme. Ce qui emerge sera plus authentique que ce qui disparait."},{name:"L'Eau vive",meaning:"Emotions, flux interieur, purification, lacher-prise",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 6 C28 6 10 24 10 34 C10 45 18 52 28 52 C38 52 46 45 46 34 C46 24 28 6 28 6Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"L Eau vive represente le monde emotionnel. Elle invite a laisser vos emotions circuler librement.",conseil:"Ne luttez pas contre ce que vous ressentez. Laissez aller ce qui ne vous appartient plus."},{name:"Le Feu sacre",meaning:"Passion, energie creatrice, courage, action decisive",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 50 C14 50 8 40 12 30 C14 24 18 20 16 12 C22 18 20 26 26 26 C24 20 26 14 32 8 C32 20 38 24 40 32 C44 42 40 50 28 50Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"Le Feu sacre est l energie creatrice a son paroxysme. Ce feu interieur demande a etre utilise maintenant.",conseil:"Canalisez cette energie avec precision. Le feu concentre sur une intention claire transforme tout."},{name:"La Nature",meaning:"Croissance organique, patience, abondance",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="50" x2="28" y2="26" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 36 C28 36 16 30 14 18 C20 20 26 26 28 30" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 28 C28 28 40 20 42 8 C36 12 30 20 28 26" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Nature parle de croissance organique — celle qui ne se force pas mais qui advient quand les conditions sont reunies.",conseil:"Faites confiance au processus. Tout ce qui est vivant pousse a son propre rythme."},{name:"La Conscience",meaning:"Eveil, perception claire, regard lucide sur soi",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><ellipse cx="28" cy="28" rx="22" ry="14" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="7" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="2.5" fill="#C9A84C"/></svg>',essence:"La Conscience invite a voir clairement ce qui etait masque. Un eveil est en cours.",conseil:"Ouvrez les yeux sur ce que vous refusiez de voir. La conscience est le premier pas vers la liberte."},{name:"La Cle",meaning:"Acces, solution cachee, deblocage, revelation",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="18" cy="20" r="10" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="26" y1="26" x2="50" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="40" y1="42" x2="40" y2="50" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Cle signale que l acces a une solution longtemps cherchee est imminent.",conseil:"Ce que vous cherchez vous cherche aussi. La cle existe — reconnaissez la serrure."},{name:"La Paix",meaning:"Harmonie profonde, reconciliation, unite interieure",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="28" x2="9" y2="44" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="28" x2="47" y2="44" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"La Paix annonce une reconciliation profonde. Cette harmonie vient d une force et d une clarte nouvellement acquises.",conseil:"Choisissez la paix interieure comme fondation. Ce que vous construisez depuis la quietude rayonne vers l exterieur."},{name:"La Fleur",meaning:"Amour, epanouissement, beaute, ouverture du coeur",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/><ellipse cx="28" cy="12" rx="6" ry="9" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="28" cy="44" rx="6" ry="9" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="12" cy="28" rx="9" ry="6" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="44" cy="28" rx="9" ry="6" fill="none" stroke="#C9A84C" stroke-width="1.2"/></svg>',essence:"La Fleur symbolise l epanouissement de l amour et de la beaute. Une periode d ouverture authentique du coeur.",conseil:"Cultivez ce qui est beau dans votre vie. La beaute est une necessite profonde de l ame."},{name:"L'Ancre",meaning:"Stabilite profonde, fondations solides, securite",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="13" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="19" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><path d="M8 24 L18 24 C18 24 18 36 28 38 C38 36 38 24 48 24" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"L Ancre represente la stabilite profonde. Elle parle de securite interieure qui ne depend pas des circonstances.",conseil:"Verifiez que vos fondations sont solides. On ne s eleve durablement que depuis une base stable."},{name:"L'Aigle",meaning:"Vision elevee, clarte de perception, hauteur",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="8" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 20 C28 20 6 12 4 26 C10 24 16 26 28 32" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 20 C28 20 50 12 52 26 C46 24 40 26 28 32" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"L Aigle incarne la vision haute. Il invite a s elever pour voir ce qui echappe au regard ordinaire.",conseil:"Prenez de la hauteur. La solution est peut-etre invisible depuis votre position actuelle."},{name:"L'Arc-en-ciel",meaning:"Promesse tenue, renouveau apres l epreuve, espoir",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M6 40 A22 22 0 0 1 50 40" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M12 40 A16 16 0 0 1 44 40" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity="0.65"/><path d="M18 40 A10 10 0 0 1 38 40" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.4"/></svg>',essence:"L Arc-en-ciel est la promesse concrete apres la tempete. Ce qui arrive est porteur de lumiere veritable.",conseil:"Gardez l espoir ancre dans la realite. Votre arc-en-ciel est proche."},{name:"Le Diamant",meaning:"Valeur rare, force forgee par les epreuves, clarte",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 52,22 28,52 4,22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="4" y1="22" x2="52" y2="22" stroke="#C9A84C" stroke-width="1"/></svg>',essence:"Le Diamant symbolise la valeur rare qui se forme sous la pression. Vous en etes ressorti plus dense et plus precieux.",conseil:"Reconnaissez votre propre valeur. Votre lumiere est reelle, rare et durement acquise."},{name:"Le Croissant",meaning:"Cycles naturels, renouveau, intuition affinee",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M34 7 A21 21 0 1 0 34 49 A15 15 0 1 1 34 7Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/></svg>',essence:"Le Croissant parle des cycles naturels de la vie. L intuition est votre guide le plus fiable.",conseil:"Respectez vos cycles avec bienveillance. Votre intuition sait quand agir et quand se reposer."},{name:"La Montagne",meaning:"Defis majeurs, perseverance, accomplissement",svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 6,50 50,50" fill="none" stroke="#C9A84C" stroke-width="1.5"/><polygon points="28,4 19,24 37,24" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/></svg>',essence:"La Montagne represente les grands defis qui forgent le caractere. Le chemin est exigeant mais la vue en vaut la peine.",conseil:"Ne regardez pas le sommet — regardez le prochain pas. Chaque montagne se gravit un pas a la fois."}];
 
-  {name:"La Lune",meaning:"Mystere, intuition profonde, illusions, cycles",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M34 8 A20 20 0 1 0 34 48 A14 14 0 1 1 34 8Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="20" cy="20" r="2" fill="#C9A84C" opacity="0.5"/><circle cx="26" cy="34" r="1.5" fill="#C9A84C" opacity="0.4"/><circle cx="16" cy="36" r="1" fill="#C9A84C" opacity="0.3"/></svg>',
-   essence:"La Lune parle des profondeurs de votre inconscient et des illusions qui voilent la realite. Ce que vous voyez n est peut-etre pas tout ce qui est. Des zones d ombre meritent d etre eclairees avec douceur et patience.",
-   conseil:"Faites confiance a votre intuition profonde plutot qu a ce qui est visible. La verite se revelera progressivement — n anticipez pas, observez avec discernement."},
-
-  {name:"L'Etoile",meaning:"Espoir renouvele, guidance divine, clarte apres l epreuve",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 32,20 50,20 36,30 41,47 28,37 15,47 20,30 6,20 24,20" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/><circle cx="28" cy="28" r="3" fill="#C9A84C" opacity="0.6"/></svg>',
-   essence:"L Etoile est la carte de l espoir renouvele et de la guidance divine. Elle apparait apres les tempetes pour rappeler que la lumiere existe toujours, meme dans l obscurite la plus dense. Votre chemin s illumine.",
-   conseil:"Regardez vers l avant avec une confiance sereine. Les etoiles vous guident — elles n ont jamais cesse de le faire. Ce que vous traversez a un sens et une direction."},
-
-  {name:"La Tour",meaning:"Transformation radicale, revelation, bouleversement necessaire",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><rect x="16" y="16" width="24" height="34" fill="none" stroke="#C9A84C" stroke-width="1.5"/><rect x="12" y="10" width="8" height="8" fill="none" stroke="#C9A84C" stroke-width="1"/><rect x="36" y="10" width="8" height="8" fill="none" stroke="#C9A84C" stroke-width="1"/><line x1="25" y1="16" x2="25" y2="50" stroke="#C9A84C" stroke-width="1" opacity="0.3"/><path d="M22 8 L28 2 L34 8" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="36" y1="4" x2="42" y2="1" stroke="#C9A84C" stroke-width="1.2"/></svg>',
-   essence:"La Tour annonce une transformation radicale et soudaine. Ce qui doit s effondrer pour laisser place au nouveau s effondrera — non par destruction, mais par necessite absolue. La purification est parfois brutale mais toujours juste.",
-   conseil:"Ne resistez pas aux bouleversements en cours. Ce qui se brise etait deja fragilise. La reconstruction qui suit est invariablement plus solide et plus vraie que ce qui existait avant."},
-
-  {name:"La Justice",meaning:"Equilibre, verite, karma, droiture, decisions importantes",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="6" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="16" x2="12" y2="26" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="16" x2="44" y2="26" stroke="#C9A84C" stroke-width="1.5"/><circle cx="12" cy="29" r="7" fill="none" stroke="#C9A84C" stroke-width="1.2"/><circle cx="44" cy="29" r="7" fill="none" stroke="#C9A84C" stroke-width="1.2"/><line x1="20" y1="50" x2="36" y2="50" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Justice rappelle que chaque action engendre une consequence et que l equilibre finit toujours par se retablir. Elle invite a agir avec integrite absolue et a accepter les verites qui se presentent, meme inconfortables.",
-   conseil:"Agissez avec droiture et coherence interieure. Le karma est en mouvement — ce que vous semez maintenant reviendra vers vous avec precision. La verite est votre meilleure protection."},
-
-  {name:"La Pretresse",meaning:"Sagesse cachee, introspection, connaissance interieure",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="15" r="8" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 23 L20 50 L36 50 Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="18" y1="35" x2="38" y2="35" stroke="#C9A84C" stroke-width="1" opacity="0.5"/><circle cx="28" cy="15" r="3" fill="#C9A84C" opacity="0.4"/></svg>',
-   essence:"La Pretresse est la gardienne du savoir cache et de la sagesse interieure. Elle vous invite a vous retirer du bruit du monde, a ecouter ce que votre ame sait deja et que votre mental refuse encore d entendre.",
-   conseil:"Faites silence. La reponse que vous cherchez est deja en vous — elle attend simplement que vous soyez assez calme pour l entendre. La Pretresse ne parle qu a ceux qui savent s arreter."},
-
-  {name:"Le Monde",meaning:"Accomplissement total, completion d un cycle, plenitude",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><ellipse cx="28" cy="28" rx="20" ry="24" fill="none" stroke="#C9A84C" stroke-width="1.5"/><ellipse cx="28" cy="28" rx="7" ry="24" fill="none" stroke="#C9A84C" stroke-width="1"/><line x1="8" y1="28" x2="48" y2="28" stroke="#C9A84C" stroke-width="1" opacity="0.4"/><circle cx="28" cy="28" r="3.5" fill="#C9A84C" opacity="0.6"/></svg>',
-   essence:"Le Monde est la carte de l accomplissement total et de la plenitude. Un cycle important de votre vie touche a sa completion naturelle. Vous avez parcouru le chemin jusqu au bout — ce que vous avez construit est reel et durable.",
-   conseil:"Reconnaissez pleinement ce que vous avez accompli sans le minimiser. Vous avez le droit d etre fier. Une nouvelle phase, encore plus vaste, s ouvre maintenant devant vous."},
-
-  {name:"La Fortune",meaning:"Cycles du destin, opportunite, chance qui ne dure pas",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="12" fill="none" stroke="#C9A84C" stroke-width="1"/><circle cx="28" cy="28" r="4" fill="#C9A84C"/><line x1="28" y1="6" x2="28" y2="16" stroke="#C9A84C" stroke-width="1.5"/><line x1="50" y1="28" x2="40" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="50" x2="28" y2="40" stroke="#C9A84C" stroke-width="1.5"/><line x1="6" y1="28" x2="16" y2="28" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Fortune symbolise les grands cycles du destin et les opportunites qui s ouvrent a ceux qui savent les saisir. La roue tourne — elle est en ce moment en votre faveur. Mais les fenetres se ferment pour ceux qui hesitent.",
-   conseil:"N hesitez pas. Agissez maintenant sur ce qui se presente. La chance sourit aux audacieux — non a ceux qui attendent que tout soit parfait avant de bouger."},
-
-  {name:"La Metamorphose",meaning:"Transformation profonde, mort symbolique, renaissance",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 6 C16 6 8 16 8 26 C8 40 16 46 28 50 C40 46 48 40 48 26 C48 16 40 6 28 6Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M18 28 C18 22 22 18 28 18 C34 18 38 22 38 28" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.6"/><line x1="28" y1="6" x2="28" y2="50" stroke="#C9A84C" stroke-width="1" opacity="0.2"/></svg>',
-   essence:"La Metamorphose est la carte de la transformation la plus profonde — celle qui touche a l identite meme. Ce qui finit ne se perd pas, il se transforme. Ce changement etait necessaire et, au fond de vous, vous le saviez deja.",
-   conseil:"Acceptez ce qui se transforme sans le combattre. Vous n etes pas en train de perdre quelque chose — vous etes en train de muer. Ce qui emerge sera plus authentique que ce qui disparait."},
-
-  {name:"L'Eau vive",meaning:"Emotions, flux interieur, purification, lacher-prise",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 6 C28 6 10 24 10 34 C10 45 18 52 28 52 C38 52 46 45 46 34 C46 24 28 6 28 6Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M20 36 C20 32 24 28 28 28 C32 28 36 32 36 36" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.6"/></svg>',
-   essence:"L Eau vive represente le monde emotionnel dans toute sa profondeur. Elle invite a ne pas retenir ce qui doit couler, a purifier ce qui a ete alourdi et a laisser vos emotions circuler librement plutot que de les enfouir.",
-   conseil:"Ne luttez pas contre le courant de ce que vous ressentez. Laissez aller ce qui ne vous appartient plus. La legerete revient toujours apres qu on a consenti a lacher ce qu on cramponnait."},
-
-  {name:"Le Feu sacre",meaning:"Passion, energie creatrice, courage, action decisive",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M28 50 C14 50 8 40 12 30 C14 24 18 20 16 12 C22 18 20 26 26 26 C24 20 26 14 32 8 C32 20 38 24 40 32 C44 42 40 50 28 50Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 46 C22 46 18 42 20 36 C22 32 26 30 28 30 C30 30 34 32 36 36 C38 42 34 46 28 46Z" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/></svg>',
-   essence:"Le Feu sacre est l energie creatrice a son paroxysme. Il annonce une periode de passion intense, de courage createur et d impulsion vers l action. Ce feu interieur cherche a s exprimer — il demande a etre utilise maintenant.",
-   conseil:"Canalisez cette energie avec precision plutot que de la disperser en tous sens. Le feu qui brule dans toutes les directions ne chauffe rien — concentre sur une intention claire, il transforme tout ce qu il touche."},
-
-  {name:"La Nature",meaning:"Croissance organique, patience, abondance naturelle",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="50" x2="28" y2="26" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 36 C28 36 16 30 14 18 C20 20 26 26 28 30" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 28 C28 28 40 20 42 8 C36 12 30 20 28 26" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="20" y1="50" x2="36" y2="50" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Nature parle de croissance organique et naturelle — celle qui ne se force pas mais qui advient quand les conditions sont reunies. Elle invite a la patience profonde et a la confiance dans les processus invisibles en cours.",
-   conseil:"Faites confiance au processus. Ce que vous avez seme grandit en silence sous la surface. Tout ce qui est vivant et vrai pousse a son propre rythme — pas au votre."},
-
-  {name:"La Conscience",meaning:"Eveil, perception claire, regard lucide sur soi",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><ellipse cx="28" cy="28" rx="22" ry="14" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="7" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="28" cy="28" r="2.5" fill="#C9A84C"/><line x1="6" y1="28" x2="12" y2="28" stroke="#C9A84C" stroke-width="1.5"/><line x1="44" y1="28" x2="50" y2="28" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Conscience invite a voir clairement ce qui etait masque jusqu a present — par peur, par habitude ou par confort. Un eveil est en cours. Ce que vous commencez a percevoir est reel, meme si cela derange vos certitudes.",
-   conseil:"Ouvrez les yeux sur ce que vous refusiez peut-etre de voir. La conscience est le premier pas vers la liberte veritable. Ce que vous voyez maintenant, faites-en quelque chose."},
-
-  {name:"La Cle",meaning:"Acces, solution cachee, deblocage, revelation imminente",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="18" cy="20" r="10" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="26" y1="26" x2="50" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="40" y1="42" x2="40" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="46" y1="38" x2="46" y2="46" stroke="#C9A84C" stroke-width="1.5"/><circle cx="18" cy="20" r="4" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/></svg>',
-   essence:"La Cle signale que l acces a une solution longtemps cherchee est imminent. Une information, une rencontre ou une intuition va vous ouvrir une porte qui semblait fermee. La reponse est plus proche que vous ne le pensez.",
-   conseil:"Cherchez avec calme et methodologie, pas avec anxiete. Ce que vous cherchez vous cherche aussi. La cle existe — il s agit maintenant de reconnaitre la serrure quand vous la rencontrez."},
-
-  {name:"La Paix",meaning:"Harmonie profonde, reconciliation, unite interieure",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="28" x2="9" y2="44" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="28" x2="47" y2="44" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Paix annonce une reconciliation profonde — avec soi, avec l autre ou avec une situation qui generait de la tension. Cette harmonie n est pas une capitulation : elle vient d une force et d une clarte nouvellement acquises.",
-   conseil:"Choisissez la paix interieure comme fondation de tout le reste. Ce que vous construisez a partir de la quietude profonde rayonne inevitablement vers l exterieur et attire ce qui vous ressemble."},
-
-  {name:"La Fleur",meaning:"Amour, epanouissement, beaute qui eclot, ouverture du coeur",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="28" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/><ellipse cx="28" cy="12" rx="6" ry="9" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="28" cy="44" rx="6" ry="9" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="12" cy="28" rx="9" ry="6" fill="none" stroke="#C9A84C" stroke-width="1.2"/><ellipse cx="44" cy="28" rx="9" ry="6" fill="none" stroke="#C9A84C" stroke-width="1.2"/><circle cx="28" cy="28" r="2.5" fill="#C9A84C" opacity="0.6"/></svg>',
-   essence:"La Fleur symbolise l epanouissement de l amour et de la beaute sous toutes leurs formes. Elle annonce une periode d ouverture authentique du coeur, de creation fertile et de relations qui s approfondissent naturellement.",
-   conseil:"Cultivez ce qui est beau dans votre vie avec intention et soin. La beaute n est pas un luxe superficiel — c est une necessite profonde de l ame qui s epanouit."},
-
-  {name:"L'Ancre",meaning:"Stabilite profonde, fondations solides, securite interieure",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><circle cx="28" cy="13" r="6" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="19" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><path d="M8 24 L18 24 C18 24 18 36 28 38 C38 36 38 24 48 24" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="20" y1="50" x2="36" y2="50" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"L Ancre represente la stabilite profonde et les fondations solides sur lesquelles vous pouvez vous appuyer — quelles que soient les tempetes qui surviennent. Elle parle de securite interieure qui ne depend pas des circonstances.",
-   conseil:"Avant d aller plus loin, verifiez que vos fondations sont vraiment solides. On ne peut s elever durablement que depuis une base stable. Votre securite profonde vient de l interieur — pas des circonstances exterieures."},
-
-  {name:"L'Aigle",meaning:"Vision elevee, clarte de perception, hauteur strategique",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><line x1="28" y1="8" x2="28" y2="50" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 20 C28 20 6 12 4 26 C10 24 16 26 28 32" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M28 20 C28 20 50 12 52 26 C46 24 40 26 28 32" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M24 44 C24 44 20 50 18 52" stroke="#C9A84C" stroke-width="1.5"/><path d="M32 44 C32 44 36 50 38 52" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"L Aigle incarne la vision haute et la capacite a percevoir la situation dans sa globalite, au-dela des details qui brouillent la vue quand on est trop pres. Il invite a s elever pour voir ce qui echappe au regard ordinaire.",
-   conseil:"Prenez de la hauteur sur votre situation. La solution que vous cherchez est peut-etre invisible depuis votre position actuelle. Elevez votre regard — et vous verrez ce qui etait la depuis le debut."},
-
-  {name:"L'Arc-en-ciel",meaning:"Promesse tenue, renouveau apres l epreuve, espoir concret",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M6 40 A22 22 0 0 1 50 40" fill="none" stroke="#C9A84C" stroke-width="1.5"/><path d="M12 40 A16 16 0 0 1 44 40" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity="0.65"/><path d="M18 40 A10 10 0 0 1 38 40" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.4"/><circle cx="8" cy="41" r="2" fill="#C9A84C" opacity="0.5"/><circle cx="48" cy="41" r="2" fill="#C9A84C" opacity="0.5"/></svg>',
-   essence:"L Arc-en-ciel est la promesse concrete apres la tempete. Il annonce que les epreuves traversees ont une fin et que ce qui arrive maintenant est porteur de lumiere veritable et de renouveau durable. Ce n est pas une illusion.",
-   conseil:"Gardez l espoir vivant et ancre dans la realite. Chaque tempete se termine et laisse un ciel plus pur. Votre arc-en-ciel est proche — et cette fois, il tient sa promesse."},
-
-  {name:"Le Diamant",meaning:"Valeur rare, force forgee par les epreuves, clarte absolue",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 52,22 28,52 4,22" fill="none" stroke="#C9A84C" stroke-width="1.5"/><line x1="4" y1="22" x2="52" y2="22" stroke="#C9A84C" stroke-width="1"/><line x1="16" y1="22" x2="28" y2="52" stroke="#C9A84C" stroke-width="1" opacity="0.4"/><line x1="40" y1="22" x2="28" y2="52" stroke="#C9A84C" stroke-width="1" opacity="0.4"/><line x1="28" y1="4" x2="28" y2="52" stroke="#C9A84C" stroke-width="1" opacity="0.25"/></svg>',
-   essence:"Le Diamant symbolise la valeur rare qui se forme uniquement sous la pression. Vous avez traverse des epreuves qui vous ont forge — vous en etes ressorti plus dense, plus clair et plus precieux que vous ne le savez encore.",
-   conseil:"Reconnaissez votre propre valeur sans attendre qu on vous la confirme. Ce que vous valez ne depend pas de ce que les autres percoivent. Votre lumiere est reelle, rare et durement acquise."},
-
-  {name:"Le Croissant",meaning:"Cycles naturels, renouveau periodique, intuition affinee",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><path d="M34 7 A21 21 0 1 0 34 49 A15 15 0 1 1 34 7Z" fill="none" stroke="#C9A84C" stroke-width="1.5"/><circle cx="24" cy="19" r="2" fill="#C9A84C" opacity="0.5"/><circle cx="18" cy="30" r="1.5" fill="#C9A84C" opacity="0.4"/><circle cx="26" cy="41" r="1" fill="#C9A84C" opacity="0.3"/></svg>',
-   essence:"Le Croissant parle des cycles de la vie — ces rythmes naturels qui regissent les marees, les saisons et les etats d ame. Vous etes peut-etre dans une phase de transition entre deux cycles. L intuition est votre guide le plus fiable.",
-   conseil:"Respectez vos cycles naturels avec bienveillance envers vous-meme. Votre intuition sait quand agir et quand se reposer — ecoutez-la avant votre mental analytique."},
-
-  {name:"La Montagne",meaning:"Defis majeurs, perseverance, accomplissement par l effort",
-   svg:'<svg viewBox="0 0 56 56" width="42" height="42"><polygon points="28,4 6,50 50,50" fill="none" stroke="#C9A84C" stroke-width="1.5"/><polygon points="28,4 19,24 37,24" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/><line x1="6" y1="50" x2="50" y2="50" stroke="#C9A84C" stroke-width="1.5"/></svg>',
-   essence:"La Montagne represente les grands defis qui forgent veritablement le caractere. Elle ne ment pas : le chemin est exigeant et demande une perseverance reelle. Mais celui qui le gravit arrive a une vue que les autres ne verront jamais.",
-   conseil:"Ne regardez pas le sommet — regardez le prochain pas devant vous. Chaque montagne se gravit un pas a la fois, avec perseverance et sans se precipiter. Vous en etes pleinement capable."}
-];
-
-var SPREADS={
-  1:{count:1,labels:["Energie du Jour"]},
-  3:{count:3,labels:["Passe","Present","Futur"]},
-  5:{count:5,labels:["Situation","Obstacles","Fondation","Conseil","Issue"]}
-};
-var currentSpread=1, selectedCards=[], shuffledDeck=[];
-
-function buildDeck(){
-  var deck=document.getElementById('card-deck');
-  deck.innerHTML='';
-  selectedCards=[];
-  updateBtn();
-  var spread=SPREADS[currentSpread], needed=spread.count;
-  shuffledDeck=CARDS.slice().sort(function(){return Math.random()-.5;});
-  var total=Math.min(needed+3,8);
-  for(var i=0;i<total;i++){
-    (function(idx){
-      var wrap=document.createElement('div');
-      wrap.className='card-wrap';
-      var card=document.createElement('div');
-      card.className='tarot-card';
-      var back=document.createElement('div');
-      back.className='card-back';
-      back.innerHTML='<svg viewBox="0 0 56 56" width="38" height="38"><polygon points="28,4 32,20 50,20 36,30 41,47 28,37 15,47 20,30 6,20 24,20" fill="none" stroke="rgba(201,168,76,.2)" stroke-width="1.2"/><circle cx="28" cy="28" r="8" fill="none" stroke="rgba(201,168,76,.1)" stroke-width="1"/></svg><span style="font-family:Cinzel,serif;font-size:.38rem;letter-spacing:.3em;color:rgba(201,168,76,.15);display:block;margin-top:5px">ORACLE</span>';
-      var front=document.createElement('div');
-      front.className='card-front';
-      card.appendChild(back);
-      card.appendChild(front);
-      card.addEventListener('click',function(){
-        if(this.dataset.flipped||selectedCards.length>=needed) return;
-        this.dataset.flipped='1';
-        this.style.transform='rotateY(180deg)';
-        var cd=shuffledDeck[idx];
-        selectedCards.push({cardData:cd,label:spread.labels[idx]||('Carte '+(idx+1))});
-        var f=front;
-        setTimeout(function(){
-          f.innerHTML=cd.svg+'<span class="cname">'+cd.name+'</span>';
-        },340);
-        updateBtn();
-      });
-      var lbl=document.createElement('div');
-      lbl.className='card-pos';
-      lbl.textContent=idx<needed?(spread.labels[idx]||''):'';
-      wrap.appendChild(card);
-      wrap.appendChild(lbl);
-      deck.appendChild(wrap);
-    })(i);
-  }
-}
-
-function updateBtn(){
-  var btn=document.getElementById('btn-draw');
-  var needed=SPREADS[currentSpread].count;
-  var rem=needed-selectedCards.length;
-  if(rem>0){btn.disabled=true;btn.textContent='Choisissez '+needed+' carte'+(needed>1?'s':'')+(rem<needed?' — encore '+rem:'');}
-  else{btn.disabled=false;btn.textContent='Reveler le message de Marco';}
-}
-
-document.querySelectorAll('.spread-type-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.spread-type-btn').forEach(function(b){b.classList.remove('active');});
-    this.classList.add('active');
-    currentSpread=parseInt(this.dataset.spread);
-    buildDeck();
-    document.getElementById('oracle-result').style.display='none';
-  });
-});
-
+var SPREADS={1:{count:1,labels:["Energie du Jour"]},3:{count:3,labels:["Passe","Present","Futur"]},5:{count:5,labels:["Situation","Obstacles","Fondation","Conseil","Issue"]}};
+var currentSpread=1,selectedCards=[],shuffledDeck=[];
+function buildDeck(){var deck=document.getElementById('card-deck');deck.innerHTML='';selectedCards=[];updateBtn();var spread=SPREADS[currentSpread],needed=spread.count;shuffledDeck=CARDS.slice().sort(function(){return Math.random()-.5;});var total=Math.min(needed+3,8);for(var i=0;i<total;i++){(function(idx){var wrap=document.createElement('div');wrap.className='card-wrap';var card=document.createElement('div');card.className='tarot-card';var back=document.createElement('div');back.className='card-back';back.innerHTML='<svg viewBox="0 0 56 56" width="38" height="38"><polygon points="28,4 32,20 50,20 36,30 41,47 28,37 15,47 20,30 6,20 24,20" fill="none" stroke="rgba(201,168,76,.2)" stroke-width="1.2"/></svg><span style="font-family:Cinzel,serif;font-size:.38rem;letter-spacing:.3em;color:rgba(201,168,76,.15);display:block;margin-top:5px">ORACLE</span>';var front=document.createElement('div');front.className='card-front';card.appendChild(back);card.appendChild(front);card.addEventListener('click',function(){if(this.dataset.flipped||selectedCards.length>=needed)return;this.dataset.flipped='1';this.style.transform='rotateY(180deg)';var cd=shuffledDeck[idx];selectedCards.push({cardData:cd,label:spread.labels[idx]||('Carte '+(idx+1))});var f=front;setTimeout(function(){f.innerHTML=cd.svg+'<span class="cname">'+cd.name+'</span>';},340);updateBtn();});var lbl=document.createElement('div');lbl.className='card-pos';lbl.textContent=idx<needed?(spread.labels[idx]||''):'';wrap.appendChild(card);wrap.appendChild(lbl);deck.appendChild(wrap);})(i);}}
+function updateBtn(){var btn=document.getElementById('btn-draw'),needed=SPREADS[currentSpread].count,rem=needed-selectedCards.length;if(rem>0){btn.disabled=true;btn.textContent='Choisissez '+needed+' carte'+(needed>1?'s':'')+(rem<needed?' — encore '+rem:'');}else{btn.disabled=false;btn.textContent='Reveler le message de Marco';}}
+document.querySelectorAll('.spread-type-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.spread-type-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');currentSpread=parseInt(this.dataset.spread);buildDeck();document.getElementById('oracle-result').style.display='none';});});
 buildDeck();
-
-function generateLocalReading(cards,intention){
-  var txt='';
-  if(intention) txt+='Vous portez la question de "'+intention+'" — les cartes y repondent directement.\n\n';
-  if(cards.length===1){
-    var cd=cards[0].cardData;
-    txt+=cd.name+'\n\n'+cd.essence+'\n\n'+cd.conseil;
-  } else if(cards.length===3){
-    for(var i=0;i<3;i++){
-      var cd=cards[i].cardData, lbl=cards[i].label||'Carte '+(i+1);
-      txt+=lbl+' — '+cd.name+'\n'+cd.essence;
-      if(i===0) txt+=' Ce passe vous a constitue tel que vous etes aujourd hui.';
-      if(i===1) txt+=' C est l energie dominante de votre moment present.';
-      if(i===2) txt+=' C est vers quoi vous vous dirigez si vous suivez cette energie.';
-      txt+='\n\n';
-    }
-    txt+='Ces trois cartes forment un message coherent : votre passe eclaire votre present, qui dessine votre futur. La direction est claire.';
-  } else {
-    var positions=['La situation presente','Ce qui fait obstacle','La fondation profonde','Le conseil des cartes','L issue probable'];
-    for(var i=0;i<cards.length;i++){
-      var cd=cards[i].cardData, lbl=cards[i].label||positions[i]||'Carte '+(i+1);
-      txt+=lbl+' — '+cd.name+'\n'+cd.essence+'\n\n';
-    }
-    txt+='Ce tirage complet trace une carte precise de votre situation. Lisez chaque carte en lien avec les autres — ensemble, elles racontent une histoire coherente sur votre chemin actuel.';
-  }
-  return txt;
-}
-
-document.getElementById('btn-draw').addEventListener('click',function(){
-  var intention=document.getElementById('intention').value.trim();
-  var spread=SPREADS[currentSpread];
-  var drawnCards=selectedCards.slice();
-  var self=this;
-  self.disabled=true;
-  document.getElementById('oracle-loading').style.display='block';
-  document.getElementById('oracle-result').style.display='none';
-  var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-  var desc=drawnCards.map(function(c,i){return (c.label||'Carte '+(i+1))+': '+c.cardData.name+' ('+c.cardData.meaning+')';}).join('\n');
-  var seed=Date.now()+Math.random().toString(36).slice(2);
-  var prompt='Tu es Marco Medium, voyant suisse renomme. Tirage de '+spread.count+' carte(s) oracle, '+today+'.\n\n'+(intention?'Question: '+intention+'\n\n':'')+'Cartes:\n'+desc+'\n\nRedige une interpretation approfondie et personnalisee de 4-5 paragraphes (minimum 250 mots). Analyse chaque carte selon sa symbolique reelle et ses implications concretes. Parle directement a la personne avec precision et bienveillance, sans banalites ni formules creuses. Style Marco Medium — direct, authentique, profond. ['+seed+']';
-  var ctrl=new AbortController();
-  var timer=setTimeout(function(){ctrl.abort();},18000);
-  fetch('https://super-band-24a0.utilisateur456.workers.dev/',{
-    method:'POST',headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},
-    body:JSON.stringify({promptCustom:prompt}),signal:ctrl.signal
-  }).then(function(r){clearTimeout(timer);if(!r.ok)throw new Error('http');return r.json();})
-  .then(function(data){
-    var txt=data.data||data.message||data.reply||'';
-    if(txt.length<80) throw new Error('empty');
-    showResult(txt,drawnCards,spread);
-  }).catch(function(){
-    showResult(generateLocalReading(drawnCards,intention),drawnCards,spread);
-  }).finally(function(){self.disabled=false;});
-});
-
-function showResult(message,drawnCards,spread){
-  document.getElementById('oracle-loading').style.display='none';
-  var row=document.getElementById('drawn-row');
-  row.innerHTML=drawnCards.map(function(c,i){
-    return '<div class="drawn-item"><div class="drawn-card-visual">'+c.cardData.svg+'<span class="dcname">'+c.cardData.name+'</span></div><div class="drawn-pos">'+(c.label||'Carte '+(i+1))+'</div></div>';
-  }).join('');
-  document.getElementById('oracle-text').textContent=message;
-  var res=document.getElementById('oracle-result');
-  res.style.display='block';
-  res.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-document.getElementById('btn-new').addEventListener('click',function(){
-  document.getElementById('oracle-result').style.display='none';
-  document.getElementById('intention').value='';
-  buildDeck();
-  document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});
-});
+function generateLocalReading(cards,intention){var txt='';if(intention)txt+='Vous portez la question de "'+intention+'" — les cartes y repondent directement.\n\n';if(cards.length===1){var cd=cards[0].cardData;txt+=cd.name+'\n\n'+cd.essence+'\n\n'+cd.conseil;}else{for(var i=0;i<cards.length;i++){txt+=(cards[i].label||'Carte '+(i+1))+' — '+cards[i].cardData.name+'\n'+cards[i].cardData.essence+'\n\n';}txt+='Ces cartes forment un message coherent. Lisez-les ensemble — elles racontent votre chemin actuel.';}return txt;}
+document.getElementById('btn-draw').addEventListener('click',function(){var intention=document.getElementById('intention').value.trim();var spread=SPREADS[currentSpread],drawnCards=selectedCards.slice(),self=this;self.disabled=true;document.getElementById('oracle-loading').style.display='block';document.getElementById('oracle-result').style.display='none';var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});var desc=drawnCards.map(function(c,i){return (c.label||'Carte '+(i+1))+': '+c.cardData.name+' ('+c.cardData.meaning+')';}).join('\n');var seed=Date.now()+Math.random().toString(36).slice(2);var prompt='Tu es Marco Medium, voyant et medium suisse reconnu internationalement pour la profondeur et la precision de tes lectures. 25 ans de pratique. Tu ne donnes JAMAIS de reponses generiques — chaque interpretation est taillée sur mesure.\n\n'+
+    'TIRAGE : '+spread.count+' carte(s) oracle | '+today+'\n\n'+
+    (intention?'QUESTION DU CONSULTANT : "'+intention+'"\nToute ton interpretation repond a cette question precise, meme indirectement. Ne l ignore jamais.\n\n':'')+
+    'CARTES TIREES :\n'+desc+'\n\n'+
+    'MISSION : Redige une interpretation de MINIMUM 600 MOTS. Dense, percutante, precise.\n\n'+
+    'ANALYSE REQUISE POUR CHAQUE CARTE :\n'+
+    '1. La symbolique profonde de cette carte dans ce contexte precis\n'+
+    '2. Ce qu elle revele sur la situation actuelle du consultant\n'+
+    '3. Le message concret — pas une vague invitation mais une revelation claire\n'+
+    '4. Comment elle dialogue avec les autres cartes\n\n'+
+    'STYLE MARCO MEDIUM — REGLES ABSOLUES :\n'+
+    '- Tu tutoies, tu es proche, tu dis les choses directement\n'+
+    '- Tu identifies ce qui BLOQUE vraiment, ce qui se cache sous la surface\n'+
+    '- Tu nommes des situations concretes : relation difficile, projet bloque, peur inavouee, decision evitee\n'+
+    '- Tu alternes revelation et validation\n'+
+    '- Tu conclus par un appel a l action concret et memorable\n'+
+    '- INTERDIT : "les energies", "l univers vous envoie", "restez positif", tout ce qui est creux et vague\n'+
+    '- EXIGE : des revelations qui font dire "comment sait-il ca ?"\n\n'+
+    'STRUCTURE EN PROSE CONTINUE (sans titres ni puces dans ta reponse) :\n'+
+    '- Para 1 : Ambiance generale — ce que les cartes ensemble revelent comme situation de fond\n'+
+    (spread.count>1?'- Para 2 a '+(spread.count+1)+' : Une carte par paragraphe, analyse profonde, symbolisme precis, message personnel\n':'')+
+    '- Para suivant : Les tensions et synergies entre les cartes, ce qui se confirme ou se contredit\n'+
+    '- Para suivant : Ce que ce tirage revele sur l etat interieur du consultant — ses forces cachees ET ses angles morts\n'+
+    (intention?'- Para suivant : Reponse directe a la question posee, sans detour\n':'')+
+    '- Para final : Le message ultime de Marco — une directive precise, memorisable, qui reste en memoire\n\n'+
+    'Ecris en prose continue, sans puces ni titres. Minimum 600 mots. Tutoiement. Style Marco — direct, profond, percutant. [SEED:'+seed+']';
+    }).then(function(data){var txt=data.data||data.message||data.reply||'';if(txt.length<80)throw new Error('empty');showResult(txt,drawnCards,spread);}).catch(function(){showResult(generateLocalReading(drawnCards,intention),drawnCards,spread);}).finally(function(){self.disabled=false;});});
+function showResult(message,drawnCards,spread){document.getElementById('oracle-loading').style.display='none';var row=document.getElementById('drawn-row');row.innerHTML=drawnCards.map(function(c,i){return '<div class="drawn-item"><div class="drawn-card-visual">'+c.cardData.svg+'<span class="dcname">'+c.cardData.name+'</span></div><div class="drawn-pos">'+(c.label||'Carte '+(i+1))+'</div></div>';}).join('');document.getElementById('oracle-text').textContent=message;var res=document.getElementById('oracle-result');res.style.display='block';res.scrollIntoView({behavior:'smooth',block:'start'});}
+document.getElementById('btn-new').addEventListener('click',function(){document.getElementById('oracle-result').style.display='none';document.getElementById('intention').value='';buildDeck();document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});});
 </script>
 </body>
 </html>
