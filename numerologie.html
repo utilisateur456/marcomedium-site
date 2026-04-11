@@ -16,55 +16,36 @@
   <style>
     :root{--bg:#06040F;--bg2:#0D0820;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.06);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.25);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{overflow-x:hidden;max-width:100vw;}
-    html{scroll-behavior:smooth;}
-    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;overflow-x:hidden;}
+    html{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
+    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
     #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
     .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);}
     .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(139,92,246,0.1),transparent 70%);top:-200px;left:-200px;}
     .glow-2{width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent 70%);bottom:5%;right:-100px;}
-
     nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.9)0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
     nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
     .nav-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);text-decoration:none;display:flex;align-items:center;gap:10px;}
-        .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
-    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
+    .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
     .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
     .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
     .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
-    .nav-links a:hover{color:var(--gold-light);}
-    .nav-links a.active{color:var(--gold);}
+    .nav-links a:hover{color:var(--gold-light);}.nav-links a.active{color:var(--gold);}
     .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
     .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
     .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
-    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;}.nav-burger{display:flex;}}
-
+    .nav-logo-img{height:90px;width:auto;max-width:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(201,168,76,0.45));transition:filter .3s;}
+    .nav-logo:hover .nav-logo-img{filter:drop-shadow(0 0 20px rgba(201,168,76,0.7));}
+    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;}.nav-burger{display:flex;}.nav-logo-img{height:64px;max-width:180px;}}
     .page-hero{position:relative;z-index:2;padding:160px 48px 80px;text-align:center;max-width:800px;margin:0 auto;}
     .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
     .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,.3);}
     .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
     .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--text2);max-width:500px;margin:20px auto 0;opacity:0;animation:fadeUp .9s .7s forwards;}
-
     .content{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:0 48px 100px;}
     @media(max-width:768px){.content{padding:0 24px 70px;}.page-hero{padding:140px 24px 60px;}}
-
-    /* NUMBER WHEEL */
     .number-wheel{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:48px;}
-    .num-orb{
-      width:56px;height:56px;border-radius:50%;
-      background:var(--surface);border:1px solid var(--border);
-      display:flex;align-items:center;justify-content:center;
-      font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--text3);
-      cursor:default;transition:all .5s;
-    }
-    .num-orb.highlight{
-      background:linear-gradient(135deg,var(--purple-dim),rgba(201,168,76,.1));
-      border-color:var(--gold);color:var(--gold-light);
-      box-shadow:0 0 20px rgba(201,168,76,.3);
-      animation:orbPulse 2s infinite;
-    }
-
-    /* FORM CARD */
+    .num-orb{width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:1.1rem;font-weight:600;color:var(--text3);cursor:default;transition:all .5s;}
+    .num-orb.highlight{background:linear-gradient(135deg,var(--purple-dim),rgba(201,168,76,.1));border-color:var(--gold);color:var(--gold-light);box-shadow:0 0 20px rgba(201,168,76,.3);animation:orbPulse 2s infinite;}
     .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px;position:relative;overflow:hidden;}
     .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--purple),var(--gold),transparent);}
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
@@ -74,8 +55,6 @@
     .form-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;color:var(--text);font-family:'Cinzel',serif;font-size:1.2rem;letter-spacing:.1em;text-align:center;transition:all .3s;outline:none;}
     .form-group input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,.15);}
     .form-group input::placeholder{font-family:'Lora',serif;font-size:.9rem;font-weight:400;letter-spacing:0;color:var(--text3);}
-
-    /* RESULT */
     .result-hidden{display:none;}
     .big-number-display{text-align:center;padding:32px 0;margin-bottom:32px;}
     .life-path-label{font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
@@ -86,192 +65,51 @@
     .calc-step{font-family:'Cinzel',serif;font-size:.85rem;color:var(--text3);}
     .calc-arrow{color:var(--gold);font-size:.7rem;}
     .calc-final{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:var(--gold);}
-    .interpretation{font-size:.98rem;color:var(--text2);line-height:1.85;margin-bottom:28px;white-space:pre-line;}
+    .interpretation{font-size:.98rem;color:var(--text2);line-height:1.9;margin-bottom:28px;white-space:pre-line;}
     .traits-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:24px 0;}
     @media(max-width:600px){.traits-grid{grid-template-columns:1fr 1fr;}}
     .trait{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.06em;text-align:center;color:var(--text2);}
     .trait .t-icon{display:block;font-size:1.2rem;margin-bottom:4px;}
-
-    /* LOADING */
     .loading-state{display:none;flex-direction:column;align-items:center;gap:16px;padding:40px;}
     .nums-anim{display:flex;gap:8px;font-family:'Cinzel',serif;font-size:1.2rem;color:var(--text3);}
     .nums-anim span{animation:numFloat 1.5s infinite;}
-    .nums-anim span:nth-child(2){animation-delay:.2s;}
-    .nums-anim span:nth-child(3){animation-delay:.4s;}
-    .nums-anim span:nth-child(4){animation-delay:.6s;}
-    .nums-anim span:nth-child(5){animation-delay:.8s;}
+    .nums-anim span:nth-child(2){animation-delay:.2s;}.nums-anim span:nth-child(3){animation-delay:.4s;}.nums-anim span:nth-child(4){animation-delay:.6s;}.nums-anim span:nth-child(5){animation-delay:.8s;}
     .loading-text{font-family:'Cinzel',serif;font-size:.9rem;letter-spacing:.12em;color:var(--text3);}
-
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:14px 30px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;white-space:nowrap;}
     .btn-gold{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;}
     .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4);}
     .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);}
     .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-    .btn-full{width:100%;}
-    .btn:disabled{opacity:.5;cursor:not-allowed;}
-
+    .btn-full{width:100%;}.btn:disabled{opacity:.5;cursor:not-allowed;}
     .cross-promo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:60px;}
     @media(max-width:600px){.cross-promo{grid-template-columns:1fr;}}
     .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:24px;text-decoration:none;color:inherit;transition:all .3s;display:flex;flex-direction:column;gap:10px;}
     .promo-card:hover{border-color:var(--border2);transform:translateY(-3px);}
-    .promo-icon{font-size:1.6rem;}
-    .promo-title{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.05em;}
+    .promo-icon{font-size:1.6rem;}.promo-title{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.05em;}
     .promo-desc{font-size:.82rem;color:var(--text3);}
     .promo-link{font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto;}
-
     footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
     @media(max-width:600px){footer{padding:32px 24px;flex-direction:column;text-align:center;}}
     .footer-brand{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;color:var(--gold-light);letter-spacing:.15em;}
     .footer-links{display:flex;gap:24px;flex-wrap:wrap;}
     .footer-links a{font-family:'Inter',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
     .footer-links a:hover{color:var(--gold);}
-
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
     .reveal.visible{opacity:1;transform:none;}
     .section-divider{position:relative;z-index:2;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 30%,var(--border2) 70%,transparent);}
-
+    #scrollTop{position:fixed;bottom:36px;right:40px;z-index:200;background:none;border:none;padding:8px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s,transform .4s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+    #scrollTop .arrow-shaft{width:1px;height:28px;background:linear-gradient(to top,transparent,rgba(201,168,76,0.6));}
+    #scrollTop .arrow-head{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid rgba(201,168,76,0.7);filter:drop-shadow(0 0 4px rgba(201,168,76,0.5));order:-1;}
+    #scrollTop.show{opacity:1;pointer-events:all;}#scrollTop:hover{transform:translateY(-5px);}
+    @media(max-width:768px){#scrollTop{bottom:20px;right:20px;}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.9);}}
     @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
     @keyframes orbPulse{0%,100%{box-shadow:0 0 20px rgba(201,168,76,.3);}50%{box-shadow:0 0 35px rgba(201,168,76,.6);}}
     @keyframes numFloat{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(-8px);opacity:1;}}
-      .nav-logo-img { height: 90px; width: auto; max-width: 220px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
-    .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
-    .nav-logo { gap: 10px; }
-    @media(max-width:768px){ .nav-logo-img { height: 64px; max-width: 180px; } }
-
-    /* ═══ SCROLL TO TOP ═══ */
-    #scrollTop {
-      position: fixed; bottom: 36px; right: 40px; z-index: 200;
-      background: none; border: none; padding: 8px;
-      cursor: pointer; opacity: 0; pointer-events: none;
-      transition: opacity .5s, transform .4s;
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-    }
-    #scrollTop .arrow-shaft {
-      width: 1px; height: 28px;
-      background: linear-gradient(to top, transparent, rgba(201,168,76,0.6));
-      transition: height .3s;
-    }
-    #scrollTop .arrow-head {
-      width: 0; height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-bottom: 8px solid rgba(201,168,76,0.7);
-      filter: drop-shadow(0 0 4px rgba(201,168,76,0.5));
-      transition: filter .3s;
-      order: -1;
-    }
-    #scrollTop.show { opacity: 1; pointer-events: all; }
-    #scrollTop:hover { transform: translateY(-5px); }
-    #scrollTop:hover .arrow-head { filter: drop-shadow(0 0 8px rgba(201,168,76,0.9)); border-bottom-color: var(--gold-light); }
-    #scrollTop:hover .arrow-shaft { background: linear-gradient(to top, transparent, rgba(201,168,76,0.9)); }
-    @media(max-width:768px){ #scrollTop { bottom: 20px; right: 20px; } }
-  
-    /* ═══ RESPONSIVE MOBILE — iOS & Android ═══ */
-    @media(max-width:480px){
-      .num-orbs { gap:8px; }
-      .num-orb { width:52px; height:52px; font-size:1.1rem; }
-      .result-number { font-size:5rem !important; }
-      .traits-grid { grid-template-columns:1fr 1fr !important; }
-      @media(max-width:480px){
-      /* Touch targets minimum 44px */
-      .btn, .tab-btn, .nav-cta { min-height:44px; }
-      button, a { -webkit-tap-highlight-color: transparent; }
-
-      /* Nav */
-      nav { padding:14px 16px; }
-      .nav-logo-img { height:42px !important; }
-
-      /* Hero */
-      .hero { padding:100px 20px 60px; min-height:auto; }
-      .hero h1 { font-size:clamp(2.8rem,12vw,4rem); }
-      .hero-tagline { font-size:.95rem; }
-      .hero-actions { flex-direction:column; gap:12px; width:100%; }
-      .hero-actions .btn { width:100%; justify-content:center; padding:16px; }
-      .hero-portrait { width:170px !important; }
-
-      /* Sections */
-      .section { padding:50px 16px; }
-      .section-title { font-size:clamp(1.6rem,7vw,2.5rem); }
-
-      /* Services */
-      .services-grid { grid-template-columns:1fr !important; gap:1px; }
-
-      /* Consultation tabs — empilés sur mobile */
-      .consult-tabs { flex-direction:column; border-radius:var(--radius); }
-      .tab-btn { border-right:none !important; border-bottom:1px solid var(--border); flex-direction:row; gap:10px; justify-content:flex-start; padding:14px 20px; }
-      .tab-btn:last-child { border-bottom:none; }
-
-      /* Payment methods */
-      .pay-methods { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
-      .pay-method { padding:12px 8px; font-size:.65rem; }
-
-      /* Min buttons */
-      .min-options { flex-wrap:wrap; gap:8px; }
-      .min-btn { flex:1; min-width:calc(50% - 4px); font-size:.72rem; padding:10px 8px; }
-
-      /* About */
-      .about-grid { grid-template-columns:1fr !important; }
-      .about-img { max-width:260px; margin:0 auto; }
-
-      /* Forms */
-      .form-grid { grid-template-columns:1fr !important; }
-      input, select, textarea { font-size:16px !important; } /* prevent iOS zoom */
-
-      /* Testimonials */
-      .testi-grid { grid-template-columns:1fr !important; }
-
-      /* FAQ */
-      .faq-question { font-size:.82rem; padding:18px 16px; }
-
-      /* Footer */
-      .footer-top { grid-template-columns:1fr !important; gap:24px; }
-      .footer-links { flex-direction:column; gap:12px; }
-
-      /* Scroll top arrow */
-      #scrollTop { right:16px; bottom:16px; }
-    }
-
-    @media(max-width:768px){
-      /* Tablet / large phone */
-      .hero { padding:110px 24px 60px; }
-      .section { padding:60px 24px; }
-      .about-img { max-width:300px; margin:0 auto; display:block; }
-      input, select, textarea { font-size:16px !important; }
-    }
-  
-    /* ═══ PERFORMANCE & FLUIDITÉ ═══ */
-    #stars-canvas { will-change: transform; }
-    nav { will-change: transform; }
-    .reveal { will-change: opacity, transform; }
-    .hero-portrait img, .marco-intro img { will-change: transform; }
-    
-    /* Scroll fluide natif */
-    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-    
-    /* GPU sur les éléments animés */
-    .service-card, .tab-btn, .btn, .sign-chip, .tarot-card {
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
-      backface-visibility: hidden;
-    }
-    
-    /* Réduire les repaints sur le canvas */
-    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   </style>
-  <!-- Google Tags: Analytics · Ads · Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-C979FB1QEG");
-    gtag("config", "GT-MKP7HSD");
-    gtag("config", "AW-11435134690");
-    gtag("config", "GT-PBSRNDX6");
-    gtag("config", "GT-TW5DK3H6");
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");</script>
 </head>
 <body>
 <canvas id="stars-canvas"></canvas>
@@ -279,7 +117,7 @@
 <div class="glow glow-2"></div>
 
 <nav id="nav">
-    <a href="index.html" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
     <span class="live-dot"></span>
   </a>
@@ -302,7 +140,6 @@
 </div>
 
 <div class="content">
-  <!-- ANIMATED NUMBER WHEEL -->
   <div class="number-wheel reveal" id="numWheel">
     <div class="num-orb" id="orb-1">1</div>
     <div class="num-orb" id="orb-2">2</div>
@@ -318,7 +155,6 @@
     <div class="num-orb" id="orb-33" style="width:64px;">33</div>
   </div>
 
-  <!-- FORM -->
   <div class="form-card reveal" id="main-form">
     <div style="margin-bottom:32px;">
       <div class="label" style="opacity:1;animation:none;">Calcul de votre chemin de vie</div>
@@ -349,15 +185,11 @@
       🔢 Calculer mon chemin de vie
     </button>
 
-    <!-- Loading -->
     <div class="loading-state" id="loading">
-      <div class="nums-anim">
-        <span>1</span><span>7</span><span>3</span><span>9</span><span>5</span>
-      </div>
+      <div class="nums-anim"><span>1</span><span>7</span><span>3</span><span>9</span><span>5</span></div>
       <div class="loading-text">Calcul des vibrations en cours...</div>
     </div>
 
-    <!-- Result -->
     <div class="result-hidden" id="result">
       <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:32px;">
         <div class="big-number-display">
@@ -377,26 +209,10 @@
     </div>
   </div>
 
-  <!-- CROSS PROMO -->
   <div class="cross-promo reveal">
-    <a href="horoscope.html" class="promo-card">
-      <span class="promo-icon">♈</span>
-      <div class="promo-title">Horoscope</div>
-      <div class="promo-desc">Guidance astrologique pour votre signe</div>
-      <div class="promo-link">Consulter →</div>
-    </a>
-    <a href="oracle.html" class="promo-card">
-      <span class="promo-icon">🃏</span>
-      <div class="promo-title">Oracle du Jour</div>
-      <div class="promo-desc">Un tirage de cartes pour votre journée</div>
-      <div class="promo-link">Tirer les cartes →</div>
-    </a>
-    <a href="reves.html" class="promo-card">
-      <span class="promo-icon">🌙</span>
-      <div class="promo-title">Rêves</div>
-      <div class="promo-desc">Décryptez vos rêves et leur symbolisme</div>
-      <div class="promo-link">Interpréter →</div>
-    </a>
+    <a href="horoscope.html" class="promo-card"><span class="promo-icon">♈</span><div class="promo-title">Horoscope</div><div class="promo-desc">Guidance astrologique pour votre signe</div><div class="promo-link">Consulter →</div></a>
+    <a href="oracle.html" class="promo-card"><span class="promo-icon">🃏</span><div class="promo-title">Oracle du Jour</div><div class="promo-desc">Un tirage de cartes pour votre journée</div><div class="promo-link">Tirer les cartes →</div></a>
+    <a href="reves.html" class="promo-card"><span class="promo-icon">🌙</span><div class="promo-title">Rêves</div><div class="promo-desc">Décryptez vos rêves et leur symbolisme</div><div class="promo-link">Interpréter →</div></a>
   </div>
 </div>
 
@@ -413,143 +229,172 @@
   <span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--text3);">© 2025–2026 marcomedium.com</span>
 </footer>
 
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
+  <span class="arrow-head"></span>
+  <span class="arrow-shaft"></span>
+</button>
+
 <script>
-// Stars
 (function(){const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');let W,H,stars=[],neb=[];function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}function create(){stars=Array.from({length:180},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,alpha:Math.random()*.7+.1,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.005,color:Math.random()>.8?'201,168,76':Math.random()>.6?'167,139,250':'255,255,255'}));neb=Array.from({length:5},()=>({x:Math.random()*W,y:Math.random()*H*.8,r:Math.random()*200+100,alpha:Math.random()*.05+.01,color:Math.random()>.5?'139,92,246':'201,168,76'}));}function draw(){ctx.clearRect(0,0,W,H);neb.forEach(n=>{const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);g.addColorStop(0,`rgba(${n.color},${n.alpha})`);g.addColorStop(1,'transparent');ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();});stars.forEach(s=>{s.tw+=s.ts;const a=s.alpha*(0.5+.5*Math.sin(s.tw));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${s.color},${a})`;ctx.fill();});requestAnimationFrame(draw);}window.addEventListener('resize',()=>{resize();create();});resize();create();draw();})();
 
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>50);document.getElementById('scrollTop').classList.toggle('show',window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-200);});
 document.getElementById('burger').addEventListener('click',function(){const l=document.querySelector('.nav-links');l.style.cssText=l.style.display==='flex'?'':'display:flex;flex-direction:column;position:fixed;top:65px;left:0;right:0;background:rgba(6,4,15,.98);padding:24px;gap:20px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);z-index:99;';});
 const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-const WORKER_URL='https://super-band-24a0.utilisateur456.workers.dev/';
-
 const numberData={
-  1:{name:"Le Leader",subtitle:"Pionnier · Indépendant · Créateur",traits:["🦁","Leadership","🎯","Ambition","⚡","Énergie","🔥","Passion","🌟","Originalité","💪","Force"],keywords:["indépendance","création","leadership","initiative"]},
-  2:{name:"Le Diplomate",subtitle:"Sensible · Intuitif · Coopératif",traits:["🕊️","Harmonie","❤️","Amour","🤝","Coopération","🌸","Douceur","🔮","Intuition","🎵","Sensibilité"],keywords:["équilibre","harmonie","coopération","intuition"]},
-  3:{name:"L'Artiste",subtitle:"Créatif · Expressif · Joyeux",traits:["🎨","Créativité","✨","Expression","😄","Joie","🌈","Optimisme","💬","Communication","🎭","Talent"],keywords:["expression","créativité","joie","communication"]},
-  4:{name:"Le Bâtisseur",subtitle:"Stable · Travailleur · Méthodique",traits:["🏗️","Structure","💼","Travail","🌿","Stabilité","🔨","Construction","📋","Organisation","🛡️","Fiabilité"],keywords:["stabilité","travail","ordre","construction"]},
-  5:{name:"Le Voyageur",subtitle:"Libre · Aventurier · Adaptable",traits:["✈️","Liberté","🌍","Aventure","⚡","Changement","🎲","Spontanéité","🦋","Adaptabilité","🔓","Indépendance"],keywords:["liberté","changement","aventure","adaptabilité"]},
-  6:{name:"Le Nourricier",subtitle:"Aimant · Responsable · Protecteur",traits:["🏠","Famille","💖","Amour","🌺","Beauté","🤲","Service","🎀","Harmonie","👨‍👩‍👧","Protection"],keywords:["famille","amour","responsabilité","beauté"]},
-  7:{name:"Le Mystique",subtitle:"Sage · Analytique · Spirituel",traits:["🔮","Mystère","🧠","Analyse","🌌","Spiritualité","📚","Savoir","🔍","Recherche","🌙","Profondeur"],keywords:["spiritualité","sagesse","analyse","mystère"]},
-  8:{name:"Le Manifesteur",subtitle:"Puissant · Ambitieux · Matériel",traits:["👑","Pouvoir","💰","Abondance","⚖️","Justice","🏆","Succès","💎","Autorité","🌟","Réussite"],keywords:["abondance","pouvoir","réussite","matériel"]},
-  9:{name:"L'Humaniste",subtitle:"Compassionnel · Universel · Sage",traits:["🌍","Humanité","💞","Compassion","🎓","Sagesse","🕯️","Idéalisme","🌊","Universalité","✨","Complétude"],keywords:["humanité","compassion","don","universalité"]},
-  11:{name:"Le Visionnaire",subtitle:"Nombre Maître · Illuminé · Intuitif",traits:["⚡","Inspiration","🌟","Lumière","🔮","Vision","🦋","Éveil","💫","Rayonnement","🧿","Perception"],keywords:["vision","lumière","inspiration","éveil"]},
-  22:{name:"Le Grand Bâtisseur",subtitle:"Nombre Maître · Maître de la Forme",traits:["🏛️","Grandeur","⚡","Puissance","🌍","Impact","💎","Excellence","🔑","Réalisation","♾️","Maîtrise"],keywords:["grandeur","réalisation","maîtrise","héritage"]},
-  33:{name:"Le Maître Enseignant",subtitle:"Nombre Maître · Amour Universel",traits:["✨","Enseignement","💞","Amour","🕊️","Paix","🌺","Guérison","🌟","Bénédiction","🙏","Service"],keywords:["enseignement","amour universel","guérison","service"]}
+  1:{name:"Le Leader",subtitle:"Pionnier · Indépendant · Créateur",traits:["🦁","Leadership","🎯","Ambition","⚡","Énergie","🔥","Passion","🌟","Originalité","💪","Force"],keywords:["indépendance","création","leadership","initiative"],shadow:"ego, isolement, tyrannie",mission:"ouvrir des chemins là où personne n'a osé aller",planete:"Soleil",element:"Feu"},
+  2:{name:"Le Diplomate",subtitle:"Sensible · Intuitif · Coopératif",traits:["🕊️","Harmonie","❤️","Amour","🤝","Coopération","🌸","Douceur","🔮","Intuition","🎵","Sensibilité"],keywords:["équilibre","harmonie","coopération","intuition"],shadow:"dépendance, manque de confiance, peur du conflit",mission:"bâtir des ponts entre les êtres et révéler la beauté de l'union",planete:"Lune",element:"Eau"},
+  3:{name:"L'Artiste",subtitle:"Créatif · Expressif · Joyeux",traits:["🎨","Créativité","✨","Expression","😄","Joie","🌈","Optimisme","💬","Communication","🎭","Talent"],keywords:["expression","créativité","joie","communication"],shadow:"dispersion, superficialité, manque de discipline",mission:"inspirer le monde par l'expression authentique et la joie contagieuse",planete:"Jupiter",element:"Air"},
+  4:{name:"Le Bâtisseur",subtitle:"Stable · Travailleur · Méthodique",traits:["🏗️","Structure","💼","Travail","🌿","Stabilité","🔨","Construction","📋","Organisation","🛡️","Fiabilité"],keywords:["stabilité","travail","ordre","construction"],shadow:"rigidité, peur du changement, obstination",mission:"construire des fondations solides qui durent au-delà d'une vie",planete:"Saturne",element:"Terre"},
+  5:{name:"Le Voyageur",subtitle:"Libre · Aventurier · Adaptable",traits:["✈️","Liberté","🌍","Aventure","⚡","Changement","🎲","Spontanéité","🦋","Adaptabilité","🔓","Indépendance"],keywords:["liberté","changement","aventure","adaptabilité"],shadow:"instabilité, fuite, excès",mission:"incarner la liberté et enseigner aux autres l'art du lâcher-prise",planete:"Mercure",element:"Air"},
+  6:{name:"Le Nourricier",subtitle:"Aimant · Responsable · Protecteur",traits:["🏠","Famille","💖","Amour","🌺","Beauté","🤲","Service","🎀","Harmonie","👨‍👩‍👧","Protection"],keywords:["famille","amour","responsabilité","beauté"],shadow:"sacrifice excessif, contrôle, perfectionnisme",mission:"créer des espaces d'amour et de beauté où chacun peut s'épanouir",planete:"Vénus",element:"Terre"},
+  7:{name:"Le Mystique",subtitle:"Sage · Analytique · Spirituel",traits:["🔮","Mystère","🧠","Analyse","🌌","Spiritualité","📚","Savoir","🔍","Recherche","🌙","Profondeur"],keywords:["spiritualité","sagesse","analyse","mystère"],shadow:"isolement, cynisme, méfiance",mission:"percer les voiles du mystère et transmettre une sagesse rare",planete:"Neptune",element:"Eau"},
+  8:{name:"Le Manifesteur",subtitle:"Puissant · Ambitieux · Matériel",traits:["👑","Pouvoir","💰","Abondance","⚖️","Justice","🏆","Succès","💎","Autorité","🌟","Réussite"],keywords:["abondance","pouvoir","réussite","matériel"],shadow:"abus de pouvoir, matérialisme, peur de manquer",mission:"maîtriser la matière pour servir quelque chose de plus grand",planete:"Saturne",element:"Terre"},
+  9:{name:"L'Humaniste",subtitle:"Compassionnel · Universel · Sage",traits:["🌍","Humanité","💞","Compassion","🎓","Sagesse","🕯️","Idéalisme","🌊","Universalité","✨","Complétude"],keywords:["humanité","compassion","don","universalité"],shadow:"martyrisme, difficulté à lâcher, amertume",mission:"servir l'humanité entière et incarner l'amour universel",planete:"Mars",element:"Feu"},
+  11:{name:"Le Visionnaire",subtitle:"Nombre Maître · Illuminé · Intuitif",traits:["⚡","Inspiration","🌟","Lumière","🔮","Vision","🦋","Éveil","💫","Rayonnement","🧿","Perception"],keywords:["vision","lumière","inspiration","éveil"],shadow:"hypersensibilité écrasante, anxiété, idéalisme paralysant",mission:"éclairer l'humanité par une vision prophétique et une sensibilité hors du commun",planete:"Uranus",element:"Air"},
+  22:{name:"Le Grand Bâtisseur",subtitle:"Nombre Maître · Maître de la Forme",traits:["🏛️","Grandeur","⚡","Puissance","🌍","Impact","💎","Excellence","🔑","Réalisation","♾️","Maîtrise"],keywords:["grandeur","réalisation","maîtrise","héritage"],shadow:"peur de la responsabilité, perfectionnisme paralysant",mission:"matérialiser des rêves impossibles et laisser un héritage qui transcende les générations",planete:"Uranus",element:"Terre"},
+  33:{name:"Le Maître Enseignant",subtitle:"Nombre Maître · Amour Universel",traits:["✨","Enseignement","💞","Amour","🕊️","Paix","🌺","Guérison","🌟","Bénédiction","🙏","Service"],keywords:["enseignement","amour universel","guérison","service"],shadow:"sacrifice total de soi, difficulté à recevoir",mission:"guérir et élever la conscience collective par l'amour inconditionnel",planete:"Neptune",element:"Eau"}
 };
 
-function reduceToSingle(n){
-  if([11,22,33].includes(n)) return n;
-  while(n>9&&!([11,22,33].includes(n))){const s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if([11,22,33].includes(s)) return s;n=s;}return n;
-}
+function reduceToSingle(n){if([11,22,33].includes(n))return n;while(n>9&&!([11,22,33].includes(n))){const s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if([11,22,33].includes(s))return s;n=s;}return n;}
 
 function calcLifePath(d,m,y){
   const steps=[];
   const sumPart=n=>{const s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);steps.push(n);return s;};
   let sd=sumPart(d),sm=sumPart(m),sy=String(y).split('').reduce((a,b)=>a+parseInt(b),0);
   steps.push(y);
-  let total=sd+sm+sy;
-  steps.push(total);
+  let total=sd+sm+sy;steps.push(total);
   while(total>9&&![11,22,33].includes(total)){const s=String(total).split('').reduce((a,b)=>a+parseInt(b),0);if(![11,22,33].includes(s)){total=s;if(total<=9)break;}else{total=s;break;}}
   return{number:total,steps};
 }
 
 function highlightOrb(n){
   document.querySelectorAll('.num-orb').forEach(o=>o.classList.remove('highlight'));
-  const orbId='orb-'+n;
-  const orb=document.getElementById(orbId);
+  const orb=document.getElementById('orb-'+n);
   if(orb){orb.classList.add('highlight');orb.scrollIntoView({behavior:'smooth',block:'nearest'});}
 }
 
-async function generateInterpretation(number, name, nd){
-  const prompt=`Tu es Marco Médium, voyant suisse. Pour le chemin de vie numérologique ${number} (${nd.name} — ${nd.keywords.join(', ')})${name?' pour '+name:''}, génère une interprétation personnelle et profonde en 3-4 paragraphes (environ 150 mots). Style: direct, authentique, bienveillant mais sans complaisance. Commence fort avec une révélation sur ce nombre. Termine par un conseil concret. Réponds uniquement en texte, pas de JSON.`;
-  try{
-    const r=await fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt})});
-    if(!r.ok) throw new Error();
-    const data=await r.json();
-    return data.data||data.message||getFallback(number,nd);
-  }catch(e){return getFallback(number,nd);}
-}
+async function generateInterpretation(number, name, nd, day, month, year) {
+  const seed = Date.now() + Math.random().toString(36).slice(2);
+  const prompt = `Tu es Marco Médium, voyant et numerologue suisse de réputation internationale, reconnu pour la précision absolue de tes lectures. 25 ans de pratique. Ton style est direct, profond, jamais complaisant — tu dis ce qui est, pas ce que les gens veulent entendre.
 
-function getFallback(number,nd){
-  return `Le ${number}, vibration du ${nd.name}, est une énergie profonde qui traverse toute votre existence. Vous n'êtes pas ici par hasard — les chiffres de votre naissance dessinent une trajectoire unique, un fil d'or invisible qui relie chacun de vos choix à votre véritable nature.
+PROFIL NUMÉROLOGIQUE COMPLET :
+- Chemin de vie : ${number} — ${nd.name}
+- Archétype : ${nd.subtitle}
+- Prénom : ${name || 'non renseigné'}
+- Date de naissance : ${day}/${month}/${year}
+- Planète associée : ${nd.planete}
+- Élément : ${nd.element}
+- Mission de vie : ${nd.mission}
+- Ombre à intégrer : ${nd.shadow}
+- Mots-clés vibratoires : ${nd.keywords.join(', ')}
 
-Cette vibration du ${number} vous invite à embrasser pleinement ${nd.keywords[0]} et ${nd.keywords[1]}. C'est là que réside votre force authentique, là où vos plus grandes réalisations prennent racine.
+MISSION : Génère une lecture numérologique qui va SECOUER le lecteur par sa précision. Chaque phrase doit sembler écrite spécifiquement pour cette personne. Pas de généralités. Pas de platitudes. Des révélations qui font dire "comment sait-il ça ?"
 
-Les périodes de doute que vous traversez font partie de votre apprentissage — le ${number} demande parfois qu'on aille au fond de soi avant de trouver la clarté. Acceptez ce processus sans résistance.
+STYLE MARCO MÉDIUM — RÈGLES ABSOLUES :
+- Tu tutoies, tu es direct, tu n'hésites pas à nommer les choses difficiles
+- Tu identifies CE QUI BLOQUE concrètement et CE QUI S'OUVRE vraiment pour ce nombre
+- Tu nommes l'ombre (${nd.shadow}) avec bienveillance mais sans détour
+- Tu parles des défis réels que vivent les ${number} — les relations, le travail, la solitude, les patterns répétitifs
+- Tu alternes validation ("tu le sais déjà") et révélation ("mais voici ce que tu ne vois pas encore")
+- Tu termines par un appel à l'action concret et mémorable
+- INTERDIT : "belle énergie", "l'univers vous guide", "restez positif", "faites confiance" — trop creux
+- EXIGE : des vérités qui résonnent comme si tu connaissais cette personne depuis 10 ans
 
-Mon conseil : cultivez ${nd.keywords[2]} au quotidien. C'est votre boussole la plus fiable.`;
-}
+STRUCTURE OBLIGATOIRE (écris en prose continue, 5 paragraphes distincts) :
 
-document.getElementById('btn-calculate').addEventListener('click',async function(){
-  const d=parseInt(document.getElementById('input-day').value);
-  const m=parseInt(document.getElementById('input-month').value);
-  const y=parseInt(document.getElementById('input-year').value);
-  const name=document.getElementById('input-name').value.trim();
-  if(!d||!m||!y||d<1||d>31||m<1||m>12||y<1900||y>2024){
-    alert('Veuillez entrer une date de naissance valide.');return;
+Paragraphe 1 — LA RÉVÉLATION (3-4 phrases) : Commence par une vérité forte et inattendue sur ce que signifie vraiment être un ${number}. Pas la définition classique — la réalité profonde, avec ses contradictions et sa complexité. Nomme immédiatement quelque chose que cette personne ressent sans pouvoir le formuler.
+
+Paragraphe 2 — LES FORCES CACHÉES (3-4 phrases) : Identifie les talents uniques du ${number} que cette personne sous-estime probablement. Sois précis — pas "vous êtes créatif" mais une qualité spécifique avec un exemple concret de comment elle se manifeste dans la vie réelle.
+
+Paragraphe 3 — L'OMBRE À INTÉGRER (3-4 phrases) : Nomme directement l'ombre du ${number} : ${nd.shadow}. Explique comment ce pattern se manifeste concrètement dans les relations et les décisions. Montre que c'est aussi la source de la plus grande puissance — une fois intégrée.
+
+Paragraphe 4 — LA MISSION ET LES DÉFIS DE CETTE PÉRIODE (4-5 phrases) : Parle de la mission de vie (${nd.mission}) et de ce qui se joue concrètement dans la vie de quelqu'un né le ${day}/${month}/${year}. Identifie les défis spécifiques à cette configuration. Donne une direction claire.
+
+Paragraphe 5 — LE CONSEIL DE MARCO (3-4 phrases) : Message direct, personnel, mémorable. Commence par "${name || 'Toi qui portes ce ' + number},". Nomme ce que cette personne doit faire ou lâcher MAINTENANT. Conclus par une phrase prophétique qui reste en mémoire.
+
+Réponds uniquement en texte, pas de JSON, pas de titres, pas de puces. 5 paragraphes séparés par une ligne vide. Minimum 350 mots. [REF:${seed}]`;
+
+  try {
+    const r = await fetch('https://super-band-24a0.utilisateur456.workers.dev/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({promptCustom: prompt})
+    });
+    if (!r.ok) throw new Error();
+    const data = await r.json();
+    const txt = data.data || data.message || '';
+    if (txt.length < 100) throw new Error('too short');
+    return txt;
+  } catch(e) {
+    return getFallback(number, name, nd);
   }
-  const {number,steps}=calcLifePath(d,m,y);
-  const nd=numberData[number]||numberData[9];
+}
+
+function getFallback(number, name, nd) {
+  const prenom = name || 'Toi qui portes ce ' + number;
+  return `Porter le ${number} comme chemin de vie, c'est naviguer avec une boussole intérieure que peu de gens comprennent vraiment. Ce nombre ne se choisit pas — il s'impose, avec toute sa richesse et tout son poids. Ce que tu ressens souvent comme une différence inexplicable avec les autres, ce sentiment d'être à la fois trop et pas assez — c'est la signature du ${number}, et c'est exactement là que réside ta plus grande puissance.
+
+Tes forces profondes sont réelles et souvent sous-estimées, même par toi. Là où les autres voient de la complexité, toi tu perçois des nuances. Là où les autres abandonnent, ta vibration ${number} t'appelle à aller plus loin. La capacité à ${nd.keywords[0]} et à ${nd.keywords[1]} n'est pas un acquis chez toi — c'est une vocation, quelque chose que tu portes dans le corps avant de le formuler dans la tête.
+
+Mais il y a une ombre que le ${number} traîne et qu'il faut nommer sans détour : ${nd.shadow}. Ce pattern revient, sous différentes formes, dans tes relations et tes choix. Il te freine exactement au moment où tu pourrais aller le plus loin. La bonne nouvelle ? C'est précisément en intégrant cette ombre que le ${number} révèle sa puissance complète — parce que tout ce que tu as peur de voir en toi est aussi ta plus grande ressource.
+
+Ta mission dans cette vie est claire : ${nd.mission}. Ce n'est pas une métaphore — c'est une directive réelle, incarnée dans tes talents, tes cicatrices et tes désirs les plus profonds. Les défis que tu rencontres ne sont pas des obstacles sur ton chemin, ils sont le chemin. Chaque résistance que tu rencontres te forge exactement pour ce rôle.
+
+${prenom}, ce que tu dois faire maintenant, c'est arrêter d'attendre les conditions parfaites pour être pleinement toi-même. Le ${number} n'est pas un nombre de confort — c'est un nombre de destin. Et ton destin n'attend pas. Commence aujourd'hui par ${nd.keywords[2]} — concrètement, pas en théorie. C'est là que tout commence.`;
+}
+
+document.getElementById('btn-calculate').addEventListener('click', async function() {
+  const d = parseInt(document.getElementById('input-day').value);
+  const m = parseInt(document.getElementById('input-month').value);
+  const y = parseInt(document.getElementById('input-year').value);
+  const name = document.getElementById('input-name').value.trim();
+  if (!d||!m||!y||d<1||d>31||m<1||m>12||y<1900||y>2024) {
+    alert('Veuillez entrer une date de naissance valide.'); return;
+  }
+  const {number, steps} = calcLifePath(d, m, y);
+  const nd = numberData[number] || numberData[9];
   highlightOrb(number);
-  this.disabled=true;
-  document.getElementById('loading').style.display='flex';
-  const interpretation=await generateInterpretation(number,name,nd);
-  document.getElementById('loading').style.display='none';
-  this.disabled=false;
+  this.disabled = true;
+  document.getElementById('loading').style.display = 'flex';
+  document.getElementById('result').classList.add('result-hidden');
 
-  // Populate result
-  document.getElementById('res-number').textContent=number;
-  document.getElementById('res-name-title').textContent=nd.name;
-  document.getElementById('res-subtitle').textContent=nd.subtitle;
-  
-  let calcHtml='<span class="calc-step">'+d+'</span><span class="calc-arrow">+</span><span class="calc-step">'+m+'</span><span class="calc-arrow">+</span><span class="calc-step">'+y+'</span>';
-  steps.forEach((s,i)=>{if(i>2)calcHtml+='<span class="calc-arrow">→</span><span class="calc-step">'+s+'</span>';});
-  calcHtml+='<span class="calc-arrow">=</span><span class="calc-final">'+number+'</span>';
-  document.getElementById('res-calc').innerHTML=calcHtml;
+  const interpretation = await generateInterpretation(number, name, nd, d, m, y);
 
-  const traits=nd.traits;
-  let traitsHtml='';
-  for(let i=0;i<traits.length;i+=2){
-    traitsHtml+=`<div class="trait"><span class="t-icon">${traits[i]}</span>${traits[i+1]||''}</div>`;
+  document.getElementById('loading').style.display = 'none';
+  this.disabled = false;
+  document.getElementById('res-number').textContent = number;
+  document.getElementById('res-name-title').textContent = nd.name;
+  document.getElementById('res-subtitle').textContent = nd.subtitle;
+
+  let calcHtml = '<span class="calc-step">'+d+'</span><span class="calc-arrow">+</span><span class="calc-step">'+m+'</span><span class="calc-arrow">+</span><span class="calc-step">'+y+'</span>';
+  steps.forEach((s,i) => { if(i>2) calcHtml += '<span class="calc-arrow">→</span><span class="calc-step">'+s+'</span>'; });
+  calcHtml += '<span class="calc-arrow">=</span><span class="calc-final">'+number+'</span>';
+  document.getElementById('res-calc').innerHTML = calcHtml;
+
+  const traits = nd.traits;
+  let traitsHtml = '';
+  for (let i=0; i<traits.length; i+=2) {
+    traitsHtml += `<div class="trait"><span class="t-icon">${traits[i]}</span>${traits[i+1]||''}</div>`;
   }
-  document.getElementById('res-traits').innerHTML=traitsHtml;
-  document.getElementById('res-interpretation').textContent=interpretation;
+  document.getElementById('res-traits').innerHTML = traitsHtml;
+  document.getElementById('res-interpretation').textContent = interpretation;
   document.getElementById('result').classList.remove('result-hidden');
-  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-document.getElementById('btn-reset').addEventListener('click',function(){
+document.getElementById('btn-reset').addEventListener('click', function() {
   document.getElementById('result').classList.add('result-hidden');
-  document.getElementById('input-day').value='';
-  document.getElementById('input-month').value='';
-  document.getElementById('input-year').value='';
-  document.getElementById('input-name').value='';
-  document.querySelectorAll('.num-orb').forEach(o=>o.classList.remove('highlight'));
+  document.getElementById('input-day').value = '';
+  document.getElementById('input-month').value = '';
+  document.getElementById('input-year').value = '';
+  document.getElementById('input-name').value = '';
+  document.querySelectorAll('.num-orb').forEach(o => o.classList.remove('highlight'));
   document.getElementById('main-form').scrollIntoView({behavior:'smooth'});
 });
 
-// Scroll to top — apparaît en bas de page
-window.addEventListener('scroll',()=>{
-  const scrolled = window.scrollY + window.innerHeight;
-  const total = document.documentElement.scrollHeight;
-  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
-});
+(function(){const dot=document.querySelector('.live-dot');if(!dot)return;if(localStorage.getItem('mm_status')==='busy'){dot.classList.add('busy');}})();
 </script>
-
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
-  <span class="arrow-head"></span>
-  <span class="arrow-shaft"></span>
-</button>
-<script>
-  // Sync status dot avec index.html
-  (function(){
-    const dot = document.querySelector('.live-dot');
-    if(!dot) return;
-    if(localStorage.getItem('mm_status') === 'busy'){
-      dot.classList.add('busy');
-    }
-  })();</script>
 </body>
 </html>
