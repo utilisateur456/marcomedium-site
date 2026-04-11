@@ -177,7 +177,66 @@ function buildDeck(){var deck=document.getElementById('card-deck');deck.innerHTM
 function updateBtn(){var btn=document.getElementById('btn-draw'),needed=SPREADS[currentSpread].count,rem=needed-selectedCards.length;if(rem>0){btn.disabled=true;btn.textContent='Choisissez '+needed+' carte'+(needed>1?'s':'')+(rem<needed?' — encore '+rem:'');}else{btn.disabled=false;btn.textContent='Reveler le message de Marco';}}
 document.querySelectorAll('.spread-type-btn').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.spread-type-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');currentSpread=parseInt(this.dataset.spread);buildDeck();document.getElementById('oracle-result').style.display='none';});});
 buildDeck();
-function generateLocalReading(cards,intention){var txt='';if(intention)txt+='Vous portez la question de "'+intention+'" — les cartes y repondent directement.\n\n';if(cards.length===1){var cd=cards[0].cardData;txt+=cd.name+'\n\n'+cd.essence+'\n\n'+cd.conseil;}else{for(var i=0;i<cards.length;i++){txt+=(cards[i].label||'Carte '+(i+1))+' — '+cards[i].cardData.name+'\n'+cards[i].cardData.essence+'\n\n';}txt+='Ces cartes forment un message coherent. Lisez-les ensemble — elles racontent votre chemin actuel.';}return txt;}
+function generateLocalReading(cards,intention){
+  var txt='';
+  
+  var intros=[
+    "Ce tirage arrive à un moment précis de votre vie — ce n'est pas un hasard. Les cartes ne mentent pas : elles révèlent ce qui est déjà là, sous la surface de votre quotidien, en attente d'être vu et agi.",
+    "Avant de lire ce message, prenez un moment. Posez vos mains à plat. Respirez. Ce que les cartes ont à vous dire mérite votre présence complète — pas une lecture rapide entre deux obligations.",
+    "Les cartes que vous avez choisies ne sont pas venues par hasard. Votre main, guidée par quelque chose que votre mental ne contrôle pas entièrement, a sélectionné exactement ce qui devait être vu maintenant."
+  ];
+  
+  var n = Math.floor(Math.random()*3);
+  txt += intros[n] + '
+
+';
+  
+  if(intention) txt += 'Votre question — "'+intention+'" — traverse chacune de ces cartes comme un fil conducteur. Lisez chaque message en le reliant à cette question.
+
+';
+  
+  if(cards.length===1){
+    var cd=cards[0].cardData;
+    txt += cd.name + '
+
+';
+    txt += cd.essence + ' ' + cd.conseil + '
+
+';
+    txt += "Cette carte unique concentre toute la puissance du tirage. Elle ne vous donne pas une réponse partielle — elle vous donne LA réponse. Pas nécessairement celle que vous espériez, mais celle dont vous avez besoin. Relisez-la demain matin avec un regard neuf — le sens s'approfondit avec le temps.";
+  } else if(cards.length===3){
+    var positions=['Ce que le passé a construit en vous','Ce qui est en jeu dans votre présent','Ce qui vous attend si vous suivez cette voie'];
+    for(var i=0;i<3;i++){
+      var cd=cards[i].cardData;
+      txt += (cards[i].label||positions[i]) + ' — ' + cd.name + '
+
+';
+      txt += cd.essence + '
+
+' + cd.conseil + '
+
+';
+    }
+    txt += "Ces trois cartes forment une histoire cohérente sur votre parcours actuel. Le passé explique le présent, qui dessine le futur possible. Mais rien n'est gravé dans le marbre — le futur dépend de ce que vous décidez de faire avec ce que le présent révèle. Quelle est la décision que cette lecture vous invite à prendre ?";
+  } else {
+    var labels=['La situation telle qu'elle est vraiment','Ce qui bloque ou résiste','La fondation sur laquelle vous vous appuyez','Le conseil des cartes pour avancer','L'issue probable si vous suivez ce conseil'];
+    for(var i=0;i<cards.length;i++){
+      var cd=cards[i].cardData;
+      var lbl=cards[i].label||labels[i]||'Carte '+(i+1);
+      txt += lbl + ' — ' + cd.name + '
+
+';
+      txt += cd.essence + '
+
+' + cd.conseil + '
+
+';
+    }
+    txt += "Ce tirage complet dessine une cartographie précise de votre situation. Chaque carte parle à la suivante — lisez-les en dialogue plutôt qu'en isolation. La vérité de ce tirage est dans l'ensemble, dans les tensions et les résonances entre les cartes. Qu'est-ce que ce tirage vous dit que vous saviez déjà mais que vous n'aviez pas encore accepté ?";
+  }
+  return txt;
+}
+
 document.getElementById('btn-draw').addEventListener('click',function(){var intention=document.getElementById('intention').value.trim();var spread=SPREADS[currentSpread],drawnCards=selectedCards.slice(),self=this;self.disabled=true;document.getElementById('oracle-loading').style.display='block';document.getElementById('oracle-result').style.display='none';var today=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});var desc=drawnCards.map(function(c,i){return (c.label||'Carte '+(i+1))+': '+c.cardData.name+' ('+c.cardData.meaning+')';}).join('\n');var seed=Date.now()+Math.random().toString(36).slice(2);var prompt='Tu es Marco Medium, voyant et medium suisse reconnu internationalement pour la profondeur et la precision de tes lectures. 25 ans de pratique. Tu ne donnes JAMAIS de reponses generiques — chaque interpretation est taillée sur mesure.\n\n'+
     'TIRAGE : '+spread.count+' carte(s) oracle | '+today+'\n\n'+
     (intention?'QUESTION DU CONSULTANT : "'+intention+'"\nToute ton interpretation repond a cette question precise, meme indirectement. Ne l ignore jamais.\n\n':'')+
@@ -204,7 +263,8 @@ document.getElementById('btn-draw').addEventListener('click',function(){var inte
     (intention?'- Para suivant : Reponse directe a la question posee, sans detour\n':'')+
     '- Para final : Le message ultime de Marco — une directive precise, memorisable, qui reste en memoire\n\n'+
     'Ecris en prose continue, sans puces ni titres. Minimum 600 mots. Tutoiement. Style Marco — direct, profond, percutant. [SEED:'+seed+']';
-    }).then(function(data){var txt=data.data||data.message||data.reply||'';if(txt.length<80)throw new Error('empty');showResult(txt,drawnCards,spread);}).catch(function(){showResult(generateLocalReading(drawnCards,intention),drawnCards,spread);}).finally(function(){self.disabled=false;});});
+    var ctrl=new AbortController();setTimeout(function(){ctrl.abort();},25000);
+    fetch('https://super-band-24a0.utilisateur456.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json','Cache-Control':'no-cache'},body:JSON.stringify({promptCustom:prompt,max_tokens:4000}),signal:ctrl.signal}).then(function(r){if(!r.ok)throw new Error('http');return r.json();}).then(function(data){var txt=data.data||data.message||data.reply||'';if(txt.length<80)throw new Error('empty');showResult(txt,drawnCards,spread);}).catch(function(){showResult(generateLocalReading(drawnCards,intention),drawnCards,spread);}).finally(function(){self.disabled=false;});});
 function showResult(message,drawnCards,spread){document.getElementById('oracle-loading').style.display='none';var row=document.getElementById('drawn-row');row.innerHTML=drawnCards.map(function(c,i){return '<div class="drawn-item"><div class="drawn-card-visual">'+c.cardData.svg+'<span class="dcname">'+c.cardData.name+'</span></div><div class="drawn-pos">'+(c.label||'Carte '+(i+1))+'</div></div>';}).join('');document.getElementById('oracle-text').textContent=message;var res=document.getElementById('oracle-result');res.style.display='block';res.scrollIntoView({behavior:'smooth',block:'start'});}
 document.getElementById('btn-new').addEventListener('click',function(){document.getElementById('oracle-result').style.display='none';document.getElementById('intention').value='';buildDeck();document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});});
 </script>

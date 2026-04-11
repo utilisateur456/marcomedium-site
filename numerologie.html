@@ -320,7 +320,7 @@ Réponds uniquement en texte, pas de JSON, pas de titres, pas de puces. 5 paragr
     const r = await fetch('https://super-band-24a0.utilisateur456.workers.dev/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({promptCustom: prompt})
+      body: JSON.stringify({promptCustom: prompt, max_tokens: 4000})
     });
     if (!r.ok) throw new Error();
     const data = await r.json();
@@ -333,16 +333,106 @@ Réponds uniquement en texte, pas de JSON, pas de titres, pas de puces. 5 paragr
 }
 
 function getFallback(number, name, nd) {
-  const prenom = name || 'Toi qui portes ce ' + number;
-  return `Porter le ${number} comme chemin de vie, c'est naviguer avec une boussole intérieure que peu de gens comprennent vraiment. Ce nombre ne se choisit pas — il s'impose, avec toute sa richesse et tout son poids. Ce que tu ressens souvent comme une différence inexplicable avec les autres, ce sentiment d'être à la fois trop et pas assez — c'est la signature du ${number}, et c'est exactement là que réside ta plus grande puissance.
+  const prenom = name ? name : null;
+  const intro = prenom ? `${prenom}, ` : '';
+  
+  const textes = {
+    1: `${intro}porter le 1 comme chemin de vie, c'est être condamné à l'avant-garde — que tu le veuilles ou non. Depuis l'enfance, tu as senti que tu étais différent, que tu pensais par toi-même là où les autres suivaient le groupe, que tu avais des visions que personne dans ton entourage immédiat ne semblait partager. Ce n'est pas de l'arrogance — c'est la signature vibratoire du 1, le nombre du pionnier absolu. Le Soleil, ton astre numérologique, t'a doté d'une énergie créatrice et d'une force d'initiative que peu de gens possèdent naturellement. Mais il t'a aussi donné une ombre proportionnelle à ce don : l'ego, l'isolement, et parfois la tyrannie douce de celui qui sait toujours mieux.
 
-Tes forces profondes sont réelles et souvent sous-estimées, même par toi. Là où les autres voient de la complexité, toi tu perçois des nuances. Là où les autres abandonnent, ta vibration ${number} t'appelle à aller plus loin. La capacité à ${nd.keywords[0]} et à ${nd.keywords[1]} n'est pas un acquis chez toi — c'est une vocation, quelque chose que tu portes dans le corps avant de le formuler dans la tête.
+Ce que le 1 demande à chaque personne qui le porte : apprendre à créer avec les autres sans perdre ta direction. Ton erreur récurrente est de choisir entre l'indépendance totale et la dépendance totale, en sautant par-dessus la véritable collaboration. Il y a un espace entre "je fais tout seul" et "je m'efface" — c'est là que ta plus grande puissance attend.
 
-Mais il y a une ombre que le ${number} traîne et qu'il faut nommer sans détour : ${nd.shadow}. Ce pattern revient, sous différentes formes, dans tes relations et tes choix. Il te freine exactement au moment où tu pourrais aller le plus loin. La bonne nouvelle ? C'est précisément en intégrant cette ombre que le ${number} révèle sa puissance complète — parce que tout ce que tu as peur de voir en toi est aussi ta plus grande ressource.
+Sur le plan professionnel, le 1 est fait pour entreprendre, innover, ouvrir des chemins là où il n'y en a pas. Si tu travailles encore sous les ordres de quelqu'un dont la vision te semble inférieure à la tienne, tu vis en dessous de ta fréquence naturelle. Ce n'est pas sustainable. Sur le plan affectif, le 1 attire par sa force et sa confiance apparente — mais sa vraie difficulté est la vulnérabilité. Tu as tendance à te montrer fort quand tu as besoin d'être tenu.
 
-Ta mission dans cette vie est claire : ${nd.mission}. Ce n'est pas une métaphore — c'est une directive réelle, incarnée dans tes talents, tes cicatrices et tes désirs les plus profonds. Les défis que tu rencontres ne sont pas des obstacles sur ton chemin, ils sont le chemin. Chaque résistance que tu rencontres te forge exactement pour ce rôle.
+Ta mission de vie est claire et exigeante : ouvrir des chemins là où personne n'a osé aller, et assumer pleinement la solitude que cela implique parfois. Le feu du 1 brûle dans une direction. ${intro ? intro.replace(', ', '') + ', c' : 'C'}hoisis la tienne maintenant — et avance sans regarder si on te suit.`,
+    
+    2: `${intro}le 2 est peut-être le chemin de vie le plus mal compris de toute la numérologie. De l'extérieur, il semble doux, accommodant, discret. De l'intérieur, il vibre d'une intensité émotionnelle et d'une perception qui peuvent être écrasantes. Tu ressens ce que les autres ne nomment pas encore. Tu perçois les non-dits dans une pièce. Tu sais souvent ce que quelqu'un va dire avant qu'il le dise. Cette hypersensibilité n'est pas une faiblesse — c'est le radar le plus précis qui existe. La Lune, ton astre numérologique, gouverne les marées et l'inconscient : tu es son enfant.
 
-${prenom}, ce que tu dois faire maintenant, c'est arrêter d'attendre les conditions parfaites pour être pleinement toi-même. Le ${number} n'est pas un nombre de confort — c'est un nombre de destin. Et ton destin n'attend pas. Commence aujourd'hui par ${nd.keywords[2]} — concrètement, pas en théorie. C'est là que tout commence.`;
+Mais voici l'ombre du 2 qu'il faut regarder en face : tu t'effaces souvent pour préserver l'harmonie — au point de ne plus savoir, au bout d'un moment, ce que tu veux toi. Tu t'adaptes tellement bien aux besoins des autres que tu perds parfois le fil de tes propres désirs. Et tu peux rester dans des situations — relationnelles, professionnelles — bien au-delà de leur date d'expiration parce que le conflit te coûte plus que le sacrifice.
+
+Sur le plan professionnel, le 2 excelle dans tous les rôles qui demandent écoute, médiation, travail en équipe et intuition. Conseiller, thérapeute, artiste, médiateur — tout ce qui crée du lien ou traduit quelque chose d'invisible en quelque chose de tangible. Sur le plan affectif, tu aimes profondément et fidèlement — parfois trop, parfois au mauvais endroit.
+
+Ta mission : bâtir des ponts entre les êtres avec ta sensibilité comme outil principal. ${intro ? intro.replace(', ', '') + ', t' : 'T'}u n'as pas à te faire plus petit pour que les autres se sentent grands. Ta douceur n'est pas de la faiblesse — c'est une forme de courage que peu de gens maîtrisent vraiment.`,
+
+    3: `${intro}le 3 est la vibration de l'expression créatrice dans sa forme la plus pure. Tu n'es pas venu sur cette terre pour être discret. Tes mots, tes idées, ta créativité, ton sens de l'humour, ta façon de voir la beauté là où d'autres ne voient rien — tout cela est ta mission habillée en talent. Jupiter, ton astre numérologique, t'a doté d'un optimisme naturel et d'une capacité à inspirer les autres simplement par ta présence.
+
+Mais le 3 a une ombre puissante : la dispersion. Tu as trop d'idées, tu commences trop de projets, tu changes de direction avant d'avoir terminé quoi que ce soit — et tu finis par te retrouver avec une collection de départs brillants et aucun aboutissement à montrer. Cette frustration intérieure — sentir tout ce potentiel sans pouvoir le concrétiser — est la douleur caractéristique du 3 non maîtrisé.
+
+Sur le plan professionnel, le 3 est fait pour toutes les formes d'expression : écriture, communication, art, enseignement, spectacle, design. Mais il a besoin d'une structure extérieure ou d'une discipline personnelle forte pour aller au bout. Sans cela, le talent reste en puissance plutôt qu'en acte. Sur le plan affectif, le 3 séduit facilement — par sa légèreté, son humour, sa joie de vivre. Sa difficulté est l'engagement profond qui demande de rester quand ce n'est plus nouveau.
+
+Ta mission : inspirer le monde par ta création authentique. ${intro ? intro.replace(', ', '') + ', c' : 'C'}e que tu as à dire, à créer, à exprimer — le monde en a besoin. Arrête de perfectionner dans ta tête ce que tu pourrais être en train de faire dans la réalité.`,
+
+    4: `${intro}le 4 construit. Pas métaphoriquement — littéralement. Chaque 4 que tu rencontres a, quelque part dans sa vie, construit quelque chose de réel et de durable : une entreprise, une famille, une maison, une réputation, une discipline. Saturne, ton astre numérologique, t'a donné une endurance, une rigueur et un sens de la responsabilité qui forcent le respect. Mais Saturne est aussi le maître des épreuves — et le chemin du 4 est rarement facile.
+
+L'ombre du 4 est la rigidité. Tu sais comment les choses doivent être faites — du moins, c'est ce que tu crois. Et quand la réalité ne se conforme pas à tes standards ou à ton plan, tu peux devenir inflexible, critique, voire autoritaire. Cette résistance au changement qui te protège peut aussi t'enfermer dans des situations dépassées par peur de l'instabilité.
+
+Sur le plan professionnel, le 4 est irremplaçable dans tout ce qui demande de la méthode, de la persévérance et de la construction à long terme. Ingénierie, architecture, gestion, artisanat — tout ce qui laisse une trace concrète. Ta valeur est connue même si elle n'est pas toujours reconnue. Sur le plan affectif, le 4 est un partenaire loyal, fiable et ancré — mais il peut avoir du mal à exprimer sa tendresse et à laisser entrer la légèreté.
+
+Ta mission : construire des fondations solides qui durent au-delà d'une vie. ${intro ? intro.replace(', ', '') + ', c' : 'C'}e que tu as bâti jusqu'ici est réel. Ce que tu vas construire demain dépend de ta capacité à lâcher ce qui ne fonctionne plus — même si c'est toi qui l'as construit.`,
+
+    5: `${intro}le 5 est le chemin de vie de la liberté absolue — et rien n'est plus exaltant ni plus épuisant à porter. Tu n'es pas fait pour la routine. Ton cerveau réclame de la nouveauté, du changement, de la stimulation permanente. Mercure, ton astre numérologique, te donne une adaptabilité et une rapidité d'esprit remarquables — tu peux t'intégrer dans presque n'importe quel contexte, apprendre n'importe quoi très vite, te réinventer à volonté.
+
+Mais l'ombre du 5 est la fuite. Non pas la liberté — la fuite. La différence est subtile mais fondamentale : la liberté choisit, la fuite évite. Combien de fois as-tu changé de situation — travail, lieu, relation — juste avant que cela devienne vraiment profond ? Le 5 qui n'a pas intégré son ombre part toujours un peu trop tôt, avant que la vraie valeur se révèle.
+
+Sur le plan professionnel, le 5 excelle dans tout ce qui demande polyvalence, communication et adaptation. Journalisme, vente, entrepreneuriat, consultance, voyages — tout ce qui bouge. Sa difficulté est de s'engager sur la durée. Sur le plan affectif, le 5 est un partenaire électrisant — mais son besoin de liberté peut créer une insécurité chronique chez ceux qui aiment plus posément.
+
+Ta mission : incarner la liberté et enseigner aux autres l'art du lâcher-prise. ${intro ? intro.replace(', ', '') + ', l' : 'L'}a prochaine grande transformation de ta vie ne viendra pas d'un nouveau départ — elle viendra de ta capacité à rester et à aller plus loin que tu ne l'as jamais fait.`,
+
+    6: `${intro}le 6 est le chemin de vie de l'amour incarné. Tu ressens un appel profond à prendre soin — de ta famille, de tes proches, de ta communauté, quelquefois même de parfaits étrangers. Vénus, ton astre numérologique, t'a doté d'un sens de la beauté, de l'harmonie et de la responsabilité qui se manifeste dans chacun de tes espaces de vie. Les gens se sentent en sécurité avec toi. C'est un don rare et précieux.
+
+Mais l'ombre du 6 est le sacrifice excessif. Tu peux donner jusqu'à te vider, et appeler ça de l'amour alors que c'est parfois de la peur — peur d'être inadéquat, d'être abandonné, de ne pas être assez si tu n'es pas utile. Le martyre bienveillant du 6 est subtil : il se présente comme générosité, mais il contrôle en réalité l'autre par le besoin de l'autre.
+
+Sur le plan professionnel, le 6 excelle dans tous les métiers du soin, de l'enseignement, de la création artistique et de la gestion familiale. Sa difficulté est de fixer des limites professionnelles et de ne pas absorber les problèmes de tout le monde. Sur le plan affectif, le 6 aime avec une profondeur et une loyauté rares — mais il peut s'oublier complètement dans la relation.
+
+Ta mission : créer des espaces d'amour et de beauté où chacun peut s'épanouir. ${intro ? intro.replace(', ', '') + ', v' : 'V'}ous donnez abondamment. Maintenant, apprenez à recevoir avec la même grâce.`,
+
+    7: `${intro}le 7 est le plus solitaire et le plus profond de tous les chemins de vie. Tu es venu sur cette terre pour comprendre — non pas accumuler des informations, mais toucher quelque chose de vrai et d'essentiel sous la surface des apparences. Neptune et la Lune gouvernent ta vibration : tu perçois le monde à travers un filtre de sensibilité et d'intuition que la plupart des gens ne possèdent pas.
+
+Depuis l'enfance, tu as probablement senti que tu étais différent — non pas supérieur, mais décalé. Tes questions étaient plus profondes que celles de tes camarades. Ta solitude avait une qualité particulière — pas de l'isolement, mais un besoin authentique de silence intérieur pour te retrouver. L'ombre du 7 est le cynisme qui naît de trop d'espoirs déçus, et la méfiance qui empêche les vraies connexions.
+
+Sur le plan professionnel, le 7 excelle dans la recherche, l'analyse, la spiritualité, la psychologie, la philosophie, les sciences et toute forme d'investigation profonde. Il a besoin d'un travail qui a du sens — le faire pour l'argent seul le vide. Sur le plan affectif, le 7 aime profondément mais s'expose peu. Sa peur d'être trahi l'amène parfois à se fermer avant même qu'une blessure ait eu lieu.
+
+Ta mission : percer les voiles du mystère et transmettre une sagesse rare. ${intro ? intro.replace(', ', '') + ', c' : 'C'}e que tu as compris sur la nature humaine et sur la vie est précieux. Le monde en a besoin. Trouve maintenant un moyen de le transmettre — même imparfaitement.`,
+
+    8: `${intro}le 8 est le chemin de vie de la puissance et de l'abondance — mais rarement de la façon dont les gens l'imaginent. Ce n'est pas une garantie de richesse ou de succès : c'est une invitation à maîtriser la relation entre le monde matériel et le monde spirituel, entre le pouvoir et l'intégrité. Saturne, ton astre numérologique, t'impose une discipline de fer et te soumet à des épreuves qui testent ta capacité à rester droit quand tu pourrais prendre des raccourcis.
+
+Le 8 a souvent traversé des crises financières, des pertes importantes, des retournements de situation dramatiques — non pas par malchance, mais parce que son âme a besoin d'apprendre que la vraie sécurité ne dépend pas de ce qui est à l'extérieur. L'ombre du 8 est l'abus de pouvoir — subtil ou flagrant — et la confusion entre valeur personnelle et valeur financière.
+
+Sur le plan professionnel, le 8 est fait pour diriger, gérer des ressources importantes, créer des structures qui durent. Son potentiel de réussite matérielle est réel — mais il ne se manifeste pleinement que lorsqu'il est au service de quelque chose de plus grand que l'ego personnel. Sur le plan affectif, le 8 peut traiter les relations comme des entreprises — avec des attentes de performance et de rendement. Sa vraie intimité arrive quand il lâche le contrôle.
+
+Ta mission : maîtriser la matière pour servir quelque chose de plus grand. ${intro ? intro.replace(', ', '') + ', l' : 'L'}a puissance que vous portez est réelle. Elle attend simplement que vous choisissiez pour quoi vous allez vraiment l'utiliser.`,
+
+    9: `${intro}le 9 clôture le cycle — c'est le dernier des nombres simples, celui qui contient tous les autres, celui qui a déjà tout vécu. Tu portes en toi une sagesse qui semble parfois dépasser ton expérience personnelle, une compassion naturelle pour l'humanité entière, un sens aigu de l'injustice et de ce qui devrait être. Mars, ton astre numérologique, te donne une énergie de transformation et un idéalisme sans compromis.
+
+L'ombre du 9 est le martyre — la tendance à te sacrifier pour une cause, une relation, un idéal, jusqu'à t'oublier complètement. Et quand le sacrifice n'est pas reconnu, le 9 peut tomber dans une amertume profonde qui contraste douloureusement avec ses idéaux d'amour universel. Il y a aussi une difficulté à lâcher — les gens, les situations passées, les rancœurs, les liens qui auraient dû être dissous.
+
+Sur le plan professionnel, le 9 trouve sa plénitude dans tous les métiers qui servent l'humain : médecine, art, enseignement, humanitaire, spiritualité. Mais sa valeur est souvent sous-estimée parce qu'il ne sait pas se vendre — il donne avant même qu'on lui demande. Sur le plan affectif, le 9 aime avec une générosité exceptionnelle. Sa difficulté est d'accepter d'être aimé — pas pour ce qu'il fait, mais pour ce qu'il est.
+
+Ta mission : servir l'humanité entière et incarner l'amour universel — en commençant par toi-même. ${intro ? intro.replace(', ', '') + ', v' : 'V'}ous n'avez pas à tout réparer. Mais vous avez à offrir ce que vous êtes vraiment. C'est déjà énorme.`,
+
+    11: `${intro}le 11 est un Nombre Maître — et porter un Nombre Maître n'est pas une récompense, c'est une responsabilité. La vibration du 11 est celle du canal : tu es constitutionnellement conçu pour recevoir des informations, des intuitions, des visions qui ne viennent pas uniquement de ton expérience personnelle. Uranus, ton astre numérologique, t'a doté d'une antenne subtile qui capte ce que les autres ne perçoivent pas encore.
+
+La vie avec un 11 est rarement linéaire ou confortable. Tu es hypersensible à un niveau qui peut être paralysant si tu n'as pas appris à te protéger et à t'ancrer. Tu ressens les atmosphères, les intentions, les non-dits avec une précision troublante. Et cette intensité perceptive peut te rendre anxieux, dépassé par un monde qui te semble trop bruyant, trop superficiel, trop peu conscient.
+
+L'ombre du 11 : l'idéalisme qui tourne à la déception chronique, et la difficulté à s'incarner dans le quotidien concret parce que les hautes sphères semblent plus confortables. L'illumination que tu portes en potentiel ne sert à rien si elle ne descend pas dans la réalité.
+
+Ta mission : éclairer par ta vision et ta sensibilité hors du commun. ${intro ? intro.replace(', ', '') + ', l' : 'L'}a lumière que vous portez n'est pas pour vous seul. Elle attend que vous ayez le courage de la partager — même imparfaitement, même si personne ne comprend encore.`,
+
+    22: `${intro}le 22 est le Nombre Maître du bâtisseur absolu — la plus haute vibration pratique de la numérologie. Là où le 11 illumine, le 22 construit. Tu as la capacité de matérialiser des rêves qui semblent impossibles aux autres, de créer des structures à grande échelle, de laisser une empreinte réelle et durable dans le monde. Uranus et Saturne gouvernent ensemble ton chemin : vision folle et discipline de fer.
+
+Mais porter le 22 est écrasant. Les attentes de l'âme vis-à-vis d'elle-même sont colossales — et le risque est soit le perfectionnisme paralysant (si tu n'es pas sûr de faire quelque chose de grand, tu ne fais rien), soit la fuite dans le 4 ordinaire (réduire ses ambitions pour rester dans quelque chose de gérable). Ni l'un ni l'autre ne te satisfera.
+
+L'ombre du 22 : la peur de la responsabilité proportionnelle à ta puissance. Tu sais — même inconsciemment — que si tu te manifestes pleinement, les enjeux deviennent immenses. Et cette peur peut te maintenir en retrait de ta propre grandeur pendant des années.
+
+Ta mission : matérialiser des rêves impossibles et laisser un héritage qui transcende les générations. ${intro ? intro.replace(', ', '') + ', v' : 'V'}ous n'êtes pas ici pour faire comme tout le monde. Ce que vous portez est trop grand pour rester dans vos pensées. Commencez à construire.`,
+
+    33: `${intro}le 33 est le Nombre Maître le plus rare et le plus exigeant de tous — l'Amour Universel incarné. Si le 11 illumine et le 22 construit, le 33 guérit. Tu as une capacité naturelle à toucher les gens au plus profond, à les aider à voir leur propre lumière, à transmettre quelque chose d'essentiel par ta simple présence. Neptune gouverne ta vibration : tu es en connexion permanente avec quelque chose de plus grand que l'individu.
+
+Porter le 33 est une épreuve permanente de l'ego. Tu as été mis sur cette terre pour servir — et cette mission peut être magnifique quand elle est choisie librement, ou épuisante quand elle est imposée par la culpabilité ou la peur de décevoir. L'ombre du 33 est le sacrifice total de soi, la difficulté à recevoir, et parfois une souffrance profonde face à la cruauté du monde qui ne correspond pas à l'amour que tu portes.
+
+Ta mission : guérir et élever la conscience collective par l'amour inconditionnel — en commençant par t'appliquer à toi-même cet amour que tu donnes si facilement aux autres. ${intro ? intro.replace(', ', '') + ', v' : 'V'}ous êtes ici pour enseigner par l'exemple. Votre vie entière est votre enseignement. Commencez par vous aimer vraiment.`
+  };
+  
+  return textes[number] || textes[9];
 }
 
 document.getElementById('btn-calculate').addEventListener('click', async function() {

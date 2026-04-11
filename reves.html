@@ -335,15 +335,50 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
   document.getElementById('loading').classList.add('show');
   document.getElementById('resultSection').classList.remove('show');
   try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt})});
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({promptCustom:prompt,max_tokens:4000})});
     const d=await res.json();
     const raw=d.data||d.message||'';
     const clean=raw.replace(/```json|```/g,'').trim();
     const json=JSON.parse(clean);
     displayResult(json);
   }catch(e){
-    displayResult({titre:"Les Portes de l'Inconscient S'Ouvrent",sous_titre:"Un message important vous est adressé cette nuit",symboles:[{icone:"🌙",nom:"Lune"},{icone:"💫",nom:"Lumière"},{icone:"🌊",nom:"Profondeur"}],interpretation:"Votre rêve témoigne d'une période de transformation intérieure significative. Les images qui vous ont visité portent des messages de votre âme profonde, cherchant à vous guider vers une meilleure connaissance de vous-même. Cette vision nocturne révèle un travail inconscient important.",domaines:[{icone:"💕",titre:"Amour & Relations",texte:"Vos rêves révèlent un désir de connexion authentique. Ouvrez votre cœur aux messages qui vous parviennent."},{icone:"⭐",titre:"Vie Professionnelle",texte:"Une intuition créatrice cherche à s'exprimer. Faites confiance aux insights qui émergent de votre inconscient."},{icone:"🔮",titre:"Croissance Spirituelle",texte:"Vous êtes en plein éveil. Vos rêves sont des portails vers une compréhension plus profonde de votre mission de vie."}],conseil:"Vos rêves sont des cadeaux précieux de votre âme. Tenez un journal de rêves pour capturer ces messages au réveil. Votre inconscient vous parle — apprenez à l'écouter avec bienveillance."});
-  }
+    displayResult({
+      titre: "Les Profondeurs de Votre Inconscient Parlent",
+      sous_titre: "Ce rêve porte un message que votre mental résiste à entendre",
+      symboles: [
+        {icone: "🌙", nom: "Inconscient profond"},
+        {icone: "🌊", nom: "Émotions refoulées"},
+        {icone: "🚪", nom: "Passage et transition"},
+        {icone: "🔑", nom: "Clé cachée"}
+      ],
+      interpretation: `Ce rêve n'est pas aléatoire. Rien dans le monde des rêves ne l'est — chaque image, chaque émotion, chaque personnage est une construction précise de votre psyché, qui utilise le langage symbolique pour dire ce que votre conscience diurne refuse ou n'arrive pas à formuler. Ce que vous avez vécu cette nuit est une communication directe de votre monde intérieur — et il mérite d'être entendu avec sérieux.
+
+Les thèmes qui émergent dans votre rêve pointent vers une situation dans votre vie éveillée qui demande votre attention maintenant. Votre inconscient, avec la précision implacable qui le caractérise, met en scène exactement ce que vous évitez de regarder en face : une relation qui a changé de nature, une décision que vous reportez depuis trop longtemps, une part de vous-même que vous n'avez pas encore intégrée pleinement. Les images du rêve sont le déguisement symbolique de cette réalité — apprenez à le lire.
+
+L'émotion que vous avez ressentie dans le rêve est peut-être plus importante que les images elles-mêmes. Cette émotion — quelle qu'elle soit, peur, joie, tristesse, confusion — est authentique. Votre inconscient ne ment pas sur les émotions. Si vous avez ressenti quelque chose d'intense, c'est parce que quelque chose d'intense se joue en ce moment dans votre vie intérieure. Ne minimisez pas ce signal.
+
+Il y a aussi, dans ce rêve, une question sur votre identité profonde — sur qui vous êtes en dehors des rôles que vous jouez, des attentes que vous portez, des masques que vous maintenez pour le monde extérieur. Votre âme cherche à se rappeler à elle-même. C'est souvent dans les rêves les plus troublants que se cachent les révélations les plus libératrices.
+
+Ce que ce rêve vous demande concrètement : nommez une chose dans votre vie actuelle que vous savez devoir changer ou affronter, mais que vous continuez à reporter. Ce rêve en parle — directement ou symboliquement. L'honnêteté avec vous-même est le premier acte de transformation. Et la transformation que vous portez en vous en ce moment est réelle, nécessaire, et plus proche que vous ne le pensez.`,
+      domaines: [
+        {
+          icone: "💕",
+          titre: "Amour & Relations",
+          texte: `Ce rêve révèle quelque chose d'important sur votre vie relationnelle actuelle. Il y a probablement une vérité non dite dans une relation proche — quelque chose que vous ressentez clairement mais que vous n'avez pas encore exprimé, soit par peur du conflit, soit par peur de blesser, soit parce que vous n'étiez pas sûr de le ressentir vraiment. Vous l'êtes maintenant. Votre inconscient a choisi de mettre en scène cette dynamique relationnelle cette nuit précisément parce qu'elle demande votre attention consciente. Ce n'est pas le moment de faire semblant que tout va bien si ce n'est pas le cas. Une conversation honnête — avec vous-même d'abord, puis avec l'autre — est ce que ce rêve vous invite à avoir. La qualité de vos relations est directement proportionnelle à votre courage à dire la vérité avec amour.`
+        },
+        {
+          icone: "🌟",
+          titre: "Vie Professionnelle & Créativité",
+          texte: `Sur le plan professionnel et créatif, ce rêve signale une tension entre ce que vous faites et ce que vous devriez ou voudriez faire. Il peut s'agir d'une ambition que vous avez mise en veilleuse par pragmatisme, d'un talent que vous n'exploitez pas pleinement, ou d'une situation professionnelle qui ne correspond plus à qui vous êtes en train de devenir. Votre psyché utilise le langage du rêve pour pointer vers un potentiel non actualisé — quelque chose de créatif ou de professionnel que vous portez en vous et qui cherche à se manifester. La question n'est pas de savoir si vous en êtes capable — vous l'êtes. La question est de savoir si vous allez vous donner la permission de l'essayer vraiment. Ce rêve dit que le moment est maintenant.`
+        },
+        {
+          icone: "🔮",
+          titre: "Transformation Intérieure",
+          texte: `La dimension la plus profonde de ce rêve est spirituelle et psychologique : quelque chose en vous est en train de se transformer. Un cycle se ferme — une croyance sur vous-même, une façon d'être dans le monde, une identité qui vous a servi mais qui est devenue trop étroite pour contenir qui vous devenez. Cette transformation peut être inconfortable — c'est normal. La chrysalide n'est pas un endroit confortable. Mais ce que vous portez en vous, en ce moment de votre vie, est quelque chose de nouveau, de plus authentique, de plus aligné avec votre vérité profonde. Ne résistez pas à ce mouvement. Accueillez-le avec curiosité plutôt qu'avec peur. Les rêves de transition sont toujours des signes que l'évolution est en marche — et que vous êtes prêt, même si vous ne le savez pas encore consciemment.`
+        }
+      ],
+      conseil: `Ce rêve t'invite à faire une chose précise dans les prochaines 24 heures : écrire, sans censure et sans relecture immédiate, ce que ce rêve t'a fait ressentir — pas ce qu'il signifie, mais ce qu'il t'a fait ressentir. Puis laisse reposer. La compréhension viendra d'elle-même. Ce que ton inconscient veut que tu saches, il trouvera le moyen de te le faire entendre — si tu lui en donnes l'espace. Arrête de vivre à la surface de ta propre vie. Les réponses que tu cherches ne sont pas à l'extérieur — elles sont exactement là où ce rêve t'a emmené cette nuit.`
+    })
 }
 
 function displayResult(json){
