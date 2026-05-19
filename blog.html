@@ -566,12 +566,13 @@ function subscribeNewsletter(){
   btn.disabled=true;
 
   emailjs.send('service_8pt08ad','template_qe0x9k7',{
+    subject:'📬 Nouvelle inscription newsletter — Marco Médium',
     prenom:'Newsletter — nouvel abonné',
     email:email,
     telephone:'—',
     date:new Date().toLocaleDateString('fr-CH'),
     heure:new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}),
-    type:'Inscription newsletter marcomedium.com',
+    type_consultation:'Inscription newsletter marcomedium.com',
     message:'Email abonné : '+email,
     recu_le:new Date().toLocaleString('fr-CH')
   }).then(()=>{
