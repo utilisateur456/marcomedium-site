@@ -824,6 +824,7 @@
         <div class="consult-price">CHF 2.–<small> /min</small></div>
       </div>
       <form class="marco-form" id="form-rdv">
+        <input type="hidden" name="subject" value="📅 Nouveau RDV — Marco Médium">
         <input type="hidden" name="type_consultation" value="Demande de Rendez-vous">
         <input type="hidden" name="name" value="Rendez-vous">
         <div class="form-grid">
@@ -883,6 +884,7 @@
         <div class="consult-price">CHF 15.–<small> /question</small></div>
       </div>
       <form class="marco-form" id="form-email">
+        <input type="hidden" name="subject" value="✉️ Question voyance par e-mail — Marco Médium">
         <div class="form-grid">
           <div class="form-group"><label>Nom & Prénom *</label><input type="text" name="prenom" placeholder="Jean Dupont" required></div>
           <div class="form-group"><label>E-mail *</label><input type="email" name="email" placeholder="vous@exemple.com" required></div>
@@ -897,7 +899,7 @@
               <option>🔮 Question générale</option>
             </select>
           </div>
-          <div class="form-group full"><label>Votre question *</label><textarea name="type_consultation" placeholder="Posez votre question clairement et précisément..." required></textarea></div>
+          <div class="form-group full"><label>Votre question *</label><textarea name="message" placeholder="Posez votre question clairement et précisément..." required></textarea></div>
         </div>
         <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;">
           <button type="submit" class="btn btn-gold" style="flex:1;">✨ Envoyer ma question</button>
