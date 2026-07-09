@@ -242,5 +242,23 @@ document.getElementById('btn-draw').addEventListener('click',function(){var inte
 function showResult(message,drawnCards,spread){document.getElementById('oracle-loading').style.display='none';var row=document.getElementById('drawn-row');row.innerHTML=drawnCards.map(function(c,i){return '<div class="drawn-item"><div class="drawn-card-visual">'+c.cardData.svg+'<span class="dcname">'+c.cardData.name+'</span></div><div class="drawn-pos">'+(c.label||'Carte '+(i+1))+'</div></div>';}).join('');document.getElementById('oracle-text').textContent=message;var res=document.getElementById('oracle-result');res.style.display='block';res.scrollIntoView({behavior:'smooth',block:'start'});}
 document.getElementById('btn-new').addEventListener('click',function(){document.getElementById('oracle-result').style.display='none';document.getElementById('intention').value='';buildDeck();document.querySelector('.spread-section').scrollIntoView({behavior:'smooth'});});
 </script>
+<!-- Suivi clic-appel (GA4 + Google Ads) -->
+<script>
+  (function () {
+    document.addEventListener('click', function (e) {
+      var lien = e.target.closest('a[href^="tel:"]');
+      if (!lien) return;
+      if (typeof gtag !== 'function') return;
+      // 1) Evenement GA4 (importable comme conversion dans Google Ads)
+      gtag('event', 'clic_appel', {
+        'event_category': 'contact',
+        'event_label': lien.getAttribute('href')
+      });
+      // 2) Conversion Google Ads directe — decommenter et coller le send_to une fois l'action creee :
+      // gtag('event', 'conversion', { 'send_to': 'AW-11435134690/XXXXXXXXXXXXXXXX' });
+    });
+  })();
+</script>
+
 </body>
 </html>

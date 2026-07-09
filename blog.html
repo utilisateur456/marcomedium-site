@@ -589,5 +589,23 @@ function subscribeNewsletter(){
 
 renderGrid();
 </script>
+<!-- Suivi clic-appel (GA4 + Google Ads) -->
+<script>
+  (function () {
+    document.addEventListener('click', function (e) {
+      var lien = e.target.closest('a[href^="tel:"]');
+      if (!lien) return;
+      if (typeof gtag !== 'function') return;
+      // 1) Evenement GA4 (importable comme conversion dans Google Ads)
+      gtag('event', 'clic_appel', {
+        'event_category': 'contact',
+        'event_label': lien.getAttribute('href')
+      });
+      // 2) Conversion Google Ads directe — decommenter et coller le send_to une fois l'action creee :
+      // gtag('event', 'conversion', { 'send_to': 'AW-11435134690/XXXXXXXXXXXXXXXX' });
+    });
+  })();
+</script>
+
 </body>
 </html>
