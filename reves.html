@@ -4,7 +4,7 @@
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/favicon-180.png">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interprétation des Rêves — Marco Médium</title>
+  <title>Interprétation des Rêves - Marco Médium</title>
   <meta name="description" content="Décryptez les messages cachés de vos rêves avec Marco Médium. Interprétation symbolique et spirituelle personnalisée.">
   <meta name="theme-color" content="#080612">
   <link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png">
@@ -157,7 +157,7 @@
 </section>
 
 <div style="text-align:center;margin-top:-20px;margin-bottom:20px;position:relative;z-index:2;">
-  <img src="marco-bras-croises.png" alt="Marco Médium — Interprétation des rêves"
+  <img src="marco-bras-croises.png" alt="Marco Médium - Interprétation des rêves"
     style="width:180px;filter:drop-shadow(0 0 30px rgba(79,195,247,0.4));opacity:0;animation:fadeUp .8s 1s forwards;">
 </div>
 
@@ -198,8 +198,8 @@
     <div class="domains-grid" id="domainsGrid"></div>
     <div class="conseil-card reveal">
       <span class="quote-mark">"</span>
-      <p id="conseilText">Vos rêves sont des messagers bienveillants. Écoutez-les avec le cœur ouvert et sans jugement — ils vous guident vers votre vérité profonde.</p>
-      <span class="signature">— Marco Médium</span>
+      <p id="conseilText">Vos rêves sont des messagers bienveillants. Écoutez-les avec le cœur ouvert et sans jugement, ils vous guident vers votre vérité profonde.</p>
+      <span class="signature">Marco Médium</span>
     </div>
     <button class="btn-reset" onclick="resetForm()">↺ &nbsp; Interpréter un autre rêve</button>
   </div>
@@ -288,22 +288,22 @@ async function interpretDream(){
   const text=document.getElementById('dreamText').value.trim();
   if(!text||text.length<20){document.getElementById('dreamText').style.borderColor='rgba(239,68,68,.5)';setTimeout(()=>document.getElementById('dreamText').style.borderColor='',2000);return;}
   const selectedThemes=[...document.querySelectorAll('.theme-chip.selected')].map(c=>c.textContent.trim()).join(', ');
-  const prompt=`Tu es Marco Médium, expert en onirologie, psychologie des profondeurs et symbolisme ésotérique. Tu combines la méthode jungienne, l'interprétation symbolique universelle et ta propre perception médiumnique. Tes interprétations sont reconnues pour leur précision troublante — les gens te demandent comment tu peux savoir autant à partir d'un simple rêve.
+  const prompt=`Tu es Marco Médium, expert en onirologie, psychologie des profondeurs et symbolisme ésotérique. Tu combines la méthode jungienne, l'interprétation symbolique universelle et ta propre perception médiumnique. Tes interprétations sont reconnues pour leur précision troublante, les gens te demandent comment tu peux savoir autant à partir d'un simple rêve.
 
 RÊVE DÉCRIT PAR LE CONSULTANT : "${text}"
 ${selectedThemes?`THÈMES IDENTIFIÉS PAR LE CONSULTANT : ${selectedThemes}\nCes thèmes confirment ou complètent l'analyse.`:''}
 
-MISSION : Produis une interprétation COMPLÈTE, PROFONDE et PERCUTANTE. Minimum 8 paragraphes. Pas de généralités ésotériques — des révélations précises sur ce que CE rêve dit de CETTE personne en ce moment de sa vie.
+MISSION : Produis une interprétation COMPLÈTE, PROFONDE et PERCUTANTE. Minimum 8 paragraphes. Pas de généralités ésotériques, des révélations précises sur ce que CE rêve dit de CETTE personne en ce moment de sa vie.
 
 MÉTHODE D'ANALYSE OBLIGATOIRE :
 1. Identifie CHAQUE symbole présent dans le rêve avec sa signification jungienne ET ésotérique précise
 2. Analyse l'émotion dominante et ce qu'elle révèle sur l'état intérieur ACTUEL
-3. Identifie L'OMBRE — ce que le rêveur refuse de voir ou d'accepter dans sa vie
-4. Relie les symboles à des situations de vie concrètes (sans les nommer explicitement — le consultant saura)
+3. Identifie L'OMBRE, ce que le rêveur refuse de voir ou d'accepter dans sa vie
+4. Relie les symboles à des situations de vie concrètes (sans les nommer explicitement, le consultant saura)
 5. Identifie le CONFLIT CENTRAL que le rêve met en scène
 6. Révèle le MESSAGE D'ACTION que le rêve porte
 
-STYLE — RÈGLES STRICTES :
+STYLE - RÈGLES STRICTES :
 - Direct et profond, jamais condescendant ni vague
 - Phrases qui semblent taillées pour cette personne
 - Alterne analyse symbolique précise et révélations intuitives
@@ -313,7 +313,7 @@ STYLE — RÈGLES STRICTES :
 
 Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
 {
-  "titre": "Titre poétique et précis qui capture l'essence de CE rêve — évoque le conflit ou la révélation centrale (7-9 mots)",
+  "titre": "Titre poétique et précis qui capture l'essence de CE rêve, évoque le conflit ou la révélation centrale (7-9 mots)",
   "sous_titre": "Une phrase courte qui nomme le message central avec acuité et impact",
   "symboles": [
     {"icone": "emoji précis", "nom": "symbole exact extrait du rêve"},
@@ -321,11 +321,11 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
     {"icone": "emoji précis", "nom": "symbole exact extrait du rêve"},
     {"icone": "emoji précis", "nom": "symbole exact extrait du rêve"}
   ],
-  "interpretation": "MINIMUM 10-12 phrases en prose continue. Commence par une révélation forte sur ce que ce rêve signifie vraiment. Analyse chaque symbole clé avec précision. Identifie ce que la psyché est en train de traiter. Nomme la peur cachée, le désir refoulé ou la décision évitée que ce rêve pointe. Décris le conflit intérieur central mis en scène. Révèle ce que ce rêve dit de la situation actuelle du consultant — ses relations, ses projets, ses blocages. Conclus sur le message d'action urgent du rêve.",
+  "interpretation": "MINIMUM 10-12 phrases en prose continue. Commence par une révélation forte sur ce que ce rêve signifie vraiment. Analyse chaque symbole clé avec précision. Identifie ce que la psyché est en train de traiter. Nomme la peur cachée, le désir refoulé ou la décision évitée que ce rêve pointe. Décris le conflit intérieur central mis en scène. Révèle ce que ce rêve dit de la situation actuelle du consultant, ses relations, ses projets, ses blocages. Conclus sur le message d'action urgent du rêve.",
   "domaines": [
     {"icone": "💕", "titre": "Amour & Relations", "texte": "MINIMUM 5 phrases. Ce rêve révèle quelque chose de précis sur la vie relationnelle. Nomme la dynamique en jeu. Identifie ce qui doit changer, être dit ou lâché. Révélation concrète et conseil d'action spécifique."},
     {"icone": "🌟", "titre": "Vie Professionnelle & Créativité", "texte": "MINIMUM 5 phrases. Lien symbolique entre les images du rêve et la situation professionnelle ou créative. Nomme le blocage ou l'opportunité. Directive claire sur ce qu'il faut faire ou cesser."},
-    {"icone": "🔮", "titre": "Transformation Intérieure", "texte": "MINIMUM 5 phrases. Dimension profonde de ce rêve — quel cycle se termine, lequel commence. Ce que le rêve demande comme transformation intérieure. Pratique concrète ou changement de regard précis."}
+    {"icone": "🔮", "titre": "Transformation Intérieure", "texte": "MINIMUM 5 phrases. Dimension profonde de ce rêve, quel cycle se termine, lequel commence. Ce que le rêve demande comme transformation intérieure. Pratique concrète ou changement de regard précis."}
   ],
   "conseil": "Ce rêve t'invite à... [4-5 phrases. Style prophétique et direct. Nomme une action concrète à faire dans les prochaines 24-48h. Nomme ce que le consultant sait déjà au fond. Conclus par une phrase mémorable qui résume le message essentiel du rêve.]"
 }`
@@ -351,33 +351,33 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
         {icone: "🚪", nom: "Passage et transition"},
         {icone: "🔑", nom: "Clé cachée"}
       ],
-      interpretation: `Ce rêve n'est pas aléatoire. Rien dans le monde des rêves ne l'est — chaque image, chaque émotion, chaque personnage est une construction précise de votre psyché, qui utilise le langage symbolique pour dire ce que votre conscience diurne refuse ou n'arrive pas à formuler. Ce que vous avez vécu cette nuit est une communication directe de votre monde intérieur — et il mérite d'être entendu avec sérieux.
+      interpretation: `Ce rêve n'est pas aléatoire. Rien dans le monde des rêves ne l'est, chaque image, chaque émotion, chaque personnage est une construction précise de votre psyché, qui utilise le langage symbolique pour dire ce que votre conscience diurne refuse ou n'arrive pas à formuler. Ce que vous avez vécu cette nuit est une communication directe de votre monde intérieur, et il mérite d'être entendu avec sérieux.
 
-Les thèmes qui émergent dans votre rêve pointent vers une situation dans votre vie éveillée qui demande votre attention maintenant. Votre inconscient, avec la précision implacable qui le caractérise, met en scène exactement ce que vous évitez de regarder en face : une relation qui a changé de nature, une décision que vous reportez depuis trop longtemps, une part de vous-même que vous n'avez pas encore intégrée pleinement. Les images du rêve sont le déguisement symbolique de cette réalité — apprenez à le lire.
+Les thèmes qui émergent dans votre rêve pointent vers une situation dans votre vie éveillée qui demande votre attention maintenant. Votre inconscient, avec la précision implacable qui le caractérise, met en scène exactement ce que vous évitez de regarder en face : une relation qui a changé de nature, une décision que vous reportez depuis trop longtemps, une part de vous-même que vous n'avez pas encore intégrée pleinement. Les images du rêve sont le déguisement symbolique de cette réalité, apprenez à le lire.
 
-L'émotion que vous avez ressentie dans le rêve est peut-être plus importante que les images elles-mêmes. Cette émotion — quelle qu'elle soit, peur, joie, tristesse, confusion — est authentique. Votre inconscient ne ment pas sur les émotions. Si vous avez ressenti quelque chose d'intense, c'est parce que quelque chose d'intense se joue en ce moment dans votre vie intérieure. Ne minimisez pas ce signal.
+L'émotion que vous avez ressentie dans le rêve est peut-être plus importante que les images elles-mêmes. Cette émotion, quelle qu'elle soit, peur, joie, tristesse, confusion, est authentique. Votre inconscient ne ment pas sur les émotions. Si vous avez ressenti quelque chose d'intense, c'est parce que quelque chose d'intense se joue en ce moment dans votre vie intérieure. Ne minimisez pas ce signal.
 
-Il y a aussi, dans ce rêve, une question sur votre identité profonde — sur qui vous êtes en dehors des rôles que vous jouez, des attentes que vous portez, des masques que vous maintenez pour le monde extérieur. Votre âme cherche à se rappeler à elle-même. C'est souvent dans les rêves les plus troublants que se cachent les révélations les plus libératrices.
+Il y a aussi, dans ce rêve, une question sur votre identité profonde, sur qui vous êtes en dehors des rôles que vous jouez, des attentes que vous portez, des masques que vous maintenez pour le monde extérieur. Votre âme cherche à se rappeler à elle-même. C'est souvent dans les rêves les plus troublants que se cachent les révélations les plus libératrices.
 
-Ce que ce rêve vous demande concrètement : nommez une chose dans votre vie actuelle que vous savez devoir changer ou affronter, mais que vous continuez à reporter. Ce rêve en parle — directement ou symboliquement. L'honnêteté avec vous-même est le premier acte de transformation. Et la transformation que vous portez en vous en ce moment est réelle, nécessaire, et plus proche que vous ne le pensez.`,
+Ce que ce rêve vous demande concrètement : nommez une chose dans votre vie actuelle que vous savez devoir changer ou affronter, mais que vous continuez à reporter. Ce rêve en parle, directement ou symboliquement. L'honnêteté avec vous-même est le premier acte de transformation. Et la transformation que vous portez en vous en ce moment est réelle, nécessaire, et plus proche que vous ne le pensez.`,
       domaines: [
         {
           icone: "💕",
           titre: "Amour & Relations",
-          texte: `Ce rêve révèle quelque chose d'important sur votre vie relationnelle actuelle. Il y a probablement une vérité non dite dans une relation proche — quelque chose que vous ressentez clairement mais que vous n'avez pas encore exprimé, soit par peur du conflit, soit par peur de blesser, soit parce que vous n'étiez pas sûr de le ressentir vraiment. Vous l'êtes maintenant. Votre inconscient a choisi de mettre en scène cette dynamique relationnelle cette nuit précisément parce qu'elle demande votre attention consciente. Ce n'est pas le moment de faire semblant que tout va bien si ce n'est pas le cas. Une conversation honnête — avec vous-même d'abord, puis avec l'autre — est ce que ce rêve vous invite à avoir. La qualité de vos relations est directement proportionnelle à votre courage à dire la vérité avec amour.`
+          texte: `Ce rêve révèle quelque chose d'important sur votre vie relationnelle actuelle. Il y a probablement une vérité non dite dans une relation proche, quelque chose que vous ressentez clairement mais que vous n'avez pas encore exprimé, soit par peur du conflit, soit par peur de blesser, soit parce que vous n'étiez pas sûr de le ressentir vraiment. Vous l'êtes maintenant. Votre inconscient a choisi de mettre en scène cette dynamique relationnelle cette nuit précisément parce qu'elle demande votre attention consciente. Ce n'est pas le moment de faire semblant que tout va bien si ce n'est pas le cas. Une conversation honnête, avec vous-même d'abord, puis avec l'autre, est ce que ce rêve vous invite à avoir. La qualité de vos relations est directement proportionnelle à votre courage à dire la vérité avec amour.`
         },
         {
           icone: "🌟",
           titre: "Vie Professionnelle & Créativité",
-          texte: `Sur le plan professionnel et créatif, ce rêve signale une tension entre ce que vous faites et ce que vous devriez ou voudriez faire. Il peut s'agir d'une ambition que vous avez mise en veilleuse par pragmatisme, d'un talent que vous n'exploitez pas pleinement, ou d'une situation professionnelle qui ne correspond plus à qui vous êtes en train de devenir. Votre psyché utilise le langage du rêve pour pointer vers un potentiel non actualisé — quelque chose de créatif ou de professionnel que vous portez en vous et qui cherche à se manifester. La question n'est pas de savoir si vous en êtes capable — vous l'êtes. La question est de savoir si vous allez vous donner la permission de l'essayer vraiment. Ce rêve dit que le moment est maintenant.`
+          texte: `Sur le plan professionnel et créatif, ce rêve signale une tension entre ce que vous faites et ce que vous devriez ou voudriez faire. Il peut s'agir d'une ambition que vous avez mise en veilleuse par pragmatisme, d'un talent que vous n'exploitez pas pleinement, ou d'une situation professionnelle qui ne correspond plus à qui vous êtes en train de devenir. Votre psyché utilise le langage du rêve pour pointer vers un potentiel non actualisé, quelque chose de créatif ou de professionnel que vous portez en vous et qui cherche à se manifester. La question n'est pas de savoir si vous en êtes capable, vous l'êtes. La question est de savoir si vous allez vous donner la permission de l'essayer vraiment. Ce rêve dit que le moment est maintenant.`
         },
         {
           icone: "🔮",
           titre: "Transformation Intérieure",
-          texte: `La dimension la plus profonde de ce rêve est spirituelle et psychologique : quelque chose en vous est en train de se transformer. Un cycle se ferme — une croyance sur vous-même, une façon d'être dans le monde, une identité qui vous a servi mais qui est devenue trop étroite pour contenir qui vous devenez. Cette transformation peut être inconfortable — c'est normal. La chrysalide n'est pas un endroit confortable. Mais ce que vous portez en vous, en ce moment de votre vie, est quelque chose de nouveau, de plus authentique, de plus aligné avec votre vérité profonde. Ne résistez pas à ce mouvement. Accueillez-le avec curiosité plutôt qu'avec peur. Les rêves de transition sont toujours des signes que l'évolution est en marche — et que vous êtes prêt, même si vous ne le savez pas encore consciemment.`
+          texte: `La dimension la plus profonde de ce rêve est spirituelle et psychologique : quelque chose en vous est en train de se transformer. Un cycle se ferme, une croyance sur vous-même, une façon d'être dans le monde, une identité qui vous a servi mais qui est devenue trop étroite pour contenir qui vous devenez. Cette transformation peut être inconfortable, c'est normal. La chrysalide n'est pas un endroit confortable. Mais ce que vous portez en vous, en ce moment de votre vie, est quelque chose de nouveau, de plus authentique, de plus aligné avec votre vérité profonde. Ne résistez pas à ce mouvement. Accueillez-le avec curiosité plutôt qu'avec peur. Les rêves de transition sont toujours des signes que l'évolution est en marche, et que vous êtes prêt, même si vous ne le savez pas encore consciemment.`
         }
       ],
-      conseil: `Ce rêve t'invite à faire une chose précise dans les prochaines 24 heures : écrire, sans censure et sans relecture immédiate, ce que ce rêve t'a fait ressentir — pas ce qu'il signifie, mais ce qu'il t'a fait ressentir. Puis laisse reposer. La compréhension viendra d'elle-même. Ce que ton inconscient veut que tu saches, il trouvera le moyen de te le faire entendre — si tu lui en donnes l'espace. Arrête de vivre à la surface de ta propre vie. Les réponses que tu cherches ne sont pas à l'extérieur — elles sont exactement là où ce rêve t'a emmené cette nuit.`
+      conseil: `Ce rêve t'invite à faire une chose précise dans les prochaines 24 heures : écrire, sans censure et sans relecture immédiate, ce que ce rêve t'a fait ressentir, pas ce qu'il signifie, mais ce qu'il t'a fait ressentir. Puis laisse reposer. La compréhension viendra d'elle-même. Ce que ton inconscient veut que tu saches, il trouvera le moyen de te le faire entendre, si tu lui en donnes l'espace. Arrête de vivre à la surface de ta propre vie. Les réponses que tu cherches ne sont pas à l'extérieur, elles sont exactement là où ce rêve t'a emmené cette nuit.`
     })
   }  // end catch
 }
@@ -418,7 +418,7 @@ function resetForm(){
         'event_category': 'contact',
         'event_label': lien.getAttribute('href')
       });
-      // 2) Conversion Google Ads directe — decommenter et coller le send_to une fois l'action creee :
+      // 2) Conversion Google Ads directe, decommenter et coller le send_to une fois l'action creee :
       // gtag('event', 'conversion', { 'send_to': 'AW-11435134690/XXXXXXXXXXXXXXXX' });
     });
   })();
