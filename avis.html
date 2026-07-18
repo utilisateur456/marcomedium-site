@@ -252,22 +252,90 @@
   }
   .btn-wa:hover { border-color: var(--gold); }
 
-  /* ===== LAISSER UN AVIS ===== */
+  /* ===== FORMULAIRE AVIS ===== */
   .leave {
     max-width: 860px; margin: 0 auto 70px; padding: 0 5%;
-    text-align: center;
   }
-  .leave h2 { font-size: 1.6rem; margin-bottom: 12px; }
+  .leave h2 { font-size: 1.6rem; margin-bottom: 12px; text-align:center; }
   .leave h2 em { font-style:normal; color:var(--gold); }
-  .leave p { color: var(--text-dim); max-width: 560px; margin: 0 auto 24px; }
-  .leave .options { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
-  .leave .opt {
-    border: 1px solid var(--card-border);
+  .leave > p { color: var(--text-dim); max-width: 560px; margin: 0 auto 28px; text-align:center; }
+  .form-avis {
     background: var(--card);
-    padding: 14px 26px; border-radius: 14px;
-    color: var(--text); transition: border-color .2s;
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 32px;
   }
-  .leave .opt:hover { border-color: var(--gold); }
+  .form-avis label {
+    display:block; font-size: 0.85rem; color: var(--gold-soft);
+    letter-spacing: 1px; margin: 18px 0 6px;
+  }
+  .form-avis label:first-child { margin-top: 0; }
+  .form-avis input, .form-avis textarea {
+    width: 100%; box-sizing: border-box;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 14px;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+  }
+  .form-avis input:focus, .form-avis textarea:focus {
+    outline: none; border-color: var(--gold);
+  }
+  .form-avis textarea { min-height: 110px; resize: vertical; }
+  .etoiles { display:flex; gap:8px; font-size: 1.7rem; cursor:pointer; user-select:none; }
+  .etoiles span { color: rgba(212,175,55,0.25); transition: color .15s; }
+  .etoiles span.on { color: var(--gold); }
+  .btn-envoyer {
+    margin-top: 24px;
+    background: linear-gradient(135deg, var(--gold), #B8912E);
+    color:#06040F; border:none; cursor:pointer;
+    padding: 14px 34px; border-radius: 40px;
+    font-weight: 600; font-size: 1rem; font-family:'Inter',sans-serif;
+    transition: transform .2s;
+  }
+  .btn-envoyer:hover { transform: translateY(-2px); }
+  .btn-envoyer:disabled { opacity: 0.5; cursor: default; transform:none; }
+  .form-msg { margin-top: 16px; font-size: 0.95rem; display:none; }
+  .form-msg.ok { color: #7ED9A0; display:block; }
+  .form-msg.err { color: #E08A8A; display:block; }
+  .hp { position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden; }
+
+  /* ===== ADMIN ===== */
+  #adminPanel {
+    max-width: 860px; margin: 0 auto 70px; padding: 24px 5%;
+    border: 1px dashed var(--gold);
+    border-radius: 18px;
+    display: none;
+  }
+  #adminPanel h2 { color: var(--gold); font-size: 1.3rem; margin-bottom: 16px; }
+  #adminPanel .admin-item {
+    border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 18px; margin-bottom: 16px;
+    background: var(--card);
+  }
+  #adminPanel .admin-item p { margin: 6px 0; }
+  #adminPanel textarea {
+    width:100%; box-sizing:border-box; min-height:70px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border); border-radius:8px;
+    color: var(--text); padding: 10px; font-family:'Inter',sans-serif;
+    margin-top: 8px;
+  }
+  #adminPanel input[type=password] {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border); border-radius:8px;
+    color: var(--text); padding: 10px 14px; font-family:'Inter',sans-serif;
+  }
+  #adminPanel button {
+    cursor:pointer; border:none; border-radius: 20px;
+    padding: 9px 20px; margin: 10px 8px 0 0;
+    font-family:'Inter',sans-serif; font-weight:600; font-size:0.85rem;
+  }
+  .b-ok { background: #2E7D4F; color: #fff; }
+  .b-no { background: #7D2E2E; color: #fff; }
+  .b-gold { background: var(--gold); color: #06040F; }
+  .admin-vide { color: var(--text-dim); }
 
   /* ===== FOOTER ===== */
   footer {
@@ -478,25 +546,25 @@
     </div>
   </article>
 
-  <!-- MODÈLE pour ajouter un nouvel avis : copier ce bloc et remplir
-  <article class="avis-card">
-    <div class="avis-head">
-      <div>
-        <div class="avis-author">PRÉNOM + INITIALE</div>
-        <div class="avis-city">VILLE</div>
-        <span class="avis-type">🔮 Voyance par téléphone</span>
-      </div>
-      <div class="avis-stars">★★★★★</div>
-    </div>
-    <p class="avis-body">TEXTE DE L'AVIS</p>
-    <div class="reponse">
-      <div class="who">✦ Réponse de Marco</div>
-      <p>RÉPONSE 🙏</p>
-    </div>
-  </article>
-  -->
+  <!-- Avis publiés via le formulaire (chargés dynamiquement) -->
+  <div id="avisDynamiques"></div>
 
 </main>
+
+<!-- Panneau de modération (triple clic sur le badge de note en haut de page) -->
+<section id="adminPanel">
+  <h2>✦ Modération des avis</h2>
+  <div id="adminLogin">
+    <input type="password" id="adminMdp" placeholder="Mot de passe">
+    <button class="b-gold" onclick="adminConnexion()">Se connecter</button>
+  </div>
+  <div id="adminContenu" style="display:none;">
+    <h3 style="margin:14px 0 10px;">En attente de validation</h3>
+    <div id="adminAttente"></div>
+    <h3 style="margin:24px 0 10px;">Avis publiés via le formulaire</h3>
+    <div id="adminPublies"></div>
+  </div>
+</section>
 
 <section class="cta-block">
   <h2>Prêt à vivre votre <em>propre expérience</em> ?</h2>
@@ -505,14 +573,24 @@
   <a class="btn-wa" href="https://wa.me/41782535452">💬 WhatsApp</a>
 </section>
 
-<section class="leave">
-  <h2>Vous avez consulté ? <em>Partagez votre expérience</em></h2>
-  <p>Votre avis aide d'autres personnes à franchir le pas. Envoyez votre témoignage par WhatsApp ou par e-mail, il sera publié sur cette page avec votre prénom et votre ville.</p>
-  <div class="options">
-    <a class="opt" href="https://wa.me/41782535452?text=Bonjour%20Marco%2C%20voici%20mon%20avis%20sur%20ma%20consultation%20%3A%20">💬 Laisser un avis par WhatsApp</a>
-    <a class="opt" href="mailto:info@marcomedium.com?subject=Mon%20avis%20sur%20ma%20consultation">✉️ Laisser un avis par e-mail</a>
-    <a class="opt" href="https://g.page/r/review" rel="nofollow">⭐ Avis Google</a>
-  </div>
+<section class="leave" id="laisser-avis">
+  <h2>Vous avez consulté ? <em>Laissez votre avis</em></h2>
+  <p>Votre avis aide d'autres personnes à franchir le pas. Il sera publié sur cette page après validation.</p>
+  <form class="form-avis" id="formAvis">
+    <label for="fPrenom">Votre prénom *</label>
+    <input type="text" id="fPrenom" maxlength="40" required autocomplete="given-name">
+    <label for="fVille">Votre ville (optionnel)</label>
+    <input type="text" id="fVille" maxlength="40" autocomplete="address-level2">
+    <label>Votre note</label>
+    <div class="etoiles" id="fEtoiles" aria-label="Note sur 5">
+      <span data-n="1">★</span><span data-n="2">★</span><span data-n="3">★</span><span data-n="4">★</span><span data-n="5">★</span>
+    </div>
+    <label for="fTexte">Votre avis *</label>
+    <textarea id="fTexte" maxlength="1200" required placeholder="Partagez votre expérience de consultation..."></textarea>
+    <div class="hp"><label>Site web</label><input type="text" id="fWebsite" tabindex="-1" autocomplete="off"></div>
+    <button type="submit" class="btn-envoyer" id="btnEnvoyer">✨ Envoyer mon avis</button>
+    <p class="form-msg" id="formMsg"></p>
+  </form>
 </section>
 
 <footer>
@@ -562,6 +640,173 @@ document.addEventListener('click', function(e) {
     // gtag('event', 'conversion', {'send_to': 'AW-11435134690/XXXX'});
   }
 });
+</script>
+
+<!-- Avis dynamiques + formulaire + modération -->
+<script>
+var API = 'https://avis-marco.marcomedium-com.workers.dev';
+var noteChoisie = 5;
+
+function echap(t) {
+  var d = document.createElement('div');
+  d.textContent = t;
+  return d.innerHTML;
+}
+
+function carteAvis(a) {
+  var etoiles = '★★★★★'.slice(0, a.note) + '<span style="opacity:.25">' + '★★★★★'.slice(a.note) + '</span>';
+  var h = '<article class="avis-card">' +
+    '<div class="avis-head"><div>' +
+    '<div class="avis-author">' + echap(a.prenom) + '</div>' +
+    (a.ville ? '<div class="avis-city">' + echap(a.ville) + '</div>' : '') +
+    '<span class="avis-type">🔮 Consultation</span>' +
+    '</div><div class="avis-stars">' + etoiles + '</div></div>' +
+    '<p class="avis-body">' + echap(a.texte) + '</p>';
+  if (a.reponse) {
+    h += '<div class="reponse"><div class="who">✦ Réponse de Marco</div><p>' + echap(a.reponse) + '</p></div>';
+  }
+  return h + '</article>';
+}
+
+function chargerAvis() {
+  fetch(API + '/avis').then(function(r){ return r.json(); }).then(function(liste) {
+    var zone = document.getElementById('avisDynamiques');
+    zone.innerHTML = liste.map(carteAvis).join('');
+  }).catch(function(){});
+}
+chargerAvis();
+
+/* Étoiles du formulaire */
+(function() {
+  var spans = document.querySelectorAll('#fEtoiles span');
+  function maj() {
+    spans.forEach(function(s) {
+      s.classList.toggle('on', parseInt(s.dataset.n) <= noteChoisie);
+    });
+  }
+  spans.forEach(function(s) {
+    s.addEventListener('click', function() { noteChoisie = parseInt(s.dataset.n); maj(); });
+  });
+  maj();
+})();
+
+/* Envoi du formulaire */
+document.getElementById('formAvis').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnEnvoyer');
+  var msg = document.getElementById('formMsg');
+  btn.disabled = true;
+  msg.className = 'form-msg';
+  fetch(API + '/avis', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      prenom: document.getElementById('fPrenom').value,
+      ville: document.getElementById('fVille').value,
+      note: noteChoisie,
+      texte: document.getElementById('fTexte').value,
+      website: document.getElementById('fWebsite').value
+    })
+  }).then(function(r){ return r.json().then(function(j){ return { s: r.status, j: j }; }); })
+  .then(function(res) {
+    if (res.j.ok) {
+      msg.textContent = '✦ Merci ! Votre avis a bien été envoyé. Il sera publié après validation.';
+      msg.className = 'form-msg ok';
+      document.getElementById('formAvis').reset();
+      gtag('event', 'avis_envoye', { 'event_category': 'engagement' });
+    } else if (res.s === 429) {
+      msg.textContent = 'Vous avez déjà envoyé un avis récemment. Merci de réessayer plus tard.';
+      msg.className = 'form-msg err';
+    } else {
+      msg.textContent = 'Merci de renseigner votre prénom et un avis d\'au moins 10 caractères.';
+      msg.className = 'form-msg err';
+    }
+    btn.disabled = false;
+  }).catch(function() {
+    msg.textContent = 'Erreur de connexion. Merci de réessayer.';
+    msg.className = 'form-msg err';
+    btn.disabled = false;
+  });
+});
+
+/* ===== Modération (triple clic sur le badge de note) ===== */
+var adminMdpValide = '';
+var clicCount = 0, clicTimer = null;
+document.querySelector('.agg').addEventListener('click', function() {
+  clicCount++;
+  clearTimeout(clicTimer);
+  clicTimer = setTimeout(function(){ clicCount = 0; }, 600);
+  if (clicCount >= 3) {
+    clicCount = 0;
+    var p = document.getElementById('adminPanel');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    if (p.style.display === 'block') p.scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+function adminApi(action, extra) {
+  var corps = Object.assign({ mdp: adminMdpValide, action: action }, extra || {});
+  return fetch(API + '/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(corps)
+  }).then(function(r){ return r.json(); });
+}
+
+function adminConnexion() {
+  adminMdpValide = document.getElementById('adminMdp').value;
+  adminApi('liste').then(function(d) {
+    if (d.error) { alert('Mot de passe incorrect'); return; }
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminContenu').style.display = 'block';
+    adminAffiche(d);
+  });
+}
+
+function adminAffiche(d) {
+  var za = document.getElementById('adminAttente');
+  var zp = document.getElementById('adminPublies');
+  if (!d.attente.length) { za.innerHTML = '<p class="admin-vide">Aucun avis en attente.</p>'; }
+  else {
+    za.innerHTML = d.attente.map(function(a) {
+      return '<div class="admin-item">' +
+        '<p><b>' + echap(a.prenom) + '</b>' + (a.ville ? ' · ' + echap(a.ville) : '') + ' · ' + a.note + '★ · ' + a.date + '</p>' +
+        '<p>' + echap(a.texte) + '</p>' +
+        '<textarea id="rep_' + a.id + '" placeholder="Réponse de Marco (optionnel)"></textarea>' +
+        '<button class="b-ok" onclick="adminApprouver(\'' + a.id + '\')">✓ Publier</button>' +
+        '<button class="b-no" onclick="adminRejeter(\'' + a.id + '\')">✗ Rejeter</button>' +
+        '</div>';
+    }).join('');
+  }
+  if (!d.publies.length) { zp.innerHTML = '<p class="admin-vide">Aucun avis publié via le formulaire.</p>'; }
+  else {
+    zp.innerHTML = d.publies.map(function(a) {
+      return '<div class="admin-item">' +
+        '<p><b>' + echap(a.prenom) + '</b>' + (a.ville ? ' · ' + echap(a.ville) : '') + ' · ' + a.note + '★ · ' + a.date + '</p>' +
+        '<p>' + echap(a.texte) + '</p>' +
+        (a.reponse ? '<p style="color:var(--gold-soft)">↳ ' + echap(a.reponse) + '</p>' : '') +
+        '<button class="b-no" onclick="adminSupprimer(\'' + a.id + '\')">🗑 Supprimer</button>' +
+        '</div>';
+    }).join('');
+  }
+}
+
+function adminApprouver(id) {
+  var rep = document.getElementById('rep_' + id).value;
+  adminApi('approuver', { id: id, reponse: rep }).then(function(d) {
+    adminAffiche(d); chargerAvis();
+  });
+}
+function adminRejeter(id) {
+  adminApi('rejeter', { id: id }).then(function() {
+    adminApi('liste').then(adminAffiche);
+  });
+}
+function adminSupprimer(id) {
+  adminApi('supprimer', { id: id }).then(function() {
+    adminApi('liste').then(function(d){ adminAffiche(d); chargerAvis(); });
+  });
+}
 </script>
 
 </body>
