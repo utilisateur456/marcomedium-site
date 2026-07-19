@@ -139,30 +139,84 @@
   h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; }
   a { color: var(--gold); text-decoration: none; }
 
-  /* ===== NAV ===== */
+  /* ===== NAV (identique aux autres pages) ===== */
   nav {
-    position: sticky; top:0; z-index:100;
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 14px 5%;
-    background: rgba(6,4,15,0.92);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(180deg, rgba(6,4,15,0.9) 0%, transparent 100%);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(212,175,55,0.12);
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s;
   }
-  nav .logo img { height:44px; display:block; }
-  nav ul { display:flex; gap:26px; list-style:none; align-items:center; }
-  nav ul a { color: var(--text-dim); font-size:0.92rem; transition:color .2s; }
-  nav ul a:hover, nav ul a.active { color: var(--gold); }
-  nav .cta-nav {
-    background: linear-gradient(135deg, var(--gold), #B8912E);
-    color:#06040F; padding:9px 20px; border-radius:30px;
-    font-weight:600; font-size:0.9rem;
+  nav.scrolled { border-color: var(--card-border); background: rgba(6,4,15,0.97); }
+  .nav-logo {
+    font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+    letter-spacing: 0.2em; color: var(--gold-soft); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
   }
-  .burger { display:none; background:none; border:none; color:var(--gold); font-size:1.6rem; cursor:pointer; }
+  .nav-logo-img { height: 90px; width: auto; max-width: 320px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(201,168,76,0.45)); transition: filter .3s; }
+  .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #34D399; box-shadow: 0 0 10px #34D399;
+    animation: pulse 2s infinite; transition: background .4s, box-shadow .4s;
+  }
+  .live-dot.busy { background: #F87171; box-shadow: 0 0 10px #F87171; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim); text-decoration: none; transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 100%; height: 1px;
+    background: var(--gold); transition: right 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold-soft); }
+  .nav-links a:hover::after { right: 0; }
+  .nav-links a.active { color: var(--gold); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--gold), #E2C97E);
+    color: #06040F !important; padding: 10px 24px; border-radius: 50px;
+    font-weight: 500 !important; letter-spacing: 0.08em !important;
+  }
+  .nav-cta:hover { box-shadow: 0 4px 24px rgba(201,168,76,0.4); transform: translateY(-1px); }
+  .nav-cta::after { display: none !important; }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background:none; border:none; padding:4px; }
+  .nav-burger span { display: block; width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
+  @media(max-width:768px) {
+    nav { padding: 18px 24px; }
+    .nav-logo-img { height: 64px; max-width: 180px; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column; align-items: flex-start;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(6,4,15,0.98); padding: 18px 24px; gap: 18px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-burger { display: flex; }
+  }
+
+  /* ===== FLÈCHE REMONTER ===== */
+  #scrollTop {
+    position: fixed; bottom: 36px; right: 40px; z-index: 200;
+    background: none; border: none; padding: 8px;
+    cursor: pointer; opacity: 0; pointer-events: none;
+    transition: opacity .5s, transform .4s;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  #scrollTop .arrow-shaft { width: 1px; height: 28px; background: linear-gradient(to top, transparent, rgba(201,168,76,0.6)); }
+  #scrollTop .arrow-head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid rgba(201,168,76,0.7); filter: drop-shadow(0 0 4px rgba(201,168,76,0.5)); order: -1; }
+  #scrollTop.show { opacity: 1; pointer-events: all; }
+  #scrollTop:hover { transform: translateY(-5px); }
 
   /* ===== HERO ===== */
   .hero {
     text-align:center;
-    padding: 90px 5% 60px;
+    padding: 170px 5% 60px;
     background:
       radial-gradient(ellipse at 50% -20%, rgba(212,175,55,0.12), transparent 60%),
       var(--bg);
@@ -380,10 +434,15 @@
 </head>
 <body>
 
-<nav>
-  <a class="logo" href="index.html"><img src="logo.png" alt="Marco Médium"></a>
-  <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')" aria-label="Menu">☰</button>
-  <ul id="menu">
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
+    <span class="live-dot" id="liveDot"></span>
+  </a>
+  <button class="nav-burger" onclick="document.getElementById('menu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="menu">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="horoscope.html">Horoscope</a></li>
     <li><a href="numerologie.html">Numérologie</a></li>
@@ -391,7 +450,8 @@
     <li><a href="reves.html">Rêves</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a class="active" href="avis.html">Avis</a></li>
-    <li><a class="cta-nav" href="index.html#consultation">Consulter</a></li>
+    <li><a href="https://maisonsiderale.com/" target="_blank" rel="noopener">Boutique</a></li>
+    <li><a class="nav-cta" href="index.html#consultation">Consulter</a></li>
   </ul>
 </nav>
 
@@ -627,6 +687,31 @@
   </div>
   <p class="copyright">© 2025–2026 Marcomedium.com · Vaud, Suisse · Lun–Ven · 9h–19h</p>
 </footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter en haut">
+  <span class="arrow-head"></span>
+  <span class="arrow-shaft"></span>
+</button>
+
+<!-- Nav scrolled + flèche + statut de disponibilité -->
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+  var scrolled = window.scrollY + window.innerHeight;
+  var total = document.body.scrollHeight;
+  document.getElementById('scrollTop').classList.toggle('show', scrolled >= total - 200);
+});
+(function() {
+  function fetchStatus() {
+    fetch('https://super-band-24a0.marcomedium-com.workers.dev/status')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ document.getElementById('liveDot').classList.toggle('busy', !d.available); })
+      .catch(function(){});
+  }
+  fetchStatus();
+  setInterval(fetchStatus, 30000);
+})();
+</script>
 
 <!-- Tracking clic sur appel (GA4 : clic_appel) -->
 <script>
