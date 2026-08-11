@@ -42,12 +42,8 @@ var URL_STATUS = 'https://super-band-24a0.marcomedium-com.workers.dev/status';
 var MDP_HASH = -1155591604;
 function hash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return h; }
 (function garde(){
-  var ok = sessionStorage.getItem('mm_admin') === '1';
-  if (!ok) {
-    var mdp = prompt('Mot de passe');
-    ok = mdp !== null && hash(mdp) === MDP_HASH;
-    if (ok) sessionStorage.setItem('mm_admin', '1');
-  }
+  var mdp = prompt('Mot de passe');
+  var ok = mdp !== null && hash(mdp) === MDP_HASH;
   if (!ok) { document.body.innerHTML = '<p style="color:#a89f92;font-family:var(--sans)">Accès refusé.</p>'; return; }
   document.getElementById('box').style.display = '';
 
@@ -97,6 +93,9 @@ document.getElementById('btnLibre').addEventListener('click', function(){ defini
 document.getElementById('btnOccupe').addEventListener('click', function(){ definir(false); });
 lire();
 setInterval(lire, 30000);
+
+// La session se ferme dès qu'on quitte la page : le mot de passe sera redemandé
+window.addEventListener('pagehide', function(){ document.getElementById('box').style.display = 'none'; });
 })();
 </script>
 </body>
