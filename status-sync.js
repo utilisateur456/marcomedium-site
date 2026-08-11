@@ -1,5 +1,6 @@
 (function(){
-  var STATUS_URL = 'https://super-band-24a0.marcomedium-com.workers.dev/status';
+  var BASE = 'https://super-band-24a0.marcomedium-com.workers.dev';
+  var STATUS_URL = BASE + '/status';
   var MDP_HASH = -1155591604; // empreinte du mot de passe admin
   var LABEL = { libre: 'Disponible', occupe: 'En consultation' };
 
@@ -22,13 +23,9 @@
   window.addEventListener('storage', function(e){ if (e.key === 'mm_status') peindre(occupe()); });
   window.addEventListener('pageshow', function(){ peindre(occupe()); });
 
-  // Le réglage manuel de Marco est prioritaire sur le Worker
-  function manuel(){ return localStorage.getItem('mm_status_manuel') === '1'; }
-
+  // L'état vient du serveur : il est le même pour tous les appareils
   function fetchStatus(){
-    if (manuel()) { peindre(occupe()); return; }
-    fetch(STATUS_URL).then(function(r){ return r.json(); }).then(function(d){
-      if (manuel()) return;
+    fetch(STATUS_URL, { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(d){
       var busy = !d.available;
       localStorage.setItem('mm_status', busy ? 'busy' : 'free');
       peindre(busy);
@@ -51,9 +48,18 @@
     if (mdp === null) return;
     if (hash(mdp) !== MDP_HASH) { alert('Mot de passe incorrect'); return; }
     var busy = !occupe();
-    localStorage.setItem('mm_status', busy ? 'busy' : 'free');
-    localStorage.setItem('mm_status_manuel', '1');
-    peindre(busy);
+    peindre(busy); // retour visuel immédiat
+    fetch(STATUS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ available: !busy })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if (d && d.ok) { localStorage.setItem('mm_status', busy ? 'busy' : 'free'); }
+      else { alert('Le serveur a refusé le changement.'); fetchStatus(); }
+    }).catch(function(){
+      alert("Serveur injoignable : le changement n'est pas partagé.");
+      fetchStatus();
+    });
   });
 })();
 
