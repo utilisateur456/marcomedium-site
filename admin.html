@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Disponibilité — Marco Médium</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{display:flex;align-items:center;justify-content:center;min-height:100svh;padding:24px}
+  .box{width:100%;max-width:420px;border:1px solid var(--line);background:rgba(3,5,14,.72);padding:40px 32px;text-align:center}
+  .box h1{font:500 34px var(--serif);margin:0 0 8px;letter-spacing:-.02em}
+  .box p.sub{font-size:14px;color:#a89f92;margin:0 0 30px}
+  .etat{display:flex;align-items:center;justify-content:center;gap:12px;font:600 12px var(--serif);letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(78,201,139,.5);color:#4ec98b;background:rgba(78,201,139,.08);padding:16px;margin-bottom:26px}
+  .etat i{width:11px;height:11px;border-radius:50%;background:#4ec98b;box-shadow:0 0 10px #4ec98b}
+  .etat.busy{border-color:rgba(224,104,95,.5);color:#e0685f;background:rgba(224,104,95,.08)}
+  .etat.busy i{background:#e0685f;box-shadow:0 0 10px #e0685f}
+  .actions{display:grid;gap:12px}
+  button{border:1px solid var(--gold);background:transparent;color:var(--gold);padding:18px;font:600 12px var(--serif);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:.25s}
+  button:hover{background:var(--gold);color:#080a13}
+  button[disabled]{opacity:.4;cursor:default}
+  .msg{margin-top:20px;min-height:20px;font-size:14px}
+  .msg.ok{color:#7fd2a4}.msg.err{color:#e0685f}
+  .retour{display:block;margin-top:28px;font-size:13px;color:#a89f92}
+</style>
+</head>
+<body>
+<div class="box" id="box" style="display:none">
+  <h1>Ma disponibilité</h1>
+  <p class="sub">Visible par tous les visiteurs, sur tous les appareils.</p>
+  <div class="etat" id="etat"><i></i><span id="etatTexte">Chargement…</span></div>
+  <div class="actions">
+    <button id="btnLibre">Je suis disponible</button>
+    <button id="btnOccupe">Je suis en consultation</button>
+  </div>
+  <p class="msg" id="msg"></p>
+  <a class="retour" href="index.html">← Retour au site</a>
+</div>
+<script>
+var URL_STATUS = 'https://super-band-24a0.marcomedium-com.workers.dev/status';
+var MDP_HASH = -1155591604;
+function hash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return h; }
+(function garde(){
+  var ok = sessionStorage.getItem('mm_admin') === '1';
+  if (!ok) {
+    var mdp = prompt('Mot de passe');
+    ok = mdp !== null && hash(mdp) === MDP_HASH;
+    if (ok) sessionStorage.setItem('mm_admin', '1');
+  }
+  if (!ok) { document.body.innerHTML = '<p style="color:#a89f92;font-family:var(--sans)">Accès refusé.</p>'; return; }
+  document.getElementById('box').style.display = '';
+
+var etat = document.getElementById('etat');
+var etatTexte = document.getElementById('etatTexte');
+var msg = document.getElementById('msg');
+
+function peindre(dispo){
+  etat.classList.toggle('busy', !dispo);
+  etatTexte.textContent = dispo ? 'Disponible' : 'En consultation';
+  try { localStorage.setItem('mm_status', dispo ? 'free' : 'busy'); } catch(e){}
+}
+
+function lire(){
+  fetch(URL_STATUS, { cache: 'no-store' })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ peindre(!!d.available); })
+    .catch(function(){ etatTexte.textContent = 'Serveur injoignable'; });
+}
+
+function definir(dispo){
+  msg.className = 'msg';
+  msg.textContent = 'Envoi…';
+  fetch(URL_STATUS, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ available: dispo })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (d && d.ok) {
+      peindre(dispo);
+      msg.className = 'msg ok';
+      msg.textContent = '✦ Enregistré. Tous les appareils suivront en moins de 30 secondes.';
+    } else {
+      msg.className = 'msg err';
+      msg.textContent = 'Le serveur a refusé le changement.';
+    }
+  })
+  .catch(function(){
+    msg.className = 'msg err';
+    msg.textContent = 'Serveur injoignable. Vérifiez la connexion.';
+  });
+}
+
+document.getElementById('btnLibre').addEventListener('click', function(){ definir(true); });
+document.getElementById('btnOccupe').addEventListener('click', function(){ definir(false); });
+lire();
+setInterval(lire, 30000);
+})();
+</script>
+</body>
+</html>
