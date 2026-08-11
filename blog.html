@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="status-sync.js?v=5" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init("liRFAyxBo1908cbzF");</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");</script>
   <style>
@@ -374,6 +375,7 @@ function subscribeNewsletter(){
     document.querySelector('.newsletter p').textContent='Merci ! Vous recevrez bientôt les prochains articles de Marco.';
     btn.style.display='none';
   }).catch(function(){
+    btn.textContent="S'inscrire"; btn.disabled=false;
     window.location.href='mailto:info@marcomedium.com?subject=Inscription newsletter&body=Bonjour Marco, je souhaite recevoir vos articles. Mon email : '+email;
   });
 }
