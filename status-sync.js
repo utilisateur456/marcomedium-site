@@ -57,27 +57,43 @@
   });
 })();
 
-/* Chargement différé des vidéos de fond : rien ne se télécharge avant d'entrer dans l'écran */
-(function lazyVideos(){
+/* Vidéos de fond : chargement différé, lecture uniquement quand elles sont visibles.
+   Évite d'avoir 5 flux décodés en même temps (cause des saccades / blocages). */
+(function videosDeFond(){
+  function economie(){
+    var c = navigator.connection || {};
+    if (c.saveData) return true;
+    if (/2g/.test(c.effectiveType || '')) return true;
+    return matchMedia('(max-width: 760px)').matches; // sur mobile : dégradés seuls, pas de vidéo
+  }
   function activer(v){
-    if (v.dataset.mmOn) return;
-    v.dataset.mmOn = '1';
-    v.src = v.dataset.src;
-    v.load();
+    if (!v.dataset.mmOn) {
+      v.dataset.mmOn = '1';
+      if (v.dataset.src) v.src = v.dataset.src;
+      v.load();
+    }
     var p = v.play();
     if (p && p.catch) p.catch(function(){});
   }
   function init(){
-    var vids = [].slice.call(document.querySelectorAll('video[data-lazy]'));
+    var vids = [].slice.call(document.querySelectorAll('video.video-bg'));
     if (!vids.length) return;
+    if (economie()) {
+      vids.forEach(function(v){
+        v.pause();
+        v.removeAttribute('autoplay');
+        v.removeAttribute('src');
+        v.style.display = 'none';
+      });
+      return;
+    }
     if (!('IntersectionObserver' in window)) { vids.forEach(activer); return; }
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
-        if (!e.isIntersecting) return;
-        activer(e.target);
-        io.unobserve(e.target);
+        if (e.isIntersecting) activer(e.target);
+        else if (e.target.dataset.mmOn) e.target.pause();
       });
-    }, { rootMargin: '250px 0px' });
+    }, { rootMargin: '200px 0px' });
     vids.forEach(function(v){ io.observe(v); });
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
