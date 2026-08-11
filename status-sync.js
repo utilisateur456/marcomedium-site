@@ -76,7 +76,7 @@
     if (p && p.catch) p.catch(function(){});
   }
   function init(){
-    var vids = [].slice.call(document.querySelectorAll('video.video-bg'));
+    var vids = [].slice.call(document.querySelectorAll('video.video-bg:not(.hero-video)'));
     if (!vids.length) return;
     if (economie()) {
       vids.forEach(function(v){
@@ -94,7 +94,11 @@
         else if (e.target.dataset.mmOn) e.target.pause();
       });
     }, { rootMargin: '200px 0px' });
-    vids.forEach(function(v){ io.observe(v); });
+    vids.forEach(function(v){
+      var r = v.getBoundingClientRect();
+      if (r.top < innerHeight + 200 && r.bottom > -200) activer(v);
+      io.observe(v);
+    });
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
 })();
