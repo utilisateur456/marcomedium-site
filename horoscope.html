@@ -1,201 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head><script src="status-sync.js" defer></script><link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="apple-touch-icon" href="/favicon-180.png">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horoscope Personnalisé — Marco Médium</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horoscope Personnalisé - Marco Médium</title>
   <meta name="description" content="Horoscope du jour et de la semaine personnalisé avec votre prénom et signe du zodiaque. Guidance spirituelle authentique par Marco Médium, Vaud Suisse.">
-  <meta name="theme-color" content="#080612">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon-192.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="keywords" content="horoscope personnalisé, horoscope du jour, horoscope de la semaine, astrologie, voyance Vaud, médium Suisse romande">
+  <meta name="theme-color" content="#040611">
+  <link rel="canonical" href="https://marcomedium.com/horoscope.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <meta property="og:title" content="Horoscope Personnalisé - Marco Médium">
+  <meta property="og:description" content="Entrez votre prénom et votre signe, Marco canalise un message unique, jamais le même, fait pour vous.">
+  <meta property="og:image" content="https://marcomedium.com/marco-portrait.webp">
+  <meta property="og:url" content="https://marcomedium.com/horoscope.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_CH">
+  <meta property="og:site_name" content="Marco Médium">
+  <script>document.documentElement.className+=" js";</script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="status-sync.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());
-    gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-C979FB1QEG");gtag("config","GT-MKP7HSD");gtag("config","AW-11435134690");gtag("config","GT-PBSRNDX6");gtag("config","GT-TW5DK3H6");</script>
   <style>
-    :root{--bg:#06040F;--surface:rgba(255,255,255,0.03);--surface2:rgba(255,255,255,0.07);--border:rgba(180,120,255,0.12);--border2:rgba(180,120,255,0.28);--purple:#8B5CF6;--purple-light:#A78BFA;--purple-dim:rgba(139,92,246,0.15);--gold:#C9A84C;--gold-light:#E2C97E;--gold-dim:rgba(201,168,76,0.12);--text:#EDE9F8;--text2:#B4A8D4;--text3:#7A6D9B;--radius:16px;--radius-sm:10px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth;}
-    body{overflow-x:hidden;background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.7;}
-    #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
-    .glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);}
-    .glow-1{width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,0.1),transparent 70%);top:-200px;right:-150px;}
-    .glow-2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent 70%);bottom:10%;left:-100px;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(6,4,15,0.92) 0%,transparent 100%);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:all .4s;}
-    nav.scrolled{border-color:var(--border);background:rgba(6,4,15,.97);}
-    .nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
-    .nav-logo-img{height:90px;width:auto;max-width:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(201,168,76,0.45));transition:filter .3s;}
-    .nav-logo:hover .nav-logo-img{filter:drop-shadow(0 0 20px rgba(201,168,76,0.7));}
-    .live-dot{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 10px #34D399;animation:pulse 2s infinite;transition:background .4s,box-shadow .4s;}
-    .live-dot.busy{background:#F87171;box-shadow:0 0 10px #F87171;}
-    .nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
-    .nav-links a{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color .3s;}
-    .nav-links a:hover{color:var(--gold-light);}
-    .nav-links a.active{color:var(--gold);}
-    .nav-cta{background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F!important;padding:10px 24px;border-radius:50px;font-weight:500!important;}
-    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-    .nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);}
-    @media(max-width:768px){nav{padding:18px 24px;}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,4,15,.98);flex-direction:column;padding:16px 0;border-bottom:1px solid var(--border);}.nav-links.open{display:flex;}.nav-links li{width:100%;}.nav-links a{display:block;padding:14px 24px;}.nav-burger{display:flex;}.nav-logo-img{height:64px;max-width:180px;}}
-    .page-hero{position:relative;z-index:2;padding:140px 48px 40px;text-align:center;max-width:700px;margin:0 auto;}
-    .label{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .3s forwards;}
-    .label::before,.label::after{content:'';display:block;width:20px;height:1px;background:rgba(201,168,76,.3);}
-    .page-hero h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;letter-spacing:.05em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--gold-light) 40%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .9s .5s forwards;}
-    .page-hero p{font-family:'Lora',serif;font-style:italic;font-size:1rem;color:var(--text2);margin-top:16px;opacity:0;animation:fadeUp .9s .7s forwards;}
-    .marco-intro{position:relative;z-index:2;text-align:center;margin-top:-10px;margin-bottom:32px;}
-    .marco-intro img{width:160px;height:auto;filter:drop-shadow(0 0 30px rgba(139,92,246,0.4));opacity:0;animation:fadeUp .8s 1s forwards;}
-    .content{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 48px 100px;}
-    @media(max-width:768px){.content{padding:0 20px 80px;}.page-hero{padding:120px 20px 32px;}}
-    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;margin-bottom:36px;position:relative;overflow:hidden;}
-    .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-    .form-card h2{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;letter-spacing:.06em;margin-bottom:6px;}
-    .form-card > p{color:var(--text3);font-size:.88rem;margin-bottom:28px;}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-    @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
-    .form-group label{display:block;font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
-    .form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;color:var(--text);font-family:'Lora',serif;font-size:16px;outline:none;transition:border-color .3s;}
-    .form-input:focus{border-color:var(--gold);}
-    .form-input::placeholder{color:var(--text3);}
-    .field-label{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:block;}
-    .signs-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:24px;}
-    @media(max-width:600px){.signs-grid{grid-template-columns:repeat(4,1fr);gap:6px;}}
-    .sign-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 4px;text-align:center;cursor:pointer;transition:all .25s;user-select:none;-webkit-tap-highlight-color:transparent;}
-    .sign-chip:hover{border-color:var(--border2);}
-    .sign-chip.selected{background:var(--gold-dim);border-color:var(--gold);}
-    .sign-chip .s-emoji{font-size:1.4rem;display:block;margin-bottom:4px;}
-    .sign-chip .s-name{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--text3);}
-    .sign-chip.selected .s-name{color:var(--gold);}
-    .type-selector{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
-    .type-btn{padding:16px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .3s;text-align:center;-webkit-tap-highlight-color:transparent;}
-    .type-btn:hover{border-color:var(--border2);}
-    .type-btn.active{background:var(--gold-dim);border-color:var(--gold);}
-    .type-btn .t-icon{font-size:1.5rem;display:block;margin-bottom:6px;}
-    .type-btn .t-label{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.1em;display:block;color:var(--text);}
-    .type-btn.active .t-label{color:var(--gold-light);}
-    .type-btn .t-sub{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--text3);margin-top:3px;display:block;}
-    .btn-generate{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold),#E2C97E);color:#06040F;font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.15em;border:none;border-radius:50px;cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;}
-    .btn-generate:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4);}
-    .btn-generate:disabled{opacity:.4;cursor:not-allowed;transform:none;}
-    .loading{display:none;text-align:center;padding:48px 20px;}
-    .loading.show{display:block;}
-    .stars-loader{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
-    .stars-loader span{font-size:1.5rem;animation:starPulse 1.4s ease-in-out infinite;}
-    .stars-loader span:nth-child(2){animation-delay:.2s;}
-    .stars-loader span:nth-child(3){animation-delay:.4s;}
-    .loading p{font-family:'Lora',serif;font-style:italic;color:var(--text2);}
-    .result{display:none;}
-    .result.show{display:block;animation:fadeUp .8s forwards;}
-    .result-header{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.25);border-radius:var(--radius);padding:32px;margin-bottom:24px;text-align:center;}
-    .result-sign{font-size:3.5rem;display:block;margin-bottom:8px;}
-    .result-title{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,#fff,var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
-    .result-subtitle{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);}
-    .chiffres-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
-    .chiffre-chip{flex:1;min-width:90px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 8px;text-align:center;}
-    .chiffre-val{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;color:var(--gold);display:block;line-height:1.2;}
-    .chiffre-label{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);display:block;margin-top:6px;}
-    .horoscope-text-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;margin-bottom:24px;position:relative;}
-    .horoscope-text-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-    .section-tag{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block;}
-    .horoscope-text{color:var(--text2);font-size:.97rem;line-height:1.95;white-space:pre-line;}
-    .horoscope-text::first-letter{font-family:'Cinzel',serif;font-size:3rem;font-weight:700;float:left;line-height:.85;margin-right:8px;margin-top:6px;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .domains-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-    @media(max-width:600px){.domains-row{grid-template-columns:1fr;}}
-    .domain-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;transition:border-color .3s;}
-    .domain-box:hover{border-color:var(--border2);}
-    .domain-icon{font-size:1.4rem;display:block;margin-bottom:8px;}
-    .domain-title{font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
-    .domain-text{color:var(--text2);font-size:.85rem;line-height:1.75;}
-    .conseil-box{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(139,92,246,.06));border:1px solid rgba(201,168,76,.2);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:28px;}
-    .conseil-box .q{font-size:3rem;color:rgba(201,168,76,.15);font-family:'Cinzel',serif;line-height:.5;display:block;margin-bottom:16px;}
-    .conseil-box p{font-family:'Lora',serif;font-style:italic;color:var(--text2);font-size:.97rem;line-height:1.85;}
-    .conseil-box .sig{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:16px;display:block;}
-    .btn-nouveau{display:block;margin:0 auto;padding:13px 36px;background:transparent;border:1px solid var(--border2);border-radius:50px;color:var(--text2);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.14em;cursor:pointer;transition:all .3s;}
-    .btn-nouveau:hover{border-color:var(--gold);color:var(--gold);}
-    .promo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px;}
-    @media(max-width:600px){.promo-grid{grid-template-columns:1fr;}}
-    .promo-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center;text-decoration:none;color:var(--text);transition:all .3s;display:block;}
-    .promo-card:hover{border-color:var(--gold);transform:translateY(-3px);}
-    .promo-card .p-icon{font-size:1.8rem;display:block;margin-bottom:10px;}
-    .promo-card .p-title{font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;}
-    .promo-card .p-desc{font-size:.78rem;color:var(--text3);}
-    #scrollTop{position:fixed;bottom:36px;right:40px;z-index:200;background:none;border:none;padding:8px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .5s,transform .4s;display:flex;flex-direction:column;align-items:center;gap:2px;}
-    #scrollTop .arrow-shaft{width:1px;height:28px;background:linear-gradient(to top,transparent,rgba(201,168,76,0.6));}
-    #scrollTop .arrow-head{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid rgba(201,168,76,0.7);filter:drop-shadow(0 0 4px rgba(201,168,76,0.5));order:-1;}
-    #scrollTop.show{opacity:1;pointer-events:all;}
-    #scrollTop:hover{transform:translateY(-5px);}
-    footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:40px 48px;text-align:center;}
-    .footer-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:600;letter-spacing:.2em;color:var(--gold-light);margin-bottom:16px;}
-    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 28px;margin-bottom:20px;list-style:none;}
-    .footer-links a{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s;}
-    .footer-links a:hover{color:var(--gold);}
-    .footer-copy{font-size:.75rem;color:var(--text3);}
-    @media(max-width:768px){footer{padding:32px 20px;}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-    @keyframes starPulse{0%,100%{transform:scale(1);opacity:.4;}50%{transform:scale(1.3);opacity:1;}}
-    .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s;}
-    .reveal.visible{opacity:1;transform:none;}
-    #stars-canvas{will-change:transform;}
-    html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
-    body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-    @media(max-width:480px){.form-card{padding:24px 16px;}.signs-grid{grid-template-columns:repeat(4,1fr);}.chiffres-row{gap:8px;}.chiffre-chip{min-width:80px;}input,select{font-size:16px!important;}#scrollTop{bottom:20px;right:20px;}.page-hero h1{font-size:2.2rem;}}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+    .signs-grid{display:grid;grid-template-columns:repeat(6,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line);margin-bottom:26px}
+    @media(max-width:900px){.signs-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:560px){.signs-grid{grid-template-columns:repeat(3,1fr)}}
+    .sign-chip{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;text-align:center;cursor:pointer;transition:background .25s;user-select:none}
+    .sign-chip:hover{background:rgba(216,166,60,.12)}
+    .sign-chip.selected{background:var(--gold);color:#080a13}
+    .s-emoji{display:block;font-size:24px;color:var(--gold);margin-bottom:6px}
+    .sign-chip.selected .s-emoji{color:#080a13}
+    .s-name{font:600 11px var(--serif);letter-spacing:.1em;text-transform:uppercase}
+    .type-selector{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+    @media(max-width:600px){.type-selector{grid-template-columns:1fr}}
+    .type-btn{border:1px solid rgba(216,166,60,.3);background:rgba(3,5,14,.5);padding:20px;cursor:pointer;transition:.25s}
+    .type-btn:hover{border-color:var(--gold)}
+    .type-btn.active{background:var(--gold);border-color:var(--gold);color:#080a13}
+    .t-icon{display:block;font-size:20px;margin-bottom:8px}
+    .t-label{display:block;font:600 17px var(--serif)}
+    .t-sub{display:block;font-size:12.5px;color:#bdb6ab;margin-top:4px}
+    .type-btn.active .t-sub{color:#3a3018}
+    .loading{display:none;flex-direction:column;align-items:center;gap:18px;padding:56px 20px;text-align:center}
+    .loading.show{display:flex}
+    .stars-loader{display:flex;gap:16px;font-size:22px}
+    .stars-loader span{animation:numFloat 1.5s infinite}
+    .stars-loader span:nth-child(2){animation-delay:.2s}.stars-loader span:nth-child(3){animation-delay:.4s}
+    @keyframes numFloat{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(-8px);opacity:1}}
+    .loading p{font:500 20px var(--serif);color:#e2ddd4;margin:0}
+    .result{display:none;margin-top:44px}
+    .result.show{display:block}
+    .result-header{border:1px solid var(--line);background:rgba(3,5,14,.7);padding:38px;text-align:center;margin-bottom:22px}
+    .result-sign{font-size:46px;color:var(--gold);display:block;margin-bottom:14px}
+    .result-title{font:500 clamp(28px,3.2vw,48px)/1.05 var(--serif);letter-spacing:-.03em}
+    .result-subtitle{color:#bdb6ab;font-size:14px;margin-top:12px}
+    .chiffres-row{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line);margin-bottom:22px}
+    .chiffre-chip{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 12px;text-align:center}
+    .chiffre-val{display:block;font:700 34px var(--serif);color:var(--gold);line-height:1.1}
+    .chiffre-label{display:block;font:600 10px var(--serif);letter-spacing:.16em;text-transform:uppercase;color:#a89f92;margin-top:10px}
+    .horoscope-text-card{border:1px solid var(--line);background:rgba(3,5,14,.7);padding:clamp(24px,3vw,42px);margin-bottom:22px}
+    .section-tag{display:block;font:600 12px var(--serif);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .horoscope-text{font-size:16px;color:#e2ddd4;line-height:1.9;white-space:pre-line}
+    .horoscope-text::first-letter{font:700 62px var(--serif);float:left;line-height:.8;margin:6px 12px 0 0;color:var(--gold)}
+    .domains-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line);margin-bottom:22px}
+    .domain-box{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px}
+    .domain-icon{font-size:22px;display:block;margin-bottom:12px}
+    .domain-title{font:600 20px var(--serif);color:var(--gold);display:block;margin-bottom:12px}
+    .domain-text{color:#d5cfc5;font-size:14px;line-height:1.75;margin:0}
+    .conseil-box{border:1px solid var(--line);background:rgba(216,166,60,.07);padding:38px;text-align:center}
+    .conseil-box .q{font:700 54px var(--serif);color:rgba(216,166,60,.35);line-height:.4;display:block;margin-bottom:22px}
+    .conseil-box p{font:500 clamp(19px,2vw,27px)/1.45 var(--serif);color:var(--ivory);margin:0 0 18px}
+    .conseil-box .sig{font:600 11px var(--serif);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+    .promo-grid{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line);margin-top:60px}
+    @media(max-width:700px){.promo-grid{grid-template-columns:1fr}}
+    .promo-card{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px;text-decoration:none;color:var(--ivory);transition:background .3s;display:block}
+    .promo-card:hover{background:rgba(216,166,60,.16);color:var(--ivory)}
+    .p-icon{font-size:24px;display:block;margin-bottom:14px}
+    .p-title{font:600 22px var(--serif);color:var(--gold);display:block;margin-bottom:6px}
+    .p-desc{font-size:14px;color:#c8c2b8}
   </style>
 </head>
 <body>
-<canvas id="stars-canvas"></canvas>
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
+<header class="topbar">
+  <a class="brand" href="index.html">Marco <span>Médium</span><i class="live-dot" id="liveDot"></i></a>
+  <nav class="nav" id="nav" aria-label="Navigation principale">
+    <a href="index.html">Accueil</a><a href="horoscope.html" class="active">Horoscope</a><a href="numerologie.html">Numérologie</a><a href="oracle.html">Oracle</a><a href="reves.html">Rêves</a><a href="blog.html">Blog</a><a href="avis.html">Avis</a><a href="https://utilisateur456.github.io/maisonsiderale-site/" target="_blank" rel="noopener">Boutique</a><a class="nav-cta" href="index.html#consultation">Consulter</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</header>
 
-<nav id="nav">
-  <a href="index.html" class="nav-logo">
-    <img src="logo.png" alt="Marco Médium" class="nav-logo-img">
-    <span class="live-dot" id="liveDot"></span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="horoscope.html" class="active">Horoscope</a></li>
-    <li><a href="numerologie.html">Numérologie</a></li>
-    <li><a href="oracle.html">Oracle</a></li>
-    <li><a href="reves.html">Rêves</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="avis.html">Avis</a></li>
-    
-    <li><a href="https://utilisateur456.github.io/maisonsiderale-site/" target="_blank" rel="noopener">Boutique</a></li><li><a href="index.html#consultation" class="nav-cta">Consulter</a></li>
-  </ul>
-  <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
-</nav>
-
-<section class="page-hero">
-  <div class="label">✦ Astrologie · Guidance Personnalisée</div>
-  <h1>Votre Horoscope<br>Personnalisé</h1>
-  <p>Entrez votre prénom et votre signe — Marco canalise un message unique, jamais le même, fait pour vous.</p>
+<section class="page-head">
+  <div class="stars"></div><i class="orbit one"></i><i class="orbit two"></i>
+  <div class="head-inner">
+    <p class="eyebrow">Astrologie · Guidance personnalisée</p>
+    <h1>Votre Horoscope<br><span class="gold">Personnalisé</span></h1>
+    <p class="lead">Entrez votre prénom et votre signe, Marco canalise un message unique, jamais le même, fait pour vous.</p>
+    <div class="head-rule"></div>
+    <ul class="head-meta">
+      <li><b>12</b>signes du zodiaque</li>
+      <li><b>Jour</b>ou semaine</li>
+      <li><b>Unique</b>jamais le même texte</li>
+    </ul>
+  </div>
 </section>
 
-<div class="marco-intro">
-  <img src="marco-pendule.png" alt="Marco Médium — Horoscope personnalisé">
-</div>
-
-<div class="content">
-  <div class="form-card reveal">
-    <h2>✨ Recevez votre guidance</h2>
-    <p>Chaque horoscope est généré en direct, personnalisé avec votre prénom et adapté à votre signe.</p>
+<section class="section deep">
+  <div class="stars"></div>
+  <div class="panel form-card" data-reveal>
+    <p class="section-label">Recevez votre guidance</p>
+    <h2 style="font-size:clamp(30px,3.2vw,48px);margin:0 0 10px">Votre message du jour</h2>
+    <p style="color:#bdb6ab;font-size:15px;margin:0 0 30px">Chaque horoscope est généré en direct, personnalisé avec votre prénom et adapté à votre signe.</p>
     <div class="form-row">
-      <div class="form-group"><label>Votre prénom *</label><input type="text" class="form-input" id="prenom" placeholder="Ex : Sophie" maxlength="30"></div>
-      <div class="form-group"><label>Date de naissance <span style="color:var(--text3);font-size:.65rem;">(optionnel)</span></label><input type="text" class="form-input" id="birthdate" placeholder="Ex : 14 mars 1985"></div>
+      <label class="field"><span>Votre prénom *</span><input type="text" id="prenom" placeholder="Ex : Sophie" maxlength="30"></label>
+      <label class="field"><span>Date de naissance (optionnel)</span><input type="text" id="birthdate" placeholder="Ex : 14 mars 1985"></label>
     </div>
-    <span class="field-label">Votre signe du zodiaque *</span>
+    <p class="section-label">Votre signe du zodiaque *</p>
     <div class="signs-grid" id="signsGrid"></div>
-    <span class="field-label">Type d'horoscope</span>
+    <p class="section-label">Type d'horoscope</p>
     <div class="type-selector">
       <div class="type-btn active" data-type="jour" onclick="selectType(this)"><span class="t-icon">☀️</span><span class="t-label">Horoscope du Jour</span><span class="t-sub">Message pour aujourd'hui</span></div>
       <div class="type-btn" data-type="semaine" onclick="selectType(this)"><span class="t-icon">🌙</span><span class="t-label">Horoscope de la Semaine</span><span class="t-sub">Vision des 7 prochains jours</span></div>
     </div>
-    <button class="btn-generate" id="btnGenerate" onclick="generateHoroscope()">✦ &nbsp; Révéler mon horoscope</button>
+    <button class="btn btn-solid" id="btnGenerate" style="width:100%;padding:18px" onclick="generateHoroscope()">Révéler mon horoscope</button>
   </div>
 
   <div class="loading" id="loading">
@@ -211,52 +140,49 @@
     </div>
     <div class="chiffres-row" id="chiffresRow"></div>
     <div class="horoscope-text-card">
-      <span class="section-tag" id="sectionTag">✦ Votre horoscope</span>
+      <span class="section-tag" id="sectionTag">Votre horoscope</span>
       <div class="horoscope-text" id="horoscopeText"></div>
     </div>
     <div class="domains-row" id="domainsRow"></div>
-    <div class="conseil-box"><span class="q">"</span><p id="conseilText"></p><span class="sig">— Marco Médium</span></div>
-    <button class="btn-nouveau" onclick="resetForm()">↺ &nbsp; Nouvel horoscope</button>
+    <div class="conseil-box"><span class="q">&ldquo;</span><p id="conseilText"></p><span class="sig">Marco Médium</span></div>
+    <button class="btn" style="margin:32px auto 0;display:block" onclick="resetForm()">Nouvel horoscope</button>
   </div>
 
-  <div class="promo-grid reveal">
+  <div class="promo-grid" data-reveal>
     <a href="oracle.html" class="promo-card"><span class="p-icon">🃏</span><span class="p-title">Oracle</span><span class="p-desc">Tirage de cartes personnalisé</span></a>
     <a href="numerologie.html" class="promo-card"><span class="p-icon">🔢</span><span class="p-title">Numérologie</span><span class="p-desc">Votre chemin de vie</span></a>
     <a href="index.html#consultation" class="promo-card"><span class="p-icon">📞</span><span class="p-title">Consultation</span><span class="p-desc">Séance privée avec Marco</span></a>
   </div>
-</div>
+</section>
 
-<footer>
-  <div class="footer-logo">Marco Médium</div>
-  <ul class="footer-links">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="oracle.html">Oracle</a></li>
-    <li><a href="numerologie.html">Numérologie</a></li>
-    <li><a href="reves.html">Rêves</a></li>
-    
-    <li><a href="index.html#consultation">Consultation</a></li>
-    <li><a href="tel:0901212212">0901 212 212 (CHF 2.–/min)</a></li>
-  </ul>
-  <p class="footer-copy">&copy; 2026 Marcomedium.com</p>
+<section class="section deeper" style="text-align:center">
+  <div class="stars"></div>
+  <p class="section-label">Consultation</p>
+  <h2>Les astres donnent le cadre.<br><span class="gold">Marco donne les détails.</span></h2>
+  <div style="display:flex;justify-content:center;margin-top:40px">
+    <a class="phone-button" href="tel:0901212212" aria-label="Appeler Marco Médium au 0901 212 212"><span class="label">Appeler maintenant</span><span class="number">0901 212 212</span><span class="price">CHF 2.–/min</span></a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div><h3>Marco <span>Médium</span></h3><p>Voyance · Guidance · Écriture automatique</p><p>📞 0901 212 212 (CHF 2.–/min)</p><p>✉️ info@marcomedium.com</p><p>📍 Vaud, Suisse</p></div>
+  <div><h4>Services</h4><a href="horoscope.html">Horoscope</a><a href="numerologie.html">Numérologie</a><a href="oracle.html">Oracle</a><a href="reves.html">Interprétation des Rêves</a><a href="blog.html">Blog</a><a href="avis.html">Avis</a></div>
+  <div><h4>Contact</h4><a href="tel:0901212212">Consultation immédiate</a><a href="index.html#rendez-vous">Prendre rendez-vous</a><a href="https://wa.me/41782535452">WhatsApp</a><a href="mailto:info@marcomedium.com">E-mail</a></div>
+  <small class="copyright">© 2026 Marcomedium.com · Voyance Vaud · Médium Suisse romande</small>
 </footer>
-
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter"><span class="arrow-head"></span><span class="arrow-shaft"></span></button>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Remonter"><span class="ah"></span><span class="as"></span></button>
 
 <script>
-const canvas=document.getElementById('stars-canvas'),ctx=canvas.getContext('2d');
-let stars=[],W,H,pts=[],lastMouse=0;
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-function initStars(){stars=[];for(let i=0;i<120;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,o:Math.random(),s:Math.random()*.015+.005,t:Math.random()*Math.PI*2});}
-window.addEventListener('mousemove',e=>{const now=Date.now();if(now-lastMouse<70)return;lastMouse=now;pts.push({x:e.clientX,y:e.clientY,r:Math.random()*1.1+.3,alpha:Math.random()*.5+.2,vx:(Math.random()-.5)*.7,vy:-(Math.random()*.7+.3),life:1,decay:Math.random()*.04+.025,color:Math.random()>.6?'201,168,76':'167,139,250'});if(pts.length>25)pts.shift();});
-function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.t+=s.s;s.o=.3+.7*Math.abs(Math.sin(s.t));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(220,210,255,${s.o})`;ctx.fill();});[[W*.7,H*.2,200,'rgba(60,40,140,0.05)'],[W*.2,H*.8,150,'rgba(40,80,150,0.04)']].forEach(([x,y,r,c])=>{const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,c);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);});for(let i=pts.length-1;i>=0;i--){const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;if(p.life<=0){pts.splice(i,1);continue;}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.color},${p.alpha*p.life})`;ctx.fill();}requestAnimationFrame(drawStars);}
-resize();initStars();drawStars();
-window.addEventListener('resize',()=>{resize();initStars();});
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
-document.getElementById('navBurger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
-window.addEventListener('scroll',()=>{const s=window.scrollY+window.innerHeight,t=document.documentElement.scrollHeight;document.getElementById('scrollTop').classList.toggle('show',s>=t-200);});
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-(function(){const dot=document.getElementById('liveDot');if(dot&&localStorage.getItem('mm_status')==='busy')dot.classList.add('busy');})();
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open');});
+function revealAll(){document.querySelectorAll('[data-reveal]').forEach(function(el){el.classList.add('visible');});}
+if('IntersectionObserver' in window){
+  var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){obs.observe(el);});
+  setTimeout(revealAll,1500);
+}else{revealAll();}
+window.addEventListener('scroll',function(){document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);});
+</script>
+<script>
 const SIGNS=[{sym:'♈',name:'Bélier',dates:'21 mars – 19 avr',element:'Feu',planet:'Mars'},{sym:'♉',name:'Taureau',dates:'20 avr – 20 mai',element:'Terre',planet:'Vénus'},{sym:'♊',name:'Gémeaux',dates:'21 mai – 20 juin',element:'Air',planet:'Mercure'},{sym:'♋',name:'Cancer',dates:'21 juin – 22 juil',element:'Eau',planet:'Lune'},{sym:'♌',name:'Lion',dates:'23 juil – 22 août',element:'Feu',planet:'Soleil'},{sym:'♍',name:'Vierge',dates:'23 août – 22 sept',element:'Terre',planet:'Mercure'},{sym:'♎',name:'Balance',dates:'23 sept – 22 oct',element:'Air',planet:'Vénus'},{sym:'♏',name:'Scorpion',dates:'23 oct – 21 nov',element:'Eau',planet:'Pluton'},{sym:'♐',name:'Sagittaire',dates:'22 nov – 21 déc',element:'Feu',planet:'Jupiter'},{sym:'♑',name:'Capricorne',dates:'22 déc – 19 jan',element:'Terre',planet:'Saturne'},{sym:'♒',name:'Verseau',dates:'20 jan – 18 fév',element:'Air',planet:'Uranus'},{sym:'♓',name:'Poissons',dates:'19 fév – 20 mars',element:'Eau',planet:'Neptune'}];
 let selectedSign=null,selectedType='jour';
 const grid=document.getElementById('signsGrid');
@@ -292,14 +218,14 @@ PROFIL :
 - Période : ${s.dates}
 - ${isJour?`Date : ${dateStr}`:`Semaine : ${weekStr}`}
 
-STYLE MARCO MÉDIUM — RÈGLES ABSOLUES :
+STYLE MARCO MÉDIUM, RÈGLES ABSOLUES :
 - Tu tutoies, tu es direct, tu n'hésites pas à nommer les choses difficiles
 - Tu utilises des images fortes, des métaphores précises, jamais vagues
 - Tu identifies CE QUI BLOQUE concrètement et CE QUI S'OUVRE vraiment
 - Tu nommes des situations réelles : une relation tendue, un projet bloqué, une décision évitée, une peur cachée
 - Tu alternes validation ("tu le sais déjà") et révélation ("mais voici ce que tu ne vois pas encore")
-- Chaque conseil est ACTIONNABLE — pas "soyez attentif" mais une directive précise
-- INTERDIT : "les astres vous sourient", "belle énergie", "faites confiance à l'univers", "restez positif" — trop creux
+- Chaque conseil est ACTIONNABLE, pas "soyez attentif" mais une directive précise
+- INTERDIT : "les astres vous sourient", "belle énergie", "faites confiance à l'univers", "restez positif", trop creux
 
 EXIGENCES STRICTES :
 - texte_principal : MINIMUM 10 phrases denses et percutantes. Commence par "${prenom}, " et plonge immédiatement dans le vif du sujet
@@ -309,7 +235,7 @@ EXIGENCES STRICTES :
 
 Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
 {
-  "titre": "Titre fort incluant ${prenom} — évoque une tension, une révélation ou un tournant (8-10 mots)",
+  "titre": "Titre fort incluant ${prenom}, évoque une tension, une révélation ou un tournant (8-10 mots)",
   "subtitle": "Sous-titre précis qui nomme l'enjeu central de cette période pour ${s.name} sous ${s.planet}",
   "chiffres": {
     "chance": "chiffre 1-9 qui résonne avec l'énergie de ${s.planet} actuellement",
@@ -340,136 +266,136 @@ Réponds UNIQUEMENT avec un objet JSON valide (sans backticks) :
   }catch(e){
     const signTextes = {
       'Bélier': {
-        texte: `${prenom}, porter le Bélier comme signe solaire, c'est vivre avec un feu intérieur que peu de gens comprennent vraiment. Tu n'attends pas — tu agis, parfois avant même d'avoir réfléchi, et c'est exactement là que réside ta plus grande force ET ton plus grand piège. ${isJour?"Aujourd'hui":"Cette semaine"}, Mars — ta planète gouvernante — crée une tension productive entre ton désir d'avancer et la nécessité de consolider ce qui existe déjà. Tu sens peut-être une impatience que tu as du mal à canaliser. C'est le signe que quelque chose d'important est sur le point de se débloquer, mais que tu dois tenir encore un peu.
+        texte: `${prenom}, porter le Bélier comme signe solaire, c'est vivre avec un feu intérieur que peu de gens comprennent vraiment. Tu n'attends pas, tu agis, parfois avant même d'avoir réfléchi, et c'est exactement là que réside ta plus grande force ET ton plus grand piège. ${isJour?"Aujourd'hui":"Cette semaine"}, Mars, ta planète gouvernante, crée une tension productive entre ton désir d'avancer et la nécessité de consolider ce qui existe déjà. Tu sens peut-être une impatience que tu as du mal à canaliser. C'est le signe que quelque chose d'important est sur le point de se débloquer, mais que tu dois tenir encore un peu.
 
-Ce que les astres voient clairement : une situation qui te semble bloquée depuis trop longtemps est en train de se résoudre — pas à ta vitesse, mais à la bonne vitesse. L'erreur du Bélier est souvent de forcer là où il faudrait laisser mûrir. ${isJour?"Aujourd'hui":"Cette semaine"}, la patience n'est pas une faiblesse — c'est ta stratégie la plus puissante. Quelqu'un dans ton entourage a besoin que tu l'écoutes avant d'agir.
+Ce que les astres voient clairement : une situation qui te semble bloquée depuis trop longtemps est en train de se résoudre, pas à ta vitesse, mais à la bonne vitesse. L'erreur du Bélier est souvent de forcer là où il faudrait laisser mûrir. ${isJour?"Aujourd'hui":"Cette semaine"}, la patience n'est pas une faiblesse, c'est ta stratégie la plus puissante. Quelqu'un dans ton entourage a besoin que tu l'écoutes avant d'agir.
 
-Ton feu est ta ressource la plus précieuse, mais il brûle aussi ce qu'il devrait protéger quand il n'est pas dirigé. Identifie ce soir la chose la plus importante que tu veux accomplir — une seule — et consacre-lui toute ton énergie. Le reste peut attendre.`,
-        amour: `En amour, le Bélier ${isJour?"aujourd'hui":"cette semaine"} oscille entre le désir de conquête et le besoin de profondeur. Si tu es en couple, une conversation directe que tu repoussais depuis trop longtemps doit avoir lieu maintenant — pas demain. Ta franchise est ton atout principal, mais attention à la brutalité. Ce que tu veux dire peut être dit avec force ET avec soin. Si tu es célibataire, une personne dans ton entourage proche te regarde différemment depuis quelque temps — tu le sais, même si tu fais semblant de ne pas le voir.`,
-        travail: `Professionnellement, Mars t'ouvre une fenêtre d'action ${isJour?"ce jour":"cette semaine"} qui ne se représentera pas de sitôt. Un projet ou une idée que tu as mis de côté mérite d'être relancé maintenant. Côté finances, évite les décisions impulsives — une dépense qui te semble évidente aujourd'hui te paraîtra discutable dans 48h. Attends. Sur le plan professionnel, quelqu'un en position d'autorité remarque ton travail — assure-toi que ce qu'il voit corresponde à ce que tu veux qu'il perçoive.`,
-        sante: `Ton énergie vitale est haute mais mal distribuée. L'élément Feu qui te gouverne te donne une endurance remarquable, mais tu as tendance à ignorer les signaux d'épuisement jusqu'à ce qu'ils deviennent impossibles à nier. ${isJour?"Ce soir":"Cette semaine"}, intègre au moins 20 minutes d'activité physique intense — pas pour te dépenser, mais pour transformer l'agitation mentale en énergie utilisable. Ton corps sait ce dont il a besoin; c'est ton mental qui résiste.`,
-        conseil: `${prenom}, la force du Bélier n'est jamais dans l'attente — mais la sagesse du Bélier, elle, sait choisir ses batailles. Aujourd'hui, choisissez une seule chose et allez jusqu'au bout. Cette discipline que vous vous imposez est votre véritable victoire du moment.`
+Ton feu est ta ressource la plus précieuse, mais il brûle aussi ce qu'il devrait protéger quand il n'est pas dirigé. Identifie ce soir la chose la plus importante que tu veux accomplir, une seule, et consacre-lui toute ton énergie. Le reste peut attendre.`,
+        amour: `En amour, le Bélier ${isJour?"aujourd'hui":"cette semaine"} oscille entre le désir de conquête et le besoin de profondeur. Si tu es en couple, une conversation directe que tu repoussais depuis trop longtemps doit avoir lieu maintenant, pas demain. Ta franchise est ton atout principal, mais attention à la brutalité. Ce que tu veux dire peut être dit avec force ET avec soin. Si tu es célibataire, une personne dans ton entourage proche te regarde différemment depuis quelque temps, tu le sais, même si tu fais semblant de ne pas le voir.`,
+        travail: `Professionnellement, Mars t'ouvre une fenêtre d'action ${isJour?"ce jour":"cette semaine"} qui ne se représentera pas de sitôt. Un projet ou une idée que tu as mis de côté mérite d'être relancé maintenant. Côté finances, évite les décisions impulsives, une dépense qui te semble évidente aujourd'hui te paraîtra discutable dans 48h. Attends. Sur le plan professionnel, quelqu'un en position d'autorité remarque ton travail, assure-toi que ce qu'il voit corresponde à ce que tu veux qu'il perçoive.`,
+        sante: `Ton énergie vitale est haute mais mal distribuée. L'élément Feu qui te gouverne te donne une endurance remarquable, mais tu as tendance à ignorer les signaux d'épuisement jusqu'à ce qu'ils deviennent impossibles à nier. ${isJour?"Ce soir":"Cette semaine"}, intègre au moins 20 minutes d'activité physique intense, pas pour te dépenser, mais pour transformer l'agitation mentale en énergie utilisable. Ton corps sait ce dont il a besoin; c'est ton mental qui résiste.`,
+        conseil: `${prenom}, la force du Bélier n'est jamais dans l'attente, mais la sagesse du Bélier, elle, sait choisir ses batailles. Aujourd'hui, choisissez une seule chose et allez jusqu'au bout. Cette discipline que vous vous imposez est votre véritable victoire du moment.`
       },
       'Taureau': {
-        texte: `${prenom}, le Taureau ne se hâte jamais — et c'est précisément ce qui fait ta puissance. Là où les autres s'épuisent à courir, tu construis, lentement, solidement, avec une patience que les autres confondent parfois avec de l'inertie. ${isJour?"Aujourd'hui":"Cette semaine"}, Vénus — ta planète — illumine tout ce qui touche aux relations et à la valeur : la valeur de ce que tu crées, la valeur de ce que tu reçois, et surtout la valeur que tu t'accordes à toi-même. Ce dernier point est souvent là où le Taureau trébuche — tu donnes plus que tu ne reçois, et tu appelles ça de la générosité alors que c'est parfois de la peur.
+        texte: `${prenom}, le Taureau ne se hâte jamais, et c'est précisément ce qui fait ta puissance. Là où les autres s'épuisent à courir, tu construis, lentement, solidement, avec une patience que les autres confondent parfois avec de l'inertie. ${isJour?"Aujourd'hui":"Cette semaine"}, Vénus, ta planète, illumine tout ce qui touche aux relations et à la valeur : la valeur de ce que tu crées, la valeur de ce que tu reçois, et surtout la valeur que tu t'accordes à toi-même. Ce dernier point est souvent là où le Taureau trébuche, tu donnes plus que tu ne reçois, et tu appelles ça de la générosité alors que c'est parfois de la peur.
 
-Ce que les astres voient en ce moment : une opportunité matérielle ou affective qui frappe à ta porte, mais qui demande que tu sortes légèrement de ta zone de confort pour l'accueillir. Le Taureau aime la sécurité — c'est sa force. Mais ${isJour?"aujourd'hui":"cette semaine"}, la vraie sécurité vient de l'action, pas de l'immobilité. Quelque chose que tu possèdes — une compétence, une relation, un projet — mérite plus d'espace que tu ne lui en accordes actuellement.
+Ce que les astres voient en ce moment : une opportunité matérielle ou affective qui frappe à ta porte, mais qui demande que tu sortes légèrement de ta zone de confort pour l'accueillir. Le Taureau aime la sécurité, c'est sa force. Mais ${isJour?"aujourd'hui":"cette semaine"}, la vraie sécurité vient de l'action, pas de l'immobilité. Quelque chose que tu possèdes, une compétence, une relation, un projet, mérite plus d'espace que tu ne lui en accordes actuellement.
 
 Ton défi permanent est de distinguer la stabilité saine de la résistance au changement. ${isJour?"Ce jour":"Cette semaine"} te donne une occasion rare de voir clairement la différence.`,
-        amour: `En amour, Vénus ${isJour?"aujourd'hui":"cette semaine"} met en lumière un déséquilibre dans ta vie relationnelle — tu donnes peut-être plus que tu ne reçois, ou tu attends que l'autre fasse le premier pas depuis trop longtemps. Le Taureau a besoin de sécurité émotionnelle pour s'épanouir, mais cette sécurité ne vient pas de l'attente — elle se construit par l'expression honnête de ce dont tu as besoin. Si tu es en couple, dis ce que tu ressens vraiment ce soir. Si tu es célibataire, une rencontre dans un contexte habituel — pas extraordinaire — pourrait surprendre.`,
-        travail: `Sur le plan professionnel, ta fiabilité et ton sens du détail sont remarqués, même si personne ne le dit explicitement. Une reconnaissance ou une évolution est plus proche que tu ne le penses — mais elle demande que tu te manifestes plutôt que d'attendre qu'on vienne te chercher. Financièrement, c'est un bon moment pour réviser tes postes de dépenses et identifier un investissement à moyen terme qui correspond à tes valeurs.`,
-        sante: `Ton corps est le temple du Taureau — il aime la constance, les rituels, le plaisir sensoriel. L'élément Terre qui te gouverne te donne une robustesse naturelle, mais aussi une tendance à accumuler les tensions dans les zones musculaires. ${isJour?"Ce soir":"Cette semaine"}, prends soin de ton corps par le plaisir — un bon repas conscient, un massage, une longue marche dans la nature. C'est ta médecine.`,
-        conseil: `${prenom}, vous savez construire comme personne. Ce que vous avez entre les mains en ce moment vaut plus que vous ne l'estimez. Arrêtez de sous-évaluer ce que vous êtes capable de créer — et commencez aujourd'hui à lui donner l'espace qu'il mérite.`
+        amour: `En amour, Vénus ${isJour?"aujourd'hui":"cette semaine"} met en lumière un déséquilibre dans ta vie relationnelle, tu donnes peut-être plus que tu ne reçois, ou tu attends que l'autre fasse le premier pas depuis trop longtemps. Le Taureau a besoin de sécurité émotionnelle pour s'épanouir, mais cette sécurité ne vient pas de l'attente, elle se construit par l'expression honnête de ce dont tu as besoin. Si tu es en couple, dis ce que tu ressens vraiment ce soir. Si tu es célibataire, une rencontre dans un contexte habituel, pas extraordinaire, pourrait surprendre.`,
+        travail: `Sur le plan professionnel, ta fiabilité et ton sens du détail sont remarqués, même si personne ne le dit explicitement. Une reconnaissance ou une évolution est plus proche que tu ne le penses, mais elle demande que tu te manifestes plutôt que d'attendre qu'on vienne te chercher. Financièrement, c'est un bon moment pour réviser tes postes de dépenses et identifier un investissement à moyen terme qui correspond à tes valeurs.`,
+        sante: `Ton corps est le temple du Taureau, il aime la constance, les rituels, le plaisir sensoriel. L'élément Terre qui te gouverne te donne une robustesse naturelle, mais aussi une tendance à accumuler les tensions dans les zones musculaires. ${isJour?"Ce soir":"Cette semaine"}, prends soin de ton corps par le plaisir, un bon repas conscient, un massage, une longue marche dans la nature. C'est ta médecine.`,
+        conseil: `${prenom}, vous savez construire comme personne. Ce que vous avez entre les mains en ce moment vaut plus que vous ne l'estimez. Arrêtez de sous-évaluer ce que vous êtes capable de créer, et commencez aujourd'hui à lui donner l'espace qu'il mérite.`
       },
       'Gémeaux': {
-        texte: `${prenom}, le Gémeaux porte deux natures en lui — et cette dualité que tu vis de l'intérieur comme une instabilité est en réalité ta plus grande richesse. Tu vois les deux faces de chaque situation, tu peux habiter plusieurs univers mentaux simultanément, et tu t'adaptes là où les autres se bloquent. ${isJour?"Aujourd'hui":"Cette semaine"}, Mercure — ta planète — active particulièrement ta capacité de communication, mais aussi le risque de dispersion. Tu as mille idées et tu n'en finalises aucune. Ce schéma répétitif mérite ton attention maintenant.
+        texte: `${prenom}, le Gémeaux porte deux natures en lui, et cette dualité que tu vis de l'intérieur comme une instabilité est en réalité ta plus grande richesse. Tu vois les deux faces de chaque situation, tu peux habiter plusieurs univers mentaux simultanément, et tu t'adaptes là où les autres se bloquent. ${isJour?"Aujourd'hui":"Cette semaine"}, Mercure, ta planète, active particulièrement ta capacité de communication, mais aussi le risque de dispersion. Tu as mille idées et tu n'en finalises aucune. Ce schéma répétitif mérite ton attention maintenant.
 
-Ce que les astres voient clairement : une information ou une conversation ${isJour?"aujourd'hui":"cette semaine"} va changer ta perspective sur une situation que tu croyais figée. Reste attentif — cela viendra de là où tu ne l'attends pas. Ton intelligence est rapide et brillante, mais elle te joue parfois des tours : tu analyses tellement que tu retardes l'action. ${isJour?"Aujourd'hui":"Cette semaine"}, agis avant que ton mental trouve une raison d'attendre.
+Ce que les astres voient clairement : une information ou une conversation ${isJour?"aujourd'hui":"cette semaine"} va changer ta perspective sur une situation que tu croyais figée. Reste attentif, cela viendra de là où tu ne l'attends pas. Ton intelligence est rapide et brillante, mais elle te joue parfois des tours : tu analyses tellement que tu retardes l'action. ${isJour?"Aujourd'hui":"Cette semaine"}, agis avant que ton mental trouve une raison d'attendre.
 
-Ton ombre à intégrer : la peur de l'engagement, qui se déguise souvent en ouverture d'esprit. Garder toutes les options ouvertes n'est pas de la liberté — c'est parfois de la peur. ${isJour?"Ce jour":"Cette semaine"} te demande de choisir.`,
-        amour: `En amour, Mercure ${isJour?"aujourd'hui":"cette semaine"} favorise les conversations profondes — celles que tu remets souvent à plus tard parce que tu préfères la légèreté. Mais quelqu'un dans ta vie a besoin de savoir où tu en es vraiment. Ta brillance conversationnelle est un atout séducteur; ta capacité à écouter vraiment, sans déjà penser à ta prochaine réplique, est ce qui créera la connexion réelle dont tu as besoin.`,
-        travail: `Professionnellement, une opportunité multi-facettes arrive — exactement le type de défi qui nourrit le Gémeaux. Mais attention : ton enthousiasme initial peut épuiser tes collaborateurs si tu changes de direction trop vite. Cette semaine, choisis un cap et tiens-le jusqu'au bout. La constance, même courte, est ta discipline la plus puissante.`,
-        sante: `L'élément Air qui te gouverne rend ton système nerveux particulièrement réactif au stress mental. Tu accumules des tensions dans la tête — insomnies, pensées en boucle, difficulté à déconnecter. ${isJour?"Ce soir":"Cette semaine"}, donne à ton cerveau une vraie pause : marche sans téléphone, médite cinq minutes, lis un livre physique. Ton mental a besoin de silences pour se régénérer.`,
-        conseil: `${prenom}, vous avez le don de voir ce que les autres ne voient pas encore. Ce don ne sert à rien s'il reste dans votre tête. Choisissez une idée — une seule — et portez-la jusqu'à sa réalisation complète. C'est là que votre véritable puissance se révèle.`
+Ton ombre à intégrer : la peur de l'engagement, qui se déguise souvent en ouverture d'esprit. Garder toutes les options ouvertes n'est pas de la liberté, c'est parfois de la peur. ${isJour?"Ce jour":"Cette semaine"} te demande de choisir.`,
+        amour: `En amour, Mercure ${isJour?"aujourd'hui":"cette semaine"} favorise les conversations profondes, celles que tu remets souvent à plus tard parce que tu préfères la légèreté. Mais quelqu'un dans ta vie a besoin de savoir où tu en es vraiment. Ta brillance conversationnelle est un atout séducteur; ta capacité à écouter vraiment, sans déjà penser à ta prochaine réplique, est ce qui créera la connexion réelle dont tu as besoin.`,
+        travail: `Professionnellement, une opportunité multi-facettes arrive, exactement le type de défi qui nourrit le Gémeaux. Mais attention : ton enthousiasme initial peut épuiser tes collaborateurs si tu changes de direction trop vite. Cette semaine, choisis un cap et tiens-le jusqu'au bout. La constance, même courte, est ta discipline la plus puissante.`,
+        sante: `L'élément Air qui te gouverne rend ton système nerveux particulièrement réactif au stress mental. Tu accumules des tensions dans la tête, insomnies, pensées en boucle, difficulté à déconnecter. ${isJour?"Ce soir":"Cette semaine"}, donne à ton cerveau une vraie pause : marche sans téléphone, médite cinq minutes, lis un livre physique. Ton mental a besoin de silences pour se régénérer.`,
+        conseil: `${prenom}, vous avez le don de voir ce que les autres ne voient pas encore. Ce don ne sert à rien s'il reste dans votre tête. Choisissez une idée, une seule, et portez-la jusqu'à sa réalisation complète. C'est là que votre véritable puissance se révèle.`
       },
       'Cancer': {
-        texte: `${prenom}, le Cancer porte le monde émotionnel à fleur de peau — et c'est à la fois sa bénédiction et son épreuve. Tu ressens tout, parfois avant même que ça arrive, et cette hypersensibilité que tu as parfois voulu éteindre est en réalité ton sixième sens le plus précieux. ${isJour?"Aujourd'hui":"Cette semaine"}, la Lune — qui gouverne ton signe — crée des vagues émotionnelles intenses. Ce que tu ressens est réel. Ne le minimise pas, et ne le laisse pas non plus te submerger complètement.
+        texte: `${prenom}, le Cancer porte le monde émotionnel à fleur de peau, et c'est à la fois sa bénédiction et son épreuve. Tu ressens tout, parfois avant même que ça arrive, et cette hypersensibilité que tu as parfois voulu éteindre est en réalité ton sixième sens le plus précieux. ${isJour?"Aujourd'hui":"Cette semaine"}, la Lune, qui gouverne ton signe, crée des vagues émotionnelles intenses. Ce que tu ressens est réel. Ne le minimise pas, et ne le laisse pas non plus te submerger complètement.
 
-Ce que les astres voient : une situation familiale ou affective qui demande que tu poses tes limites avec amour mais avec clarté. Tu as tendance à absorber les émotions des autres comme une éponge, puis à t'épuiser à les gérer. ${isJour?"Aujourd'hui":"Cette semaine"}, apprends à rendre à chacun ce qui lui appartient. Ton job n'est pas de sauver tout le monde — et cette croyance te coûte énormément.
+Ce que les astres voient : une situation familiale ou affective qui demande que tu poses tes limites avec amour mais avec clarté. Tu as tendance à absorber les émotions des autres comme une éponge, puis à t'épuiser à les gérer. ${isJour?"Aujourd'hui":"Cette semaine"}, apprends à rendre à chacun ce qui lui appartient. Ton job n'est pas de sauver tout le monde, et cette croyance te coûte énormément.
 
-Ton ombre : l'attachement aux douleurs passées qui t'empêche de voir pleinement le présent. Le Cancer a une mémoire émotionnelle prodigieuse — ce qui lui permet d'une profonde empathie, mais aussi de revivre des blessures qui mériteraient d'être lâchées.`,
-        amour: `En amour, la Lune ${isJour?"aujourd'hui":"cette semaine"} amplifie ton besoin de connexion authentique et de sécurité. Si tu es en couple, une blessure ancienne ressurgit sous une nouvelle forme — traite-la maintenant plutôt que de la laisser s'enkyster. Si tu es célibataire, quelqu'un de ton passé refait peut-être surface : demande-toi si c'est la nostalgie qui parle ou quelque chose de réellement possible.`,
-        travail: `Professionnellement, ton intuition est ton meilleur outil de travail ${isJour?"aujourd'hui":"cette semaine"} — fais confiance à tes premières impressions sur une situation ou une personne, même si tu ne peux pas encore les justifier rationnellement. Tu lis les gens et les atmosphères avec une précision remarquable. Sur le plan financier, protège ce que tu as construit — ce n'est pas le moment de risquer.`,
-        sante: `L'élément Eau te rend particulièrement sensible aux influences extérieures — environnement, personnes, lieux. ${isJour?"Ce soir":"Cette semaine"}, accorde-toi du temps seul dans un espace qui te ressource : un bain, la nature, ta musique préférée dans le silence. Ton corps récupère mieux dans la douceur que dans l'effort forcé.`,
-        conseil: `${prenom}, votre sensibilité n'est pas un défaut à corriger — c'est le radar le plus précis qui soit. Apprenez aujourd'hui à la protéger sans la fermer. Posez une limite bienveillante là où vous vous laissez épuiser, et observez comme votre énergie revient.`
+Ton ombre : l'attachement aux douleurs passées qui t'empêche de voir pleinement le présent. Le Cancer a une mémoire émotionnelle prodigieuse, ce qui lui permet d'une profonde empathie, mais aussi de revivre des blessures qui mériteraient d'être lâchées.`,
+        amour: `En amour, la Lune ${isJour?"aujourd'hui":"cette semaine"} amplifie ton besoin de connexion authentique et de sécurité. Si tu es en couple, une blessure ancienne ressurgit sous une nouvelle forme, traite-la maintenant plutôt que de la laisser s'enkyster. Si tu es célibataire, quelqu'un de ton passé refait peut-être surface : demande-toi si c'est la nostalgie qui parle ou quelque chose de réellement possible.`,
+        travail: `Professionnellement, ton intuition est ton meilleur outil de travail ${isJour?"aujourd'hui":"cette semaine"}, fais confiance à tes premières impressions sur une situation ou une personne, même si tu ne peux pas encore les justifier rationnellement. Tu lis les gens et les atmosphères avec une précision remarquable. Sur le plan financier, protège ce que tu as construit, ce n'est pas le moment de risquer.`,
+        sante: `L'élément Eau te rend particulièrement sensible aux influences extérieures, environnement, personnes, lieux. ${isJour?"Ce soir":"Cette semaine"}, accorde-toi du temps seul dans un espace qui te ressource : un bain, la nature, ta musique préférée dans le silence. Ton corps récupère mieux dans la douceur que dans l'effort forcé.`,
+        conseil: `${prenom}, votre sensibilité n'est pas un défaut à corriger, c'est le radar le plus précis qui soit. Apprenez aujourd'hui à la protéger sans la fermer. Posez une limite bienveillante là où vous vous laissez épuiser, et observez comme votre énergie revient.`
       },
       'Lion': {
-        texte: `${prenom}, le Lion rayonne — c'est sa nature profonde, pas de la vanité. Tu as un besoin légitime d'être vu, reconnu, apprécié pour ce que tu apportes vraiment, et ce besoin n'est pas une faiblesse tant qu'il ne dicte pas toutes tes décisions. ${isJour?"Aujourd'hui":"Cette semaine"}, le Soleil — ton astre gouvernant — illumine ta créativité et ta capacité à inspirer les autres. Quelque chose que tu portais en toi depuis longtemps cherche à s'exprimer. Donne-lui l'espace.
+        texte: `${prenom}, le Lion rayonne, c'est sa nature profonde, pas de la vanité. Tu as un besoin légitime d'être vu, reconnu, apprécié pour ce que tu apportes vraiment, et ce besoin n'est pas une faiblesse tant qu'il ne dicte pas toutes tes décisions. ${isJour?"Aujourd'hui":"Cette semaine"}, le Soleil, ton astre gouvernant, illumine ta créativité et ta capacité à inspirer les autres. Quelque chose que tu portais en toi depuis longtemps cherche à s'exprimer. Donne-lui l'espace.
 
-Ce que les astres voient : une opportunité de te mettre en avant, de prendre de la place là où tu t'es parfois retenu par peur du jugement. Le Lion qui se cache est un Lion qui souffre. ${isJour?"Aujourd'hui":"Cette semaine"}, ose montrer ta vraie grandeur — pas pour impressionner, mais parce que ce que tu as à offrir est réel et nécessaire.
+Ce que les astres voient : une opportunité de te mettre en avant, de prendre de la place là où tu t'es parfois retenu par peur du jugement. Le Lion qui se cache est un Lion qui souffre. ${isJour?"Aujourd'hui":"Cette semaine"}, ose montrer ta vraie grandeur, pas pour impressionner, mais parce que ce que tu as à offrir est réel et nécessaire.
 
-Ton ombre à intégrer : le besoin d'approbation qui peut te pousser à jouer un rôle plutôt qu'à être toi-même. La vraie confiance du Lion ne dépend pas du regard des autres — elle vient de l'intérieur. C'est là que tu en es actuellement, et c'est le bon moment pour y travailler.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Lion a besoin d'admiration mutuelle — pas de soumission, mais de reconnaissance réciproque. Si ton partenaire ou les personnes proches ne te voient pas pleinement, dis-le. Tu mérites une relation où ta lumière est une force, pas une menace. Si tu es célibataire, ta présence naturelle attire déjà — arrête de la modérer pour ne pas paraître trop.`,
-        travail: `Professionnellement, ton moment de briller arrive ${isJour?"aujourd'hui":"cette semaine"} — saisit-il ? Une présentation, une réunion, une interaction peut devenir le tournant que tu attendais. Prépare-toi non pas pour montrer que tu es bon, mais pour apporter quelque chose de concret. La générosité professionnelle est ton arme secrète.`,
-        sante: `L'élément Feu te donne une vitalité exceptionnelle mais aussi un coeur — au sens littéral — qui fonctionne à plein régime. Prends soin de toi par la joie : ris, crée, joue. Ce n'est pas du temps perdu — c'est ta médecine essentielle ${isJour?"ce soir":"cette semaine"}.`,
-        conseil: `${prenom}, vous n'avez pas besoin de la permission des autres pour briller. Vous l'avez attendue trop longtemps. Ce que vous portez en vous mérite d'être exprimé maintenant — pleinement, sans excuse.`
+Ton ombre à intégrer : le besoin d'approbation qui peut te pousser à jouer un rôle plutôt qu'à être toi-même. La vraie confiance du Lion ne dépend pas du regard des autres, elle vient de l'intérieur. C'est là que tu en es actuellement, et c'est le bon moment pour y travailler.`,
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Lion a besoin d'admiration mutuelle, pas de soumission, mais de reconnaissance réciproque. Si ton partenaire ou les personnes proches ne te voient pas pleinement, dis-le. Tu mérites une relation où ta lumière est une force, pas une menace. Si tu es célibataire, ta présence naturelle attire déjà, arrête de la modérer pour ne pas paraître trop.`,
+        travail: `Professionnellement, ton moment de briller arrive ${isJour?"aujourd'hui":"cette semaine"}, saisit-il ? Une présentation, une réunion, une interaction peut devenir le tournant que tu attendais. Prépare-toi non pas pour montrer que tu es bon, mais pour apporter quelque chose de concret. La générosité professionnelle est ton arme secrète.`,
+        sante: `L'élément Feu te donne une vitalité exceptionnelle mais aussi un coeur, au sens littéral, qui fonctionne à plein régime. Prends soin de toi par la joie : ris, crée, joue. Ce n'est pas du temps perdu, c'est ta médecine essentielle ${isJour?"ce soir":"cette semaine"}.`,
+        conseil: `${prenom}, vous n'avez pas besoin de la permission des autres pour briller. Vous l'avez attendue trop longtemps. Ce que vous portez en vous mérite d'être exprimé maintenant, pleinement, sans excuse.`
       },
       'Vierge': {
-        texte: `${prenom}, la Vierge voit ce que personne d'autre ne voit — les détails, les incohérences, les angles morts des situations. C'est un don rare qui te rend précieux dans presque tous les contextes. Mais ce même don, mal orienté, se retourne contre toi : tu analyses tellement ta propre vie que tu retardes les décisions qui changeraient tout. ${isJour?"Aujourd'hui":"Cette semaine"}, Mercure — ta planète — t'invite à faire confiance à ton analyse une fois terminée, et à passer à l'action.
+        texte: `${prenom}, la Vierge voit ce que personne d'autre ne voit, les détails, les incohérences, les angles morts des situations. C'est un don rare qui te rend précieux dans presque tous les contextes. Mais ce même don, mal orienté, se retourne contre toi : tu analyses tellement ta propre vie que tu retardes les décisions qui changeraient tout. ${isJour?"Aujourd'hui":"Cette semaine"}, Mercure, ta planète, t'invite à faire confiance à ton analyse une fois terminée, et à passer à l'action.
 
-Ce que les astres voient : un projet ou une situation que tu considères "pas encore assez prête" est en réalité prête. Le perfectionnisme de la Vierge est une qualité qui devient un obstacle quand il vise la paralysie plutôt que l'excellence. ${isJour?"Aujourd'hui":"Cette semaine"}, lance-toi avec ce que tu as — c'est suffisant.
+Ce que les astres voient : un projet ou une situation que tu considères "pas encore assez prête" est en réalité prête. Le perfectionnisme de la Vierge est une qualité qui devient un obstacle quand il vise la paralysie plutôt que l'excellence. ${isJour?"Aujourd'hui":"Cette semaine"}, lance-toi avec ce que tu as, c'est suffisant.
 
 Ton ombre à travailler : la critique intérieure incessante qui s'applique aussi bien à toi qu'aux autres. Tu demandes à la réalité d'être à la hauteur d'un standard que tu n'atteins toi-même jamais complètement. Cette bienveillance que tu offres aux autres, tu dois commencer à te l'appliquer.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, la Vierge peut bloquer la connexion profonde en cherchant la relation parfaite plutôt qu'une relation vraie. Si tu es en couple, lâche un reproche que tu portes depuis trop longtemps — pas parce qu'il est injustifié, mais parce qu'il pèse plus lourd sur toi que sur l'autre. Si tu es célibataire, quelqu'un d'imparfait — comme tout le monde — t'intéresse peut-être plus que tu ne veux l'admettre.`,
-        travail: `Professionnellement, ta rigueur et ton souci du détail sont irremplaçables ${isJour?"aujourd'hui":"cette semaine"}. Mais n'oublie pas de communiquer tes analyses — garder tes observations pour toi est une forme de retenue qui te nuit. Parle. Propose. Ton discernement est ce dont ton équipe ou ton projet a le plus besoin en ce moment.`,
-        sante: `L'élément Terre te relie à la matérialité du corps — la Vierge ressent souvent ses tensions mentales dans l'appareil digestif. ${isJour?"Ce soir":"Cette semaine"}, sois attentif à ce que tu manges, non pas par restriction, mais par plaisir conscient. Un rituel de soin simple — une tisane, un journal, dix minutes de marche — est plus puissant qu'une longue routine complexe.`,
-        conseil: `${prenom}, votre analyse du monde est juste. Votre plus grand défi est d'en faire autant avec votre propre valeur. Aujourd'hui, reconnaissez une chose que vous faites vraiment bien — sans nuance, sans "mais". Commencez là.`
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, la Vierge peut bloquer la connexion profonde en cherchant la relation parfaite plutôt qu'une relation vraie. Si tu es en couple, lâche un reproche que tu portes depuis trop longtemps, pas parce qu'il est injustifié, mais parce qu'il pèse plus lourd sur toi que sur l'autre. Si tu es célibataire, quelqu'un d'imparfait, comme tout le monde, t'intéresse peut-être plus que tu ne veux l'admettre.`,
+        travail: `Professionnellement, ta rigueur et ton souci du détail sont irremplaçables ${isJour?"aujourd'hui":"cette semaine"}. Mais n'oublie pas de communiquer tes analyses, garder tes observations pour toi est une forme de retenue qui te nuit. Parle. Propose. Ton discernement est ce dont ton équipe ou ton projet a le plus besoin en ce moment.`,
+        sante: `L'élément Terre te relie à la matérialité du corps, la Vierge ressent souvent ses tensions mentales dans l'appareil digestif. ${isJour?"Ce soir":"Cette semaine"}, sois attentif à ce que tu manges, non pas par restriction, mais par plaisir conscient. Un rituel de soin simple, une tisane, un journal, dix minutes de marche, est plus puissant qu'une longue routine complexe.`,
+        conseil: `${prenom}, votre analyse du monde est juste. Votre plus grand défi est d'en faire autant avec votre propre valeur. Aujourd'hui, reconnaissez une chose que vous faites vraiment bien, sans nuance, sans "mais". Commencez là.`
       },
       'Balance': {
-        texte: `${prenom}, la Balance cherche l'harmonie dans tout — et cette quête est à la fois ta plus belle qualité et ta plus lourde épreuve. Tu vois naturellement tous les côtés de chaque situation, ce qui te rend un juge remarquable et un être profondément équitable. Mais cette même capacité peut te laisser suspendu entre deux choix sans jamais trancher, en attendant que la décision parfaite s'impose d'elle-même. ${isJour?"Aujourd'hui":"Cette semaine"}, Vénus — ta planète — t'invite à choisir malgré l'imperfection, et à découvrir que l'harmonie n'est pas l'absence de tension — c'est une tension maintenue avec grâce.
+        texte: `${prenom}, la Balance cherche l'harmonie dans tout, et cette quête est à la fois ta plus belle qualité et ta plus lourde épreuve. Tu vois naturellement tous les côtés de chaque situation, ce qui te rend un juge remarquable et un être profondément équitable. Mais cette même capacité peut te laisser suspendu entre deux choix sans jamais trancher, en attendant que la décision parfaite s'impose d'elle-même. ${isJour?"Aujourd'hui":"Cette semaine"}, Vénus, ta planète, t'invite à choisir malgré l'imperfection, et à découvrir que l'harmonie n'est pas l'absence de tension, c'est une tension maintenue avec grâce.
 
-Ce que les astres voient : une décision que tu remets depuis trop longtemps est en train de se prendre sans toi si tu n'agis pas. Le coût de l'indécision est toujours plus élevé que le coût d'une décision imparfaite. ${isJour?"Aujourd'hui":"Cette semaine"}, choisis — et fais confiance à ton sens inné de l'équilibre pour ajuster ensuite.
+Ce que les astres voient : une décision que tu remets depuis trop longtemps est en train de se prendre sans toi si tu n'agis pas. Le coût de l'indécision est toujours plus élevé que le coût d'une décision imparfaite. ${isJour?"Aujourd'hui":"Cette semaine"}, choisis, et fais confiance à ton sens inné de l'équilibre pour ajuster ensuite.
 
 Ton ombre la plus subtile : plaire à tout le monde pour éviter tout conflit, et y perdre ta propre direction. La Balance qui ne déçoit jamais personne est une Balance qui se déçoit elle-même en silence.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, Vénus amplifie ton désir de connexion et de beauté relationnelle. Si tu es en couple, un déséquilibre dans le rapport de donner/recevoir est visible — dis-le avec la douceur qui te caractérise, mais dis-le vraiment. Si tu es célibataire, tu attires facilement — c'est ton charme naturel. Le défi est de laisser quelqu'un te voir vraiment, pas seulement la version harmonieuse que tu présentes.`,
-        travail: `Professionnellement, ta capacité à créer de la cohésion et à voir des angles de négociation que personne d'autre ne perçoit est ta valeur ajoutée unique ${isJour?"aujourd'hui":"cette semaine"}. Une situation conflictuelle dans ton environnement professionnel appelle ta médiation — mais fixe d'abord ta position avant d'essayer de réconcilier les autres.`,
-        sante: `L'élément Air te donne un esprit vif mais aussi une sensibilité aux déséquilibres — rénaux, hormonaux, ou simplement dans ton rythme de vie. ${isJour?"Ce soir":"Cette semaine"}, cherche l'équilibre concret : sommeil régulier, repas à heures fixes, un espace pour toi seul sans obligations sociales.`,
-        conseil: `${prenom}, l'harmonie que vous cherchez à l'extérieur commence toujours à l'intérieur. Prenez une décision aujourd'hui — imparfaite, humaine, réelle. Le soulagement que vous ressentirez vous montrera que vous étiez prêt depuis longtemps.`
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, Vénus amplifie ton désir de connexion et de beauté relationnelle. Si tu es en couple, un déséquilibre dans le rapport de donner/recevoir est visible, dis-le avec la douceur qui te caractérise, mais dis-le vraiment. Si tu es célibataire, tu attires facilement, c'est ton charme naturel. Le défi est de laisser quelqu'un te voir vraiment, pas seulement la version harmonieuse que tu présentes.`,
+        travail: `Professionnellement, ta capacité à créer de la cohésion et à voir des angles de négociation que personne d'autre ne perçoit est ta valeur ajoutée unique ${isJour?"aujourd'hui":"cette semaine"}. Une situation conflictuelle dans ton environnement professionnel appelle ta médiation, mais fixe d'abord ta position avant d'essayer de réconcilier les autres.`,
+        sante: `L'élément Air te donne un esprit vif mais aussi une sensibilité aux déséquilibres, rénaux, hormonaux, ou simplement dans ton rythme de vie. ${isJour?"Ce soir":"Cette semaine"}, cherche l'équilibre concret : sommeil régulier, repas à heures fixes, un espace pour toi seul sans obligations sociales.`,
+        conseil: `${prenom}, l'harmonie que vous cherchez à l'extérieur commence toujours à l'intérieur. Prenez une décision aujourd'hui, imparfaite, humaine, réelle. Le soulagement que vous ressentirez vous montrera que vous étiez prêt depuis longtemps.`
       },
       'Scorpion': {
-        texte: `${prenom}, le Scorpion vit dans les profondeurs — et il n'est pas confortable de s'y trouver, mais c'est là que se cachent les vérités que les autres refusent de regarder. Tu as une capacité rare à voir à travers les masques, les mensonges et les faux-semblants, et cette perception te protège autant qu'elle t'isole parfois. ${isJour?"Aujourd'hui":"Cette semaine"}, Pluton — ta planète — active une transformation profonde dans un domaine que tu pensais avoir maîtrisé. Ce n'est pas une crise — c'est une mue.
+        texte: `${prenom}, le Scorpion vit dans les profondeurs, et il n'est pas confortable de s'y trouver, mais c'est là que se cachent les vérités que les autres refusent de regarder. Tu as une capacité rare à voir à travers les masques, les mensonges et les faux-semblants, et cette perception te protège autant qu'elle t'isole parfois. ${isJour?"Aujourd'hui":"Cette semaine"}, Pluton, ta planète, active une transformation profonde dans un domaine que tu pensais avoir maîtrisé. Ce n'est pas une crise, c'est une mue.
 
-Ce que les astres voient : quelque chose doit finir pour que quelque chose de meilleur puisse commencer. Le Scorpion sait mieux que quiconque que toute renaissance nécessite une mort symbolique. Ce que tu dois lâcher en ce moment — une relation, une croyance, un statut quo — te retient plus qu'il ne te protège. Tu le sais déjà. La question est : vas-tu agir ou continuer à différer ?
+Ce que les astres voient : quelque chose doit finir pour que quelque chose de meilleur puisse commencer. Le Scorpion sait mieux que quiconque que toute renaissance nécessite une mort symbolique. Ce que tu dois lâcher en ce moment, une relation, une croyance, un statut quo, te retient plus qu'il ne te protège. Tu le sais déjà. La question est : vas-tu agir ou continuer à différer ?
 
-Ton ombre la plus puissante : le désir de contrôle qui naît de la peur d'être trahi. Tu testes les gens avant de leur faire confiance — et parfois tu les pousses à partir pour confirmer ta croyance qu'ils allaient le faire de toute façon.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Scorpion veut tout ou rien — et ce tout peut être intimidant pour ceux qui ne sont pas prêts à plonger dans les profondeurs. Si tu es en couple, une vérité non dite entre vous deux crée une distance qui grossit en silence. Dis-la — avec toute ta puissance et ta vulnérabilité simultanées. Si tu es célibataire, quelqu'un d'intense et de vrai cherche exactement ce que tu es.`,
-        travail: `Professionnellement, ton instinct est un outil d'une précision redoutable ${isJour?"aujourd'hui":"cette semaine"}. Si quelque chose te semble faux dans une situation ou chez une personne, creuse — tu as probablement raison. Une opportunité stratégique se présente, peut-être camouflée sous une forme ordinaire. Regarde sous la surface.`,
-        sante: `L'élément Eau gouverne ton monde émotionnel intense. Le Scorpion porte souvent des tensions dans les organes d'élimination — côlon, reins, peau. ${isJour?"Ce soir":"Cette semaine"}, l'exercice physique intense est ta purification la plus efficace : court, transpire, épuise ton corps pour libérer ce que ton esprit accumule.`,
-        conseil: `${prenom}, vous avez survécu à des choses que la plupart n'auraient pas supporté. Cette force est réelle. Maintenant, utilisez-la non pour vous protéger, mais pour construire. Ce que vous voulez vraiment — osez l'admettre et allez le chercher.`
+Ton ombre la plus puissante : le désir de contrôle qui naît de la peur d'être trahi. Tu testes les gens avant de leur faire confiance, et parfois tu les pousses à partir pour confirmer ta croyance qu'ils allaient le faire de toute façon.`,
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Scorpion veut tout ou rien, et ce tout peut être intimidant pour ceux qui ne sont pas prêts à plonger dans les profondeurs. Si tu es en couple, une vérité non dite entre vous deux crée une distance qui grossit en silence. Dis-la, avec toute ta puissance et ta vulnérabilité simultanées. Si tu es célibataire, quelqu'un d'intense et de vrai cherche exactement ce que tu es.`,
+        travail: `Professionnellement, ton instinct est un outil d'une précision redoutable ${isJour?"aujourd'hui":"cette semaine"}. Si quelque chose te semble faux dans une situation ou chez une personne, creuse, tu as probablement raison. Une opportunité stratégique se présente, peut-être camouflée sous une forme ordinaire. Regarde sous la surface.`,
+        sante: `L'élément Eau gouverne ton monde émotionnel intense. Le Scorpion porte souvent des tensions dans les organes d'élimination, côlon, reins, peau. ${isJour?"Ce soir":"Cette semaine"}, l'exercice physique intense est ta purification la plus efficace : court, transpire, épuise ton corps pour libérer ce que ton esprit accumule.`,
+        conseil: `${prenom}, vous avez survécu à des choses que la plupart n'auraient pas supporté. Cette force est réelle. Maintenant, utilisez-la non pour vous protéger, mais pour construire. Ce que vous voulez vraiment, osez l'admettre et allez le chercher.`
       },
       'Sagittaire': {
-        texte: `${prenom}, le Sagittaire porte en lui une flamme que rien n'éteint vraiment — ce besoin irrépressible de sens, d'expansion, de vérité plus grande que le quotidien. Tu n'es pas fait pour les horizons étroits, et quand tu te sens enfermé — géographiquement, intellectuellement, relationnellement — tu deviens une version appauvrie de toi-même. ${isJour?"Aujourd'hui":"Cette semaine"}, Jupiter — ta planète — ouvre une porte vers quelque chose de plus grand que ce que tu t'autorises à espérer. Ose vouloir vraiment.
+        texte: `${prenom}, le Sagittaire porte en lui une flamme que rien n'éteint vraiment, ce besoin irrépressible de sens, d'expansion, de vérité plus grande que le quotidien. Tu n'es pas fait pour les horizons étroits, et quand tu te sens enfermé, géographiquement, intellectuellement, relationnellement, tu deviens une version appauvrie de toi-même. ${isJour?"Aujourd'hui":"Cette semaine"}, Jupiter, ta planète, ouvre une porte vers quelque chose de plus grand que ce que tu t'autorises à espérer. Ose vouloir vraiment.
 
-Ce que les astres voient : une opportunité d'expansion — un voyage, une formation, une rencontre, un projet — qui demande que tu sautes avant d'avoir toutes les réponses. Le Sagittaire apprend toujours en faisant, jamais en attendant que tout soit parfait. ${isJour?"Aujourd'hui":"Cette semaine"}, ta philosophie de vie est mise à l'épreuve : est-ce que tu crois vraiment en ce que tu dis, ou est-ce que tu le prêches pour les autres ?
+Ce que les astres voient : une opportunité d'expansion, un voyage, une formation, une rencontre, un projet, qui demande que tu sautes avant d'avoir toutes les réponses. Le Sagittaire apprend toujours en faisant, jamais en attendant que tout soit parfait. ${isJour?"Aujourd'hui":"Cette semaine"}, ta philosophie de vie est mise à l'épreuve : est-ce que tu crois vraiment en ce que tu dis, ou est-ce que tu le prêches pour les autres ?
 
 Ton ombre : l'excès d'optimisme qui peut devenir de l'irresponsabilité, et la fuite vers l'horizon pour éviter de regarder ce qui est incomplet ici et maintenant.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Sagittaire a besoin d'espace et d'aventure partagée. Si tu es en couple, proposez quelque chose de nouveau ensemble — même petit — pour raviver l'élan. Si tu es célibataire, quelqu'un qui partage ta vision du monde et non pas seulement ta routine quotidienne est ce dont tu as besoin. Ne te contente pas de moins.`,
-        travail: `Professionnellement, Jupiter ${isJour?"aujourd'hui":"cette semaine"} favorise les connexions internationales, les projets visionnaires et les opportunités qui semblent trop belles — vérifies-les, mais n'écarte pas d'office ce qui semble grand. Ton enthousiasme naturel est contagieux et peut emporter une équipe vers quelque chose de remarquable.`,
-        sante: `L'élément Feu te donne une énergie mobile — le Sagittaire a besoin de mouvement physique et mental pour rester équilibré. La sédentarité te plombe littéralement. ${isJour?"Ce soir":"Cette semaine"}, bouge dans la nature si possible — marche, cours, fais du vélo. Et attention aux excès alimentaires qui accompagnent souvent ton enthousiasme de vivre.`,
-        conseil: `${prenom}, votre prochaine grande aventure n'est pas à l'autre bout du monde — elle commence dans la décision que vous repoussez depuis des semaines. Prenez-la aujourd'hui. L'horizon que vous cherchez est de l'autre côté de ce choix.`
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Sagittaire a besoin d'espace et d'aventure partagée. Si tu es en couple, proposez quelque chose de nouveau ensemble, même petit, pour raviver l'élan. Si tu es célibataire, quelqu'un qui partage ta vision du monde et non pas seulement ta routine quotidienne est ce dont tu as besoin. Ne te contente pas de moins.`,
+        travail: `Professionnellement, Jupiter ${isJour?"aujourd'hui":"cette semaine"} favorise les connexions internationales, les projets visionnaires et les opportunités qui semblent trop belles, vérifies-les, mais n'écarte pas d'office ce qui semble grand. Ton enthousiasme naturel est contagieux et peut emporter une équipe vers quelque chose de remarquable.`,
+        sante: `L'élément Feu te donne une énergie mobile, le Sagittaire a besoin de mouvement physique et mental pour rester équilibré. La sédentarité te plombe littéralement. ${isJour?"Ce soir":"Cette semaine"}, bouge dans la nature si possible, marche, cours, fais du vélo. Et attention aux excès alimentaires qui accompagnent souvent ton enthousiasme de vivre.`,
+        conseil: `${prenom}, votre prochaine grande aventure n'est pas à l'autre bout du monde, elle commence dans la décision que vous repoussez depuis des semaines. Prenez-la aujourd'hui. L'horizon que vous cherchez est de l'autre côté de ce choix.`
       },
       'Capricorne': {
-        texte: `${prenom}, le Capricorne construit — méthodiquement, patiemment, avec une vision à long terme que peu de gens comprennent vraiment. Tu travailles pendant que les autres dorment, tu planifies pendant que les autres improvisent, et tu atteins tes objectifs avec une régularité qui ressemble parfois à de l'entêtement. ${isJour?"Aujourd'hui":"Cette semaine"}, Saturne — ta planète — met en lumière non pas ce que tu construis, mais pourquoi tu le construis. La question est importante : est-ce pour toi, ou pour une image de toi-même que tu cherches à imposer au monde ?
+        texte: `${prenom}, le Capricorne construit, méthodiquement, patiemment, avec une vision à long terme que peu de gens comprennent vraiment. Tu travailles pendant que les autres dorment, tu planifies pendant que les autres improvisent, et tu atteins tes objectifs avec une régularité qui ressemble parfois à de l'entêtement. ${isJour?"Aujourd'hui":"Cette semaine"}, Saturne, ta planète, met en lumière non pas ce que tu construis, mais pourquoi tu le construis. La question est importante : est-ce pour toi, ou pour une image de toi-même que tu cherches à imposer au monde ?
 
-Ce que les astres voient : une période de consolidation importante. Tu as posé des fondations solides — maintenant, il s'agit de vérifier que ce que tu as construit correspond vraiment à ce que tu veux, pas seulement à ce que tu pensais devoir vouloir. Un recalibrage de tes priorités s'impose ${isJour?"aujourd'hui":"cette semaine"}.
+Ce que les astres voient : une période de consolidation importante. Tu as posé des fondations solides, maintenant, il s'agit de vérifier que ce que tu as construit correspond vraiment à ce que tu veux, pas seulement à ce que tu pensais devoir vouloir. Un recalibrage de tes priorités s'impose ${isJour?"aujourd'hui":"cette semaine"}.
 
 Ton ombre la plus lourde : la difficulté à recevoir, à te reposer, à te permettre d'être vulnérable. Tu t'es construit une armure de compétence et de responsabilité. Cette armure te protège, mais elle empêche aussi la vraie intimité.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Capricorne doit apprendre à lâcher le contrôle pour laisser entrer la tendresse. Si tu es en couple, ton partenaire a besoin de toi — pas de tes compétences ou de ta gestion, mais de ta présence émotionnelle simple et sans agenda. Accorde-la. Si tu es célibataire, quelqu'un qui t'admire depuis longtemps sans te le dire attend un signe de ta part.`,
-        travail: `Professionnellement, Saturne récompense ${isJour?"aujourd'hui":"cette semaine"} le travail sérieux et l'intégrité. Une responsabilité supplémentaire pourrait t'être proposée — évalue-la non pas selon ta capacité à l'assumer (tu peux toujours) mais selon ton désir réel de le faire. Ta valeur n'est pas proportionnelle à ta charge de travail.`,
-        sante: `L'élément Terre te donne une résistance physique remarquable, mais aussi une tendance à ignorer la fatigue jusqu'à l'épuisement. Tes articulations et tes os — zones Capricorne — méritent une attention particulière ${isJour?"ce soir":"cette semaine"}. Prends soin de toi avec la même rigueur que tu appliques à tes projets.`,
-        conseil: `${prenom}, vous avez prouvé que vous pouvez tout gérer seul. Maintenant, prouvez-vous que vous savez demander de l'aide — et la recevoir. C'est là votre véritable prochaine étape.`
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Capricorne doit apprendre à lâcher le contrôle pour laisser entrer la tendresse. Si tu es en couple, ton partenaire a besoin de toi, pas de tes compétences ou de ta gestion, mais de ta présence émotionnelle simple et sans agenda. Accorde-la. Si tu es célibataire, quelqu'un qui t'admire depuis longtemps sans te le dire attend un signe de ta part.`,
+        travail: `Professionnellement, Saturne récompense ${isJour?"aujourd'hui":"cette semaine"} le travail sérieux et l'intégrité. Une responsabilité supplémentaire pourrait t'être proposée, évalue-la non pas selon ta capacité à l'assumer (tu peux toujours) mais selon ton désir réel de le faire. Ta valeur n'est pas proportionnelle à ta charge de travail.`,
+        sante: `L'élément Terre te donne une résistance physique remarquable, mais aussi une tendance à ignorer la fatigue jusqu'à l'épuisement. Tes articulations et tes os, zones Capricorne, méritent une attention particulière ${isJour?"ce soir":"cette semaine"}. Prends soin de toi avec la même rigueur que tu appliques à tes projets.`,
+        conseil: `${prenom}, vous avez prouvé que vous pouvez tout gérer seul. Maintenant, prouvez-vous que vous savez demander de l'aide, et la recevoir. C'est là votre véritable prochaine étape.`
       },
       'Verseau': {
-        texte: `${prenom}, le Verseau vit dans l'avenir — il pense, ressent et perçoit ce qui n'existe pas encore, et cette qualité visionnaire le rend à la fois fascinant et déconcertant pour ceux qui le côtoient. Tu comprends des connexions que personne d'autre ne voit, tu as des intuitions sur des tendances qui se confirmeront des mois plus tard, et tu ressens souvent une solitude étrange — non pas parce que tu n'as pas de liens, mais parce que peu de gens habitent vraiment le même espace mental que toi. ${isJour?"Aujourd'hui":"Cette semaine"}, Uranus — ta planète — accélère une transformation dans ta vie sociale ou créative que tu ne peux plus éviter.
+        texte: `${prenom}, le Verseau vit dans l'avenir, il pense, ressent et perçoit ce qui n'existe pas encore, et cette qualité visionnaire le rend à la fois fascinant et déconcertant pour ceux qui le côtoient. Tu comprends des connexions que personne d'autre ne voit, tu as des intuitions sur des tendances qui se confirmeront des mois plus tard, et tu ressens souvent une solitude étrange, non pas parce que tu n'as pas de liens, mais parce que peu de gens habitent vraiment le même espace mental que toi. ${isJour?"Aujourd'hui":"Cette semaine"}, Uranus, ta planète, accélère une transformation dans ta vie sociale ou créative que tu ne peux plus éviter.
 
-Ce que les astres voient : quelque chose d'inattendu arrive — une rencontre, une information, un retournement de situation. Le Verseau est l'enfant des surprises; son destin est rarement linéaire. ${isJour?"Aujourd'hui":"Cette semaine"}, accueille le changement plutôt que de l'analyser avant qu'il soit même arrivé.
+Ce que les astres voient : quelque chose d'inattendu arrive, une rencontre, une information, un retournement de situation. Le Verseau est l'enfant des surprises; son destin est rarement linéaire. ${isJour?"Aujourd'hui":"Cette semaine"}, accueille le changement plutôt que de l'analyser avant qu'il soit même arrivé.
 
-Ton ombre : la distance émotionnelle qui protège ton espace intérieur mais crée parfois un désert relationnel autour de toi. Tu aimsais l'humanité en général — et parfois tu évites les humains en particulier.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Verseau a besoin d'une liberté que peu de partenaires comprennent instinctivement. Si tu es en couple, une conversation honnête sur vos besoins respectifs d'indépendance pourrait désamorcer une tension qui s'accumule silencieusement. Si tu es célibataire, quelqu'un d'original — qui sort vraiment du moule — est en train d'entrer dans ton champ de vie.`,
-        travail: `Professionnellement, tes idées innovantes ont besoin d'alliés pour se concrétiser ${isJour?"aujourd'hui":"cette semaine"}. Trouve la personne qui peut porter ta vision dans les structures que tu détestes — cette collaboration est ce qui manque à la plupart de tes projets. Ton génie a besoin d'un ancrage.`,
-        sante: `L'élément Air active ton mental en permanence — parfois trop. Le Verseau souffre souvent d'insomnie ou de surinvestissement mental au détriment du corps. ${isJour?"Ce soir":"Cette semaine"}, reconnecte-toi à ta réalité physique : sport, danse, yoga — quelque chose qui te fait habiter ton corps pleinement.`,
-        conseil: `${prenom}, votre vision est juste. Ce qui lui manque, ce n'est pas d'être affinée davantage — c'est d'être partagée. Trouvez aujourd'hui une personne à qui vous pouvez confier ce que vous portez vraiment. Ce n'est pas de la faiblesse — c'est le début de la réalisation.`
+Ton ombre : la distance émotionnelle qui protège ton espace intérieur mais crée parfois un désert relationnel autour de toi. Tu aimsais l'humanité en général, et parfois tu évites les humains en particulier.`,
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, le Verseau a besoin d'une liberté que peu de partenaires comprennent instinctivement. Si tu es en couple, une conversation honnête sur vos besoins respectifs d'indépendance pourrait désamorcer une tension qui s'accumule silencieusement. Si tu es célibataire, quelqu'un d'original, qui sort vraiment du moule, est en train d'entrer dans ton champ de vie.`,
+        travail: `Professionnellement, tes idées innovantes ont besoin d'alliés pour se concrétiser ${isJour?"aujourd'hui":"cette semaine"}. Trouve la personne qui peut porter ta vision dans les structures que tu détestes, cette collaboration est ce qui manque à la plupart de tes projets. Ton génie a besoin d'un ancrage.`,
+        sante: `L'élément Air active ton mental en permanence, parfois trop. Le Verseau souffre souvent d'insomnie ou de surinvestissement mental au détriment du corps. ${isJour?"Ce soir":"Cette semaine"}, reconnecte-toi à ta réalité physique : sport, danse, yoga, quelque chose qui te fait habiter ton corps pleinement.`,
+        conseil: `${prenom}, votre vision est juste. Ce qui lui manque, ce n'est pas d'être affinée davantage, c'est d'être partagée. Trouvez aujourd'hui une personne à qui vous pouvez confier ce que vous portez vraiment. Ce n'est pas de la faiblesse, c'est le début de la réalisation.`
       },
       'Poissons': {
-        texte: `${prenom}, les Poissons nagent dans deux directions simultanément — vers le monde visible et vers le monde invisible que peu de gens perçoivent. Cette porosité entre les dimensions du réel est à la fois ton plus grand don et ta plus grande vulnérabilité. Tu absorbes les émotions, les atmosphères, les non-dits de ceux qui t'entourent comme une éponge, et tu peux t'y perdre si tu ne sais pas te ressourcer. ${isJour?"Aujourd'hui":"Cette semaine"}, Neptune — ta planète — intensifie ton intuition à un niveau où tu dois absolument lui faire confiance — même quand ton mental rationalise le contraire.
+        texte: `${prenom}, les Poissons nagent dans deux directions simultanément, vers le monde visible et vers le monde invisible que peu de gens perçoivent. Cette porosité entre les dimensions du réel est à la fois ton plus grand don et ta plus grande vulnérabilité. Tu absorbes les émotions, les atmosphères, les non-dits de ceux qui t'entourent comme une éponge, et tu peux t'y perdre si tu ne sais pas te ressourcer. ${isJour?"Aujourd'hui":"Cette semaine"}, Neptune, ta planète, intensifie ton intuition à un niveau où tu dois absolument lui faire confiance, même quand ton mental rationalise le contraire.
 
 Ce que les astres voient : une vérité sur une personne ou une situation que tu perçois depuis longtemps mais que tu refuses d'accepter parce qu'elle serait inconfortable. Ton intuition a raison. ${isJour?"Aujourd'hui":"Cette semaine"}, agis en fonction de ce que tu sais vraiment, pas de ce que tu espères.
 
-Ton ombre la plus subtile : la fuite dans l'idéal pour éviter la réalité concrète. Les Poissons créent des histoires magnifiques sur les gens et les situations — et sont dévastés quand la réalité ne correspond pas à la fiction qu'ils ont construite.`,
-        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, Neptune amplifies ton romantisme naturel — mais attention à ne pas aimer une projection plutôt qu'une personne réelle. Si tu es en couple, vois ton partenaire tel qu'il est vraiment ${isJour?"aujourd'hui":"cette semaine"} — avec ses limites et ses qualités — et aime cette réalité. C'est plus profond que l'idéal. Si tu es célibataire, quelqu'un d'authentique — pas parfait, mais vrai — mérite ton attention.`,
-        travail: `Professionnellement, ta créativité et ton empathie sont des ressources exceptionnelles qui manquent dans la plupart des environnements professionnels. ${isJour?"Aujourd'hui":"Cette semaine"}, propose ta vision — même imparfaitement formulée. Et fixe des limites claires autour de ton énergie : tu as tendance à te sacrifier professionnellement sans que personne ne te le demande réellement.`,
-        sante: `L'élément Eau te rend extrêmement sensible aux énergies environnantes. Tu as besoin de purification régulière — physiquement (bains, eau, nature aquatique) et émotionnellement (journaling, thérapie, création artistique). ${isJour?"Ce soir":"Cette semaine"}, crée un rituel de coupure entre ta journée et ton espace personnel.`,
-        conseil: `${prenom}, votre intuition est l'un des radars les plus précis qui existent. Arrêtez de la mettre en doute parce que vous ne pouvez pas la prouver. Ce que vous ressentez sur la situation actuelle — la vraie version, pas l'espoir — est juste. Agissez en conséquence.`
+Ton ombre la plus subtile : la fuite dans l'idéal pour éviter la réalité concrète. Les Poissons créent des histoires magnifiques sur les gens et les situations, et sont dévastés quand la réalité ne correspond pas à la fiction qu'ils ont construite.`,
+        amour: `En amour ${isJour?"aujourd'hui":"cette semaine"}, Neptune amplifies ton romantisme naturel, mais attention à ne pas aimer une projection plutôt qu'une personne réelle. Si tu es en couple, vois ton partenaire tel qu'il est vraiment ${isJour?"aujourd'hui":"cette semaine"}, avec ses limites et ses qualités, et aime cette réalité. C'est plus profond que l'idéal. Si tu es célibataire, quelqu'un d'authentique, pas parfait, mais vrai, mérite ton attention.`,
+        travail: `Professionnellement, ta créativité et ton empathie sont des ressources exceptionnelles qui manquent dans la plupart des environnements professionnels. ${isJour?"Aujourd'hui":"Cette semaine"}, propose ta vision, même imparfaitement formulée. Et fixe des limites claires autour de ton énergie : tu as tendance à te sacrifier professionnellement sans que personne ne te le demande réellement.`,
+        sante: `L'élément Eau te rend extrêmement sensible aux énergies environnantes. Tu as besoin de purification régulière, physiquement (bains, eau, nature aquatique) et émotionnellement (journaling, thérapie, création artistique). ${isJour?"Ce soir":"Cette semaine"}, crée un rituel de coupure entre ta journée et ton espace personnel.`,
+        conseil: `${prenom}, votre intuition est l'un des radars les plus précis qui existent. Arrêtez de la mettre en doute parce que vous ne pouvez pas la prouver. Ce que vous ressentez sur la situation actuelle, la vraie version, pas l'espoir, est juste. Agissez en conséquence.`
       }
     };
     
@@ -479,7 +405,7 @@ Ton ombre la plus subtile : la fuite dans l'idéal pour éviter la réalité con
     const mots={Bélier:'Décision',Taureau:'Valeur',Gémeaux:'Choix',Cancer:'Limite',Lion:'Expression',Vierge:'Action',Balance:'Engagement',Scorpion:'Lâcher-prise',Sagittaire:'Saut',Capricorne:'Vulnérabilité',Verseau:'Partage',Poissons:'Vérité'};
     const n=parseInt(seed.replace(/[^0-9]/g,'').slice(-6))||1;
     data={
-      titre:`${prenom} — ${s.name} : ${isJour?"Ce que ce jour révèle vraiment":"Ce que cette semaine révèle vraiment"}`,
+      titre:`${prenom}, ${s.name} : ${isJour?"Ce que ce jour révèle vraiment":"Ce que cette semaine révèle vraiment"}`,
       subtitle:`Sous l'influence de ${s.planet} · ${isJour?'Message du jour':'Semaine à venir'}`,
       chiffres:{chance:String((n%9)+1),couleur:couleurs[s.name]||'or',mot:mots[s.name]||'Présence'},
       texte_principal:signData.texte,
@@ -506,27 +432,18 @@ Ton ombre la plus subtile : la fuite dans l'idéal pour éviter la réalité con
   document.getElementById('conseilText').textContent=data.conseil||'';
   document.getElementById('btnGenerate').disabled=false;
   document.getElementById('result').classList.add('show');
-  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+  
 }
+
 function resetForm(){document.getElementById('result').classList.remove('show');document.querySelector('.form-card').style.opacity='1';window.scrollTo({top:0,behavior:'smooth'});}
 </script>
-<!-- Suivi clic-appel (GA4 + Google Ads) -->
 <script>
-  (function () {
-    document.addEventListener('click', function (e) {
-      var lien = e.target.closest('a[href^="tel:"]');
-      if (!lien) return;
-      if (typeof gtag !== 'function') return;
-      // 1) Evenement GA4 (importable comme conversion dans Google Ads)
-      gtag('event', 'clic_appel', {
-        'event_category': 'contact',
-        'event_label': lien.getAttribute('href')
-      });
-      // 2) Conversion Google Ads directe — decommenter et coller le send_to une fois l'action creee :
-      // gtag('event', 'conversion', { 'send_to': 'AW-11435134690/XXXXXXXXXXXXXXXX' });
-    });
-  })();
+document.addEventListener('click', function (e) {
+  var lien = e.target.closest('a[href^="tel:"]');
+  if (!lien || typeof gtag !== 'function') return;
+  gtag('event', 'clic_appel', { 'event_category': 'contact', 'event_label': lien.getAttribute('href') });
+  // gtag('event', 'conversion', { 'send_to': 'AW-11435134690/XXXXXXXXXXXXXXXX' });
+});
 </script>
-
 </body>
 </html>
