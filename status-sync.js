@@ -34,32 +34,17 @@
   fetchStatus();
   setInterval(fetchStatus, 30000);
 
-  // Bascule admin : 3 clics sur le badge de l'accueil, puis mot de passe
+  // Triple-clic sur le badge ou la pastille : ouvre la page de disponibilité
   var clics = 0, minuteur = null;
   document.addEventListener('click', function(e){
-    if (!e.target.closest('.mm-status')) return;
+    if (!e.target.closest('.mm-status') && !e.target.closest('.live-dot')) return;
     e.preventDefault();
     clics++;
     clearTimeout(minuteur);
-    minuteur = setTimeout(function(){ clics = 0; }, 800);
+    minuteur = setTimeout(function(){ clics = 0; }, 900);
     if (clics < 3) return;
     clics = 0;
-    var mdp = prompt('Mot de passe');
-    if (mdp === null) return;
-    if (hash(mdp) !== MDP_HASH) { alert('Mot de passe incorrect'); return; }
-    var busy = !occupe();
-    peindre(busy); // retour visuel immédiat
-    fetch(STATUS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ available: !busy })
-    }).then(function(r){ return r.json(); }).then(function(d){
-      if (d && d.ok) { localStorage.setItem('mm_status', busy ? 'busy' : 'free'); }
-      else { alert('Le serveur a refusé le changement.'); fetchStatus(); }
-    }).catch(function(){
-      alert("Serveur injoignable : le changement n'est pas partagé.");
-      fetchStatus();
-    });
+    location.href = 'admin.html';
   });
 })();
 
