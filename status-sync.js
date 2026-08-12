@@ -96,12 +96,16 @@
 
 /* Entrées de texte : chaque bloc monte en fondu quand il entre dans l'écran. */
 (function entreesTexte(){
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // animations réduites : on garde un fondu simple, sans mouvement
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('mm-soft');
+  }
 
   var SELECTEURS = [
     '.hero-copy > *', '.head-inner > *',
     '.section > h2', '.section > .sec-head > *', '.sec-head > *',
-    '.offer-card', '.review-card', '.about-copy > *',
+    '.offer-card', '.review-card', '.avis-card', '.about-copy > *',
+    '.section > .section-label', '.section > h2', '.section > p',
     '.post-card', '.faq-item', '.contact-copy > *', '.form-card'
   ].join(',');
 

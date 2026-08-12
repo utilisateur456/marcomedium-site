@@ -18,7 +18,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_CH">
   <meta property="og:site_name" content="Marco Médium">
-  <script src="status-sync.js?v=6" defer></script>
+  <script src="status-sync.js?v=8" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>emailjs.init("liRFAyxBo1908cbzF");</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C979FB1QEG"></script>
@@ -88,6 +88,8 @@
     #introSkip{position:absolute;right:clamp(18px,3vw,42px);bottom:clamp(18px,3vw,42px);border:1px solid rgba(247,243,236,.35);background:rgba(4,6,17,.4);color:rgba(247,243,236,.8);padding:11px 20px;font:600 11px var(--serif);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);transition:.25s}
     #introSkip:hover{border-color:var(--gold);color:var(--gold)}
     .mm-reveal{opacity:0;transform:translateY(26px);will-change:opacity,transform}
+    .mm-soft .mm-reveal{transform:none}
+    .mm-soft .mm-reveal.mm-in{transition:opacity .7s ease!important}
     .mm-reveal.mm-in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform 1.05s cubic-bezier(.22,.61,.36,1)!important}
   </style>
 </head>

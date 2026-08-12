@@ -142,4 +142,6 @@ html.js [data-reveal].visible{opacity:1;transform:none}
 
 /* entrées de texte : montée en fondu (ajoutées par status-sync.js, jamais en mode animations réduites) */
 .mm-reveal{opacity:0;transform:translateY(26px);will-change:opacity,transform}
-.mm-reveal.mm-in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform 1.05s cubic-bezier(.22,.61,.36,1)}
+.mm-soft .mm-reveal{transform:none}
+.mm-soft .mm-reveal.mm-in{transition:opacity .7s ease!important}
+.mm-reveal.mm-in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform 1.05s cubic-bezier(.22,.61,.36,1)!important}
