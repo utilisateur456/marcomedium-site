@@ -103,6 +103,7 @@
 
   var SELECTEURS = [
     '.hero-copy > *', '.head-inner > *',
+    '.page-head > .eyebrow', '.page-head > h1', '.page-head > .lead', '.page-head > .agg',
     '.section > h2', '.section > .sec-head > *', '.sec-head > *',
     '.offer-card', '.review-card', '.avis-card', '.about-copy > *',
     '.section > .section-label', '.section > h2', '.section > p',
