@@ -87,6 +87,8 @@
     .page.intro-reveal{opacity:1;transition:opacity 1.6s cubic-bezier(.4,0,.2,1)!important}
     #introSkip{position:absolute;right:clamp(18px,3vw,42px);bottom:clamp(18px,3vw,42px);border:1px solid rgba(247,243,236,.35);background:rgba(4,6,17,.4);color:rgba(247,243,236,.8);padding:11px 20px;font:600 11px var(--serif);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);transition:.25s}
     #introSkip:hover{border-color:var(--gold);color:var(--gold)}
+    .mm-reveal{opacity:0;transform:translateY(26px);will-change:opacity,transform}
+    .mm-reveal.mm-in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform 1.05s cubic-bezier(.22,.61,.36,1)!important}
   </style>
 </head>
 <body>
@@ -277,7 +279,7 @@
 
   // une seule fois par session, et jamais si l'utilisateur préfère moins d'animations
   var vue = sessionStorage.getItem('mm_intro') === '1';
-  if (vue) { lancerHero(); return; }
+  if (vue) return;
   if (hero) hero.pause();
   sessionStorage.setItem('mm_intro', '1');
   el.hidden = false;
