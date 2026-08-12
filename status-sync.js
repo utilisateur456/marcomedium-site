@@ -93,3 +93,62 @@
   }
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
 })();
+
+/* Entrées de texte : chaque bloc monte en fondu quand il entre dans l'écran. */
+(function entreesTexte(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var SELECTEURS = [
+    '.hero-copy > *', '.head-inner > *',
+    '.section > h2', '.section > .sec-head > *', '.sec-head > *',
+    '.offer-card', '.review-card', '.about-copy > *',
+    '.post-card', '.faq-item', '.contact-copy > *', '.form-card'
+  ].join(',');
+
+  function preparer(){
+    var els = [].slice.call(document.querySelectorAll(SELECTEURS));
+    if (!els.length) return;
+
+    els.forEach(function(el){
+      if (el.closest('#intro')) return;
+      el.classList.add('mm-reveal');
+    });
+
+    var io = new IntersectionObserver(function(entrees){
+      entrees.forEach(function(e){
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        // léger décalage entre voisins pour un enchaînement en cascade
+        var voisins = [].slice.call(el.parentElement ? el.parentElement.children : []);
+        var rang = Math.min(voisins.indexOf(el), 5);
+        el.style.transitionDelay = (rang * 90) + 'ms';
+        el.classList.add('mm-in');
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+
+    document.querySelectorAll('.mm-reveal').forEach(function(el){ io.observe(el); });
+
+    // filet de sécurité : rien ne doit rester invisible
+    setTimeout(function(){
+      document.querySelectorAll('.mm-reveal:not(.mm-in)').forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if (r.top < innerHeight) el.classList.add('mm-in');
+      });
+    }, 2500);
+  }
+
+  function demarrer(){
+    var intro = document.getElementById('intro');
+    // sur l'accueil, on attend la fin de la vidéo d'intro
+    if (intro && !intro.hidden) {
+      document.addEventListener('mm-intro-done', preparer, { once: true });
+      setTimeout(preparer, 12000);
+    } else {
+      preparer();
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
+  else demarrer();
+})();
