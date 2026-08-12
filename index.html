@@ -75,10 +75,15 @@
     @media(max-width:1100px){.nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(4,6,17,.98);border-bottom:1px solid rgba(255,255,255,.12);padding:10px 0;z-index:20}.nav.open{display:flex}.nav a{padding:14px 24px;font-size:14px}.nav .nav-cta{margin:10px 24px;text-align:center}.burger{display:flex}.hero{min-height:860px}.hero-art{width:112vw;height:calc(100% - 75px);right:-37vw;object-position:right center;opacity:.7}.hero .video-bg{transform:translate(10%,7%) scale(1.5)}.hero-copy{width:auto;margin:115px 25px 0}.hero h1{font-size:clamp(57px,15vw,82px)}.phone-button{gap:11px;padding:17px}.phone-button .label{display:none}.phone-button .number,.phone-button .price{font-size:18px}.consult-cards{grid-template-columns:1fr 1fr}.about{grid-template-columns:1fr;gap:50px}.about-visual{height:570px}.review-grid{grid-template-columns:1fr}.site-footer{grid-template-columns:1fr 1fr}}
     @media(max-width:560px){.topbar{height:76px;padding:0 20px}.brand{font-size:19px}.hero{min-height:790px}.hero-copy{margin-top:88px}.hero-art{right:-51vw;width:142vw;opacity:.58}.hero h1{font-size:57px;line-height:.87}.eyebrow{font-size:10px}.phone-button{width:100%;justify-content:center;margin-top:34px}.phone-button .number,.phone-button .price{font-size:16px}.discover{margin-top:40px}.section{padding:82px 20px}.section h2{font-size:49px}.consult-cards,.offer-grid{grid-template-columns:1fr}.consult-card{min-height:290px}.mode-tabs{margin-top:33px}.about-visual{height:470px;min-height:0}.review{min-height:310px}.site-footer{grid-template-columns:1fr;gap:25px}.orbit.one{width:140vw;height:80vw}.orbit.two{width:160vw;height:70vw}.about-copy p,.final-copy p{font-size:16px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-    #intro{position:fixed;inset:0;z-index:9999;background:#02030a;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease}
+    #intro{position:fixed;inset:0;z-index:9999;background:#02030a;display:flex;align-items:center;justify-content:center;transition:opacity 1.5s cubic-bezier(.4,0,.2,1)}
     #intro[hidden]{display:none}
     #intro.fade{opacity:0;pointer-events:none}
-    #introVideo{width:100%;height:100%;object-fit:cover}
+    #introVideo{width:100%;height:100%;object-fit:cover;transition:transform 1.9s cubic-bezier(.33,0,.15,1),filter 1.5s ease}
+    #intro.fade #introVideo{transform:scale(1.07);filter:blur(6px) brightness(.6)}
+    #intro.fade #introSkip{opacity:0;transition:opacity .4s ease}
+    /* la page apparaît en fondu sous l'intro plutôt que d'être révélée d'un coup */
+    .page.intro-hidden{opacity:0}
+    .page.intro-reveal{opacity:1;transition:opacity 1.6s cubic-bezier(.4,0,.2,1)}
     #introSkip{position:absolute;right:clamp(18px,3vw,42px);bottom:clamp(18px,3vw,42px);border:1px solid rgba(247,243,236,.35);background:rgba(4,6,17,.4);color:rgba(247,243,236,.8);padding:11px 20px;font:600 11px var(--serif);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);transition:.25s}
     #introSkip:hover{border-color:var(--gold);color:var(--gold)}
   </style>
@@ -267,15 +272,26 @@
   sessionStorage.setItem('mm_intro', '1');
   el.hidden = false;
   document.documentElement.style.overflow = 'hidden';
+  var page = document.querySelector('.page');
+  if (page) page.classList.add('intro-hidden');
   var fini = false;
   function terminer(){
     if (fini) return;
     fini = true;
     el.classList.add('fade');
     document.documentElement.style.overflow = '';
-    setTimeout(function(){ el.hidden = true; }, 750);
+    if (page) {
+      // le fondu de la page démarre pendant celui de l'intro : les deux se croisent
+      requestAnimationFrame(function(){ page.classList.add('intro-reveal'); });
+      setTimeout(function(){ page.classList.remove('intro-hidden', 'intro-reveal'); }, 2200);
+    }
+    setTimeout(function(){ el.hidden = true; }, 1600);
   }
   skip.addEventListener('click', terminer);
+  // on enchaîne un peu avant la dernière image, pour un croisement et non une coupure
+  v.addEventListener('timeupdate', function(){
+    if (v.duration && v.duration - v.currentTime <= 0.7) terminer();
+  });
   v.addEventListener('ended', terminer);
   v.addEventListener('error', terminer);
   setTimeout(terminer, 15000); // filet de sécurité
