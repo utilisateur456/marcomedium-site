@@ -96,7 +96,7 @@
   </div>
   <main class="page">
     <section class="hero" id="accueil">
-      <video class="video-bg hero-video" autoplay muted loop playsinline preload="auto"><source src="assets/marco-motion.mp4" type="video/mp4"></video>
+      <video class="video-bg hero-video" muted loop playsinline preload="none"><source src="assets/marco-motion.mp4" type="video/mp4"></video>
       <div class="stars"></div><i class="orbit one"></i><i class="orbit two"></i>
       <header class="topbar"><a class="brand" href="#accueil">Marco <span>Médium</span><i class="live-dot" id="liveDot"></i></a><nav class="nav" aria-label="Navigation principale"><a href="horoscope.html">Horoscope</a><a href="numerologie.html">Numérologie</a><a href="oracle.html">Oracle</a><a href="reves.html">Rêves</a><a href="blog.html">Blog</a><a href="avis.html">Avis</a><a href="https://utilisateur456.github.io/maisonsiderale-site/" target="_blank" rel="noopener">Boutique</a><a class="nav-cta" href="#consultation">Consulter</a></nav><button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button></header>
       <div class="hero-copy"><span class="mm-status" id="heroStatus" style="margin-bottom:22px"><i></i><b>Disponible</b></span><p class="eyebrow">Voyance par téléphone en Suisse</p><h1>La clé de votre<br><span class="gold">avenir est ici.</span></h1><a class="phone-button" href="tel:0901212212" aria-label="Appeler Marco Médium au 0901 212 212"><span class="label">Appeler maintenant</span><span class="number">0901 212 212</span><span class="price">CHF 2.–/min</span></a><a class="discover" href="#modes">Marcomedium.com <b>↓</b></a></div>
@@ -267,9 +267,18 @@
   var el = document.getElementById('intro');
   var v = document.getElementById('introVideo');
   var skip = document.getElementById('introSkip');
+  var hero = document.querySelector('.hero-video');
+  function lancerHero(){
+    if (!hero) return;
+    if (hero.preload === 'none') { hero.preload = 'auto'; hero.load(); }
+    try { hero.currentTime = 0; } catch(e){}
+    var ph = hero.play();
+    if (ph && ph.catch) ph.catch(function(){});
+  }
   // une seule fois par session, et jamais si l'utilisateur préfère moins d'animations
   var vue = sessionStorage.getItem('mm_intro') === '1';
-  if (vue) return;
+  if (vue) { lancerHero(); return; }
+  if (hero) hero.pause();
   sessionStorage.setItem('mm_intro', '1');
   el.hidden = false;
   document.documentElement.style.overflow = 'hidden';
@@ -281,6 +290,7 @@
     fini = true;
     el.classList.add('fade');
     document.documentElement.style.overflow = '';
+    lancerHero();
     if (page) {
       // le fondu de la page démarre pendant celui de l'intro : les deux se croisent
       requestAnimationFrame(function(){ page.classList.add('intro-reveal'); });
@@ -297,8 +307,15 @@
   v.addEventListener('error', terminer);
   v.addEventListener('stalled', function(){ if (v.currentTime > 1) terminer(); });
   setTimeout(terminer, 15000); // filet de sécurité
-  var p = v.play();
-  if (p && p.catch) p.catch(terminer);
+  function jouer(){
+    var p = v.play();
+    if (p && p.catch) p.catch(terminer);
+  }
+  if (v.readyState >= 3) jouer();
+  else {
+    v.addEventListener('canplaythrough', jouer, { once: true });
+    setTimeout(jouer, 1200); // on ne fait pas attendre plus longtemps
+  }
 })();
 </script>
 </body>
