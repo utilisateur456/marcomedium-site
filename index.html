@@ -313,6 +313,8 @@
   v.addEventListener('stalled', function(){ if (v.currentTime > 1) terminer(); });
   setTimeout(terminer, 15000); // filet de sécurité
   function jouer(){
+    // Évite les toutes premières images noires de l'introduction.
+    try { v.currentTime = 0.1; } catch(e){}
     var p = v.play();
     if (p && p.catch) p.catch(terminer);
   }
