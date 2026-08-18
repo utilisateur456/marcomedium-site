@@ -312,7 +312,12 @@
   v.addEventListener('error', terminer);
   v.addEventListener('stalled', function(){ if (v.currentTime > 1) terminer(); });
   setTimeout(terminer, 15000); // filet de sécurité
+  var lectureLancee = false;
   function jouer(){
+    // The load event and fallback can both fire on desktop.
+    // Never restart the intro after playback has started.
+    if (lectureLancee) return;
+    lectureLancee = true;
     // Évite les toutes premières images noires de l'introduction.
     try { v.currentTime = 0.1; } catch(e){}
     var p = v.play();
