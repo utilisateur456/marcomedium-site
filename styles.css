@@ -1,14 +1,21 @@
 /* Marco Médium, socle graphique commun (2026) */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
+@font-face{
+  font-family:'Arkhaven';
+  src:url('assets/fonts/arkhaven.otf') format('opentype');
+  font-display:swap;
+}
+
 :root{
   --ink:#040611;--ink-2:#090d23;--paper:#f1ede7;--gold:#d8a63c;--gold-2:#e3b75b;
   --ivory:#f7f3ec;--line:rgba(216,166,60,.48);--line-soft:rgba(216,166,60,.22);
-  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;--display:'Arkhaven','Cormorant Garamond',Georgia,serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--sans);overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:var(--display)!important;letter-spacing:.015em!important}
 a{color:var(--gold);text-decoration:none}
 a:hover{color:var(--gold-2)}
 img{max-width:100%}
