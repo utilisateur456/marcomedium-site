@@ -1,0 +1,12 @@
+/* Shared gold line icons. Typography and functional controls stay unchanged. */
+.mm-icon{display:inline-block;width:1.2em;height:1.2em;vertical-align:-.2em;flex-shrink:0;color:var(--gold,#d8a63c)}
+.promo-icon .mm-icon,.p-icon .mm-icon{width:38px;height:38px}
+.article-thumb .mm-icon{width:64px;height:64px}
+.t-icon .mm-icon,.domain-icon .mm-icon,.symbol-icon .mm-icon{width:32px;height:32px}
+.lib-icon .mm-icon{width:30px;height:30px}
+.moon-phase .mm-icon{width:28px;height:28px}
+.theme-chip .mm-icon,.filter-btn .mm-icon{width:18px;height:18px;margin-right:5px}
+.theme-chip.selected .mm-icon,.filter-btn.active .mm-icon{color:inherit}
+.site-footer .mm-icon{width:17px;height:17px;margin-right:6px}
+.avis-type .mm-icon{width:17px;height:17px;margin-right:5px}
+.s-emoji,#resultSign{font-variant-emoji:text;color:var(--gold,#d8a63c)}
