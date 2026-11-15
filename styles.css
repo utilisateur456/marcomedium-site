@@ -19,8 +19,8 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--sans);overflow-x:hidden}
 h1,h2,h3,h4,h5,h6{font-family:var(--display)!important;letter-spacing:-.01em!important;font-weight:700!important}
 .brand,.phone-button .number,.card-no,.article-title,.card-link{font-family:var(--display)!important;font-weight:700!important}
-.page-head h1{font-size:clamp(56px,7vw,110px)!important;line-height:1!important;letter-spacing:.005em!important}
-.section h2{font-size:clamp(44px,5vw,78px)!important;line-height:1.05!important;letter-spacing:.005em!important}
+.page-head h1{font-size:clamp(38px,4.5vw,70px)!important;line-height:1.02!important;letter-spacing:-.01em!important}
+.section h2{font-size:clamp(32px,3.6vw,56px)!important;line-height:1.05!important;letter-spacing:-.01em!important}
 a{color:var(--gold);text-decoration:none}
 a:hover{color:var(--gold-2)}
 img{max-width:100%}
