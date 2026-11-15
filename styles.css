@@ -3,9 +3,9 @@
 
 @font-face{
   font-family:'FinicoSans';
-  src:url('assets/fonts/FinicoSans-Thin.woff2') format('woff2'),
-      url('assets/fonts/FinicoSans-Thin.woff') format('woff');
-  font-weight:100;
+  src:url('assets/fonts/FinicoSans-Bold.woff2') format('woff2'),
+      url('assets/fonts/FinicoSans-Bold.woff') format('woff');
+  font-weight:700;
   font-display:swap;
 }
 
@@ -17,8 +17,8 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--sans);overflow-x:hidden}
-h1,h2,h3,h4,h5,h6{font-family:var(--display)!important;letter-spacing:.005em!important;font-weight:100!important}
-.brand,.phone-button .number,.card-no,.article-title,.card-link{font-family:var(--display)!important;font-weight:100!important}
+h1,h2,h3,h4,h5,h6{font-family:var(--display)!important;letter-spacing:-.01em!important;font-weight:700!important}
+.brand,.phone-button .number,.card-no,.article-title,.card-link{font-family:var(--display)!important;font-weight:700!important}
 .page-head h1{font-size:clamp(56px,7vw,110px)!important;line-height:1!important;letter-spacing:.005em!important}
 .section h2{font-size:clamp(44px,5vw,78px)!important;line-height:1.05!important;letter-spacing:.005em!important}
 a{color:var(--gold);text-decoration:none}
