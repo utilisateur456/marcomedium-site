@@ -71,7 +71,20 @@
     .mode-tabs a:focus-visible{outline:2px solid #9b742d;outline-offset:4px}
     .offers{background:#020614;min-height:840px}.offers::after,.about::after,.reviews::after,.final::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(2,5,17,.88),rgba(2,5,17,.55));pointer-events:none}.offers-intro{max-width:760px}.offers p{max-width:650px;font-size:17px;line-height:1.65}.offer-grid{margin-top:50px;display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line);background:rgba(17,13,10,.72)}.offer{min-height:225px;padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .3s,transform .3s}.offer:hover{background:rgba(216,166,60,.16);transform:scale(1.015)}.offer .service-icon{display:block;width:44px;height:44px;color:var(--gold)}.offer h3{font:600 25px var(--serif);margin:25px 0 13px}.offer p{font-size:14px;margin:0;line-height:1.55}
     .about{background:#07091a;display:grid;grid-template-columns:minmax(300px,.75fr) 1.25fr;gap:clamp(45px,8vw,150px);align-items:center}.about .section-video{opacity:.2}.about-visual{height:min(560px,86vw);min-height:420px;aspect-ratio:3/4;border:1px solid var(--line);overflow:hidden;position:relative;background:#050817}.about-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}.about-visual h3{position:absolute;left:28px;bottom:18px;z-index:2;margin:0;font:500 clamp(44px,4.4vw,70px)/.78 var(--serif)}.about-copy{max-width:700px}.about-copy p{font-size:17px;line-height:1.72}.about-list{margin-top:37px;display:grid;gap:22px}.about-list strong{display:block;color:var(--gold);font:600 21px var(--serif);margin-bottom:5px}.about-list span{font-size:14px;line-height:1.55;color:#e7e1d8}
-    .reviews{background:#050714}.reviews .section-video{opacity:.26}.review-head{max-width:900px}.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:62px}.review{min-height:380px;padding:33px;border:1px solid var(--line);background:rgba(3,5,14,.73);display:flex;flex-direction:column;transition:transform .3s,background .3s}.review:hover{transform:translateY(-8px);background:rgba(25,27,58,.86)}.review .rating{color:var(--gold);letter-spacing:3px}.review blockquote{font:500 27px/1.12 var(--serif);margin:31px 0}.review cite{margin-top:auto;font-style:normal;font-size:13px;color:#d7d0c6}
+    .reviews{background:#050714}.reviews .section-video{opacity:.26}.review-head{max-width:900px}
+    .reviews-wrap{position:relative;margin-top:62px}
+    .review-grid{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 20px;scrollbar-width:none;-ms-overflow-style:none}
+    .review-grid::-webkit-scrollbar{display:none}
+    .review-grid>.review{flex:0 0 calc((100% - 40px) / 3);scroll-snap-align:start}
+    @media(max-width:900px){.review-grid>.review{flex:0 0 calc(100% - 10px)}}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:rgba(3,5,14,.85);color:var(--gold);font:500 28px/1 var(--serif);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;transition:all .25s;padding:0 0 4px 0;backdrop-filter:blur(6px)}
+    .carousel-btn:hover{background:var(--gold);color:#080a13;border-color:var(--gold)}
+    .carousel-btn.prev{left:-24px}.carousel-btn.next{right:-24px}
+    @media(max-width:900px){.carousel-btn.prev{left:8px}.carousel-btn.next{right:8px}.carousel-btn{width:42px;height:42px;font-size:24px}}
+    .carousel-dots{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    .carousel-dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(216,166,60,.3);cursor:pointer;padding:0;transition:all .3s}
+    .carousel-dots button.active{background:var(--gold);width:28px;border-radius:4px}
+    .review{min-height:380px;padding:33px;border:1px solid var(--line);background:rgba(3,5,14,.73);display:flex;flex-direction:column;transition:transform .3s,background .3s}.review:hover{transform:translateY(-8px);background:rgba(25,27,58,.86)}.review .rating{color:var(--gold);letter-spacing:3px}.review blockquote{font:500 27px/1.12 var(--serif);margin:31px 0}.review cite{margin-top:auto;font-style:normal;font-size:13px;color:#d7d0c6}
     .final{background:#050714;min-height:610px}.final .section-video{opacity:.28}.final-copy{max-width:850px}.final-copy p{font-size:18px;line-height:1.6}#scrollTop{position:fixed;bottom:32px;right:32px;z-index:200;background:none;border:0;padding:8px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .4s;display:flex;flex-direction:column;align-items:center;gap:2px}
     #scrollTop .ah{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid rgba(216,166,60,.75)}
     #scrollTop .as{width:1px;height:28px;background:linear-gradient(to top,transparent,rgba(216,166,60,.6))}
@@ -226,7 +239,7 @@
 
     <section class="section about" id="apropos"><video class="video-bg section-video" data-lazy data-src="assets/about-starfield.mp4" muted loop playsinline preload="none"></video><div class="about-visual" data-reveal><img src="marco-apropos.png" alt="Marco Médium, bras croisés, sur fond cosmique"><h3>Tarot<br>&amp; Oracle</h3></div><div class="about-copy" data-reveal><p class="section-label">À propos de Marco</p><h2>Une lecture authentique,<br><span class="gold">sans artifice.</span></h2><p>Mon intention n'est pas de façonner la réalité selon des standards embellis. Je propose une consultation de voyance authentique, sans artifice ni indulgence. Chaque échange est marqué par une bienveillance sincère et une transparence totale.</p><div class="about-list"><div><strong><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:inline-block;vertical-align:-.18em;margin-right:6px"><rect x="6" y="3" width="13" height="18" rx="2"/><path d="M6 6H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2"/><path d="m12.5 8 3 4-3 4-3-4Z"/></svg>Tarot &amp; Oracle</strong><span>Les cartes fournissent une perspective enrichissante sur ta situation actuelle et tes possibilités.</span></div><div><strong><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:inline-block;vertical-align:-.18em;margin-right:6px"><path d="m16 3 5 5M4 20l4-1L20.5 6.5a2.1 2.1 0 0 0-3-3L5 16Z"/><path d="M4 22h16"/></svg>Écriture Automatique</strong><span>Messages qui arrivent sans filtre, directs, précis. Une connexion profonde et authentique.</span></div><div><strong><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:inline-block;vertical-align:-.18em;margin-right:6px"><circle cx="12" cy="12" r="2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4m8.4-8.4a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/></svg>Perception Énergétique</strong><span>Lecture des énergies environnantes, intentions des personnes impliquées, obstacles et opportunités.</span></div></div></div></section>
 
-    <section class="section reviews" id="avis"><video class="video-bg section-video" data-lazy data-src="assets/vortex.mp4" muted loop playsinline preload="none"></video><div class="stars"></div><div class="review-head" data-reveal><p class="section-label">Ce qu'ils disent</p><h2>Des consultations qui<br><span class="gold">changent la donne</span></h2></div><div class="review-grid" data-reveal><article class="review"><div class="rating">★★★★★</div><blockquote>« Marco a vu des choses que personne ne pouvait savoir. Sa lecture était précise, directe et m'a donné une clarté que je cherchais depuis des mois. »</blockquote><cite>S. Meylan<br>Lausanne, Vaud</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Pas de faux espoirs, pas de belles paroles. Marco dit les choses telles qu'elles sont. Après la consultation, j'ai pu reprendre des décisions importantes avec beaucoup plus de sérénité. »</blockquote><cite>C. Fontaine<br>Genève</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« L'écriture automatique de Marco m'a laissée sans voix. Des informations tellement précises et personnelles. Une expérience unique qui m'a profondément touchée. »</blockquote><cite>N. Berger<br>Neuchâtel</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Je bloquais sur une décision depuis des mois concernant mon travail. Marco a vu clairement ce qui coinçait, et m'a donné des pistes concrètes. Deux semaines après, j'avais tranché. »</blockquote><cite>L. Gavillet<br>Nyon, Vaud</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Je voulais savoir si cette relation valait la peine d'être poursuivie. La réponse n'était pas celle que j'espérais, mais c'était la bonne. Merci d'avoir eu le courage de me dire la vérité. »</blockquote><cite>A. Rossier<br>Sion, Valais</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Après le départ de mon père, j'avais besoin de parler. Marco a trouvé les bons mots, ressenti des détails qu'il ne pouvait pas inventer. Je suis sortie apaisée. »</blockquote><cite>M. Dubois<br>Fribourg</cite></article></div></section>
+    <section class="section reviews" id="avis"><video class="video-bg section-video" data-lazy data-src="assets/vortex.mp4" muted loop playsinline preload="none"></video><div class="stars"></div><div class="review-head" data-reveal><p class="section-label">Ce qu'ils disent</p><h2>Des consultations qui<br><span class="gold">changent la donne</span></h2></div><div class="reviews-wrap" data-reveal><button class="carousel-btn prev" onclick="scrollReviews(-1)" aria-label="Avis précédents">‹</button><div class="review-grid" id="reviewGrid"><article class="review"><div class="rating">★★★★★</div><blockquote>« Marco a vu des choses que personne ne pouvait savoir. Sa lecture était précise, directe et m'a donné une clarté que je cherchais depuis des mois. »</blockquote><cite>S. Meylan<br>Lausanne, Vaud</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Pas de faux espoirs, pas de belles paroles. Marco dit les choses telles qu'elles sont. Après la consultation, j'ai pu prendre des décisions importantes avec beaucoup plus de sérénité. »</blockquote><cite>C. Fontaine<br>Genève</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« L'écriture automatique de Marco m'a laissée sans voix. Des informations tellement précises et personnelles. Une expérience unique qui m'a profondément touchée. »</blockquote><cite>N. Berger<br>Neuchâtel</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Je bloquais sur une décision depuis des mois concernant mon travail. Marco a vu clairement ce qui coinçait, et m'a donné des pistes concrètes. Deux semaines après, j'avais tranché. »</blockquote><cite>L. Gavillet<br>Nyon, Vaud</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Je voulais savoir si cette relation valait la peine d'être poursuivie. La réponse n'était pas celle que j'espérais, mais c'était la bonne. Merci d'avoir eu le courage de me dire la vérité. »</blockquote><cite>A. Rossier<br>Sion, Valais</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Après le départ de mon père, j'avais besoin de parler. Marco a trouvé les bons mots, ressenti des détails qu'il ne pouvait pas inventer. Je suis sortie apaisée. »</blockquote><cite>M. Dubois<br>Fribourg</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« J'hésitais entre deux offres d'emploi. Une question sur WhatsApp, une réponse claire et rapide. C'était exactement ce dont j'avais besoin pour trancher. »</blockquote><cite>T. Grandjean<br>Vevey, Vaud</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Je traversais une période de doute total après ma reconversion. Marco a vu que j'étais sur la bonne voie, même si c'était dur. Un an après, je peux confirmer qu'il avait raison. »</blockquote><cite>E. Vuilleumier<br>La Chaux-de-Fonds</cite></article><article class="review"><div class="rating">★★★★★</div><blockquote>« Marco est hyper réactif sur WhatsApp. Il m'a dit en quelques mots ce que j'avais besoin d'entendre, sans détour. Un vrai gain de temps et d'énergie. »</blockquote><cite>Pauline<br>Bulle, Fribourg</cite></article></div><button class="carousel-btn next" onclick="scrollReviews(1)" aria-label="Avis suivants">›</button><div class="carousel-dots" id="reviewDots"></div></div></section>
 
     <section class="section final" id="consultation"><video class="video-bg section-video" data-lazy data-src="assets/canyon.mp4" muted loop playsinline preload="none"></video><div class="final-copy" data-reveal><p class="section-label">Consultation</p><h2>Prêt à obtenir<br><span class="gold">vos réponses ?</span></h2><p>Pas besoin de préparer quoi que ce soit. Appelez, on voit ensemble ce qui ressort.</p><a class="phone-button" href="tel:0901212212"><span class="label">Appeler maintenant</span><span class="number">0901 212 212</span><span class="price">CHF 2.–/min</span></a></div></section>
   </main>
@@ -284,6 +297,53 @@
     }
     sendForm('form-rdv');
     sendForm('form-email');
+
+    // Carousel avis
+    (function(){
+      var grid = document.getElementById('reviewGrid');
+      var dotsBox = document.getElementById('reviewDots');
+      if (!grid || !dotsBox) return;
+      var cards = grid.querySelectorAll('.review');
+      function perPage(){ return window.innerWidth > 900 ? 3 : 1; }
+      function pageCount(){ return Math.ceil(cards.length / perPage()); }
+      function currentPage(){
+        if (!cards[0]) return 0;
+        var cardW = cards[0].offsetWidth + 20;
+        return Math.round(grid.scrollLeft / (cardW * perPage()));
+      }
+      function renderDots(){
+        dotsBox.innerHTML = '';
+        var n = pageCount();
+        for (var i = 0; i < n; i++){
+          var b = document.createElement('button');
+          b.setAttribute('aria-label', 'Page ' + (i+1));
+          (function(idx){ b.addEventListener('click', function(){ goToPage(idx); }); })(i);
+          dotsBox.appendChild(b);
+        }
+        updateDots();
+      }
+      function updateDots(){
+        var cur = currentPage();
+        [].slice.call(dotsBox.children).forEach(function(d, i){
+          d.classList.toggle('active', i === cur);
+        });
+      }
+      function goToPage(n){
+        var cardW = cards[0].offsetWidth + 20;
+        grid.scrollTo({ left: n * perPage() * cardW, behavior: 'smooth' });
+      }
+      window.scrollReviews = function(dir){
+        var cur = currentPage();
+        var target = Math.max(0, Math.min(cur + dir, pageCount() - 1));
+        goToPage(target);
+      };
+      grid.addEventListener('scroll', function(){
+        clearTimeout(grid._t);
+        grid._t = setTimeout(updateDots, 80);
+      });
+      window.addEventListener('resize', renderDots);
+      renderDots();
+    })();
   </script>
   <script>
     document.addEventListener('click', function (e) {
