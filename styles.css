@@ -24,7 +24,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--sans);overflow-x:hidden}
 h1,h2,h3,h4,h5,h6{font-family:var(--display)!important;letter-spacing:.015em!important}
 .brand,.phone-button .number,.card-no,.article-title,.card-link{font-family:var(--display)!important}
-h1 .gold,h2 .gold,h3 .gold{font-family:var(--script)!important;font-weight:400!important;letter-spacing:0!important;line-height:.9;display:inline-block;font-size:1.6em;transform:translateY(.12em);text-transform:none!important}
+h1 .gold,h2 .gold,h3 .gold{font-family:var(--script)!important;font-weight:400!important;letter-spacing:0!important;line-height:.85;display:inline-block;font-size:1.6em;transform:translateY(-.5em);text-transform:none!important;position:relative;z-index:2;margin-bottom:-.35em}
 a{color:var(--gold);text-decoration:none}
 a:hover{color:var(--gold-2)}
 img{max-width:100%}
