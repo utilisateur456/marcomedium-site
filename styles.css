@@ -1,18 +1,10 @@
 /* Marco Médium, socle graphique commun (2026) */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
-
-@font-face{
-  font-family:'FinicoSans';
-  src:url('assets/fonts/FinicoSans-Bold.woff2') format('woff2'),
-      url('assets/fonts/FinicoSans-Bold.woff') format('woff');
-  font-weight:700;
-  font-display:swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root{
   --ink:#040611;--ink-2:#090d23;--paper:#f1ede7;--gold:#d8a63c;--gold-2:#e3b75b;
   --ivory:#f7f3ec;--line:rgba(216,166,60,.48);--line-soft:rgba(216,166,60,.22);
-  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;--display:'FinicoSans','Helvetica Neue',Arial,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;--display:'Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
