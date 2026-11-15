@@ -3,8 +3,8 @@
 
 @font-face{
   font-family:'ThornyRock';
-  src:url('assets/fonts/ThornyRockSwash.woff2') format('woff2'),
-      url('assets/fonts/ThornyRockSwash.woff') format('woff');
+  src:url('assets/fonts/ThornyRock.woff2') format('woff2'),
+      url('assets/fonts/ThornyRock.woff') format('woff');
   font-display:swap;
 }
 
