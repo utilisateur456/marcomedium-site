@@ -4,10 +4,7 @@
 
   function fire(source) {
     try {
-      window.oaiq('measure', 'lead_created', {
-        type: 'customer_action',
-        source: source
-      });
+      window.oaiq('measure', 'lead_created', { type: 'customer_action' });
     } catch (e) {}
     try {
       if (typeof gtag === 'function') {
